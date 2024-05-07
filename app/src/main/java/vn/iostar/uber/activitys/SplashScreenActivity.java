@@ -1,4 +1,4 @@
-package vn.iostar.uber;
+package vn.iostar.uber.activitys;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Action;
+import vn.iostar.uber.R;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
@@ -59,6 +59,7 @@ private void init(){
             FirebaseUser user = myFirebaseAuth.getCurrentUser();
             if(user != null){
                 Toast.makeText(SplashScreenActivity.this, "Welcome"+user.getUid(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
             }
             else{
                 showLoginDialog();
