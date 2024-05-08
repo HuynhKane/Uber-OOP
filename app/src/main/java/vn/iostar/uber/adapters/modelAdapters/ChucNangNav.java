@@ -1,4 +1,4 @@
-package vn.iostar.uber.models;
+package vn.iostar.uber.adapters.modelAdapters;
 
 public class ChucNangNav {
     private String idChucNang;

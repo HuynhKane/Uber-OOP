@@ -1,4 +1,4 @@
-package vn.iostar.uber.ui.home;
+package vn.iostar.uber.ui.map;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -35,10 +35,11 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import vn.iostar.uber.R;
 import vn.iostar.uber.databinding.FragmentHomeBinding;
+import vn.iostar.uber.databinding.FragmentMapBinding;
 
-public class HomeFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    private FragmentHomeBinding binding;
+    private FragmentMapBinding binding;
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -58,9 +59,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        MapViewModel mapViewModel =
+                new ViewModelProvider(this).get(MapViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_map, container, false);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         init();
         mapFragment = (SupportMapFragment) getChildFragmentManager()

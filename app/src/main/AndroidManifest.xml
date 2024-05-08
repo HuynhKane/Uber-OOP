@@ -18,20 +18,23 @@
         <activity
             android:name=".activitys.client.Map_TypeVehical"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".activitys.client.FormLocalActivity"
             android:exported="false" />
         <activity
             android:name=".activitys.MainActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.Uber.NoActionBar" />
+            android:theme="@style/Theme.Uber.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activitys.client.HomeActivity"
             android:exported="true"
