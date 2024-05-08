@@ -3,14 +3,14 @@ package vn.iostar.uber.models;
 public class LoaiXe {
     private String idLoaiXe;
     private String tenLoaiXe;
-    private String gia;
+    private Float gia;
 
-    public LoaiXe(String tenLoaiXe, String gia) {
+    public LoaiXe(String tenLoaiXe, Float gia) {
         this.tenLoaiXe = tenLoaiXe;
         this.gia = gia;
     }
 
-    public LoaiXe(String idLoaiXe, String tenLoaiXe, String gia) {
+    public LoaiXe(String idLoaiXe, String tenLoaiXe, Float gia) {
         this.idLoaiXe = idLoaiXe;
         this.tenLoaiXe = tenLoaiXe;
         this.gia = gia;
@@ -32,11 +32,11 @@ public class LoaiXe {
         this.tenLoaiXe = tenLoaiXe;
     }
 
-    public String getGia() {
+    public Float getGia() {
         return gia;
     }
 
-    public void setGia(String gia) {
+    public void setGia(Float gia) {
         this.gia = gia;
     }
 }

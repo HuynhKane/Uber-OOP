@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import vn.iostar.uber.R;
 import vn.iostar.uber.models.LoaiXe;
 
-public class TypeVehicalAdapter extends ArrayAdapter {
+public class ChucNangNavAdapter extends ArrayAdapter {
     Activity context;
     int resource;
     ArrayList<LoaiXe> List= new ArrayList<LoaiXe>();
 
-    public TypeVehicalAdapter(Context context, int resource, ArrayList<LoaiXe> list) {
+    public ChucNangNavAdapter(Context context, int resource, ArrayList<LoaiXe> list) {
         super(context, resource, list);
         List = list;
     }
@@ -31,16 +31,15 @@ public class TypeVehicalAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View customView= convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        customView = inflater.inflate(R.layout.item_type_vehical, null);
+        customView = inflater.inflate(R.layout.item_nav_header_list, null);
         ImageView imgHinh = (ImageView)  customView.findViewById(R.id.icon);
         TextView txtTen =(TextView) customView.findViewById(R.id.ten);
-        TextView txtgia =(TextView) customView.findViewById(R.id.gia);
+
         txtTen.setText(List.get(position).getTenLoaiXe());
-        txtgia.setText(List.get(position).getGia().toString()+" đ");
         String id=List.get(position).getIdLoaiXe();
         switch (id) {
-            case "idbike": {
-                imgHinh.setImageResource(R.drawable.ic_bike);
+            case "idhome": {
+                imgHinh.setImageResource(R.drawable.ic_home);
                 break;
             }
             case "idcar": {
@@ -49,6 +48,10 @@ public class TypeVehicalAdapter extends ArrayAdapter {
             }
             case "idlimo": {
                 imgHinh.setImageResource(R.drawable.ic_limo);
+                break;
+            }
+            default: {
+                imgHinh.setImageResource(R.drawable.ic_home);
                 break;
             }
 
