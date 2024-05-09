@@ -14,14 +14,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import vn.iostar.uber.R;
+import vn.iostar.uber.models.LoaiXe;
 import vn.iostar.uber.models.UuDai;
 
 public class VoucherAdapter extends ArrayAdapter {
     Activity context;
     int resource;
     ArrayList<UuDai> List= new ArrayList<UuDai>();
-    public VoucherAdapter(@NonNull Context context, int resource, ArrayList<UuDai> listVoucher) {
-        super(context, resource);
+    public VoucherAdapter(Context context, int resource, ArrayList<UuDai> list) {
+        super(context, resource, list);
+        List = list;
     }
 
     @NonNull

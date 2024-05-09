@@ -57,7 +57,7 @@ public class UuDaiController {
                         }
                         Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
                         assert uuDai != null;
-                        UuDai uuDai1=new UuDai(idUudai,timestamp,uuDai,moTa,soLuong);
+                        UuDai uuDai1 = new UuDai(idUudai,timestamp,uuDai,moTa,soLuong);
                         list.add(uuDai1);
 
                     }
