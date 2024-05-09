@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,10 +36,12 @@ public class VoucherAdapter extends ArrayAdapter {
         TextView txtUudDai = (TextView) customView.findViewById(R.id.txt_discount);
         TextView txtMoTa = (TextView) customView.findViewById(R.id.txt_moTa);
         TextView txtHSD = (TextView) customView.findViewById(R.id.txt_hsd);
+        ImageView icon = (ImageView) customView.findViewById(R.id.ic_voucher);
         String id = List.get(position).getIdUuDai();
         txtUudDai.setText(List.get(position).getUuDai());
         txtHSD.setText(String.valueOf(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS").format(List.get(position).getThoiGian())));
         txtMoTa.setText(List.get(position).getMoTa());
+        icon.setImageResource(R.drawable.ic_voucher);
         return customView;
     }
 }
