@@ -25,7 +25,7 @@
             android:name=".activitys.client.FormLocalActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.MainActivity"
+            android:name=".activitys.client.VoucherActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.Uber.NoActionBar" >
