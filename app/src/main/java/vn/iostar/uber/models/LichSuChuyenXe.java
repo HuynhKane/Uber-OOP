@@ -1,15 +1,16 @@
 package vn.iostar.uber.models;
 
+import java.security.Timestamp;
 import java.util.Date;
 
 public class LichSuChuyenXe {
     private String idChuyenXe;
     private String idTaiXe;
     private String idYeuCauDatXe;
-    private Date thoiGian;
+    private Timestamp thoiGian;
     private String idDanhGia;
 
-    public LichSuChuyenXe(String idChuyenXe, String idTaiXe, String idYeuCauDatXe, Date thoiGian, String idDanhGia) {
+    public LichSuChuyenXe(String idChuyenXe, String idTaiXe, String idYeuCauDatXe, Timestamp thoiGian, String idDanhGia) {
         this.idChuyenXe = idChuyenXe;
         this.idTaiXe = idTaiXe;
         this.idYeuCauDatXe = idYeuCauDatXe;
@@ -41,11 +42,11 @@ public class LichSuChuyenXe {
         this.idYeuCauDatXe = idYeuCauDatXe;
     }
 
-    public Date getThoiGian() {
+    public Timestamp getThoiGian() {
         return thoiGian;
     }
 
-    public void setThoiGian(Date thoiGian) {
+    public void setThoiGian(Timestamp thoiGian) {
         this.thoiGian = thoiGian;
     }
 
