@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/img_home">
+
 
     <TextView
         android:id="@+id/uber_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="192dp"
+        android:layout_marginTop="28dp"
         android:text="UBER"
         android:textColor="#000000"
         android:textSize="40sp"
@@ -24,13 +26,12 @@
         android:id="@+id/choose_payment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="28dp"
         android:text="Choose payment"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/uber_title" />
-
 
     <ImageButton
         android:id="@+id/btn_exit"
