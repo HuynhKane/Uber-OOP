@@ -13,4 +13,9 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="api_key">AIzaSyBr9nMaxxI2JdbMboRrJ1TD5_NOV3Krq00</string>
+    <string name="last_name">Last name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="continue_text">Continue</string>
+    <string name="first_name">First name</string>
+    <string name="register_text">Register</string>
 </resources>
