@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activitys.MainActivity">
+    tools:context=".activitys.MainActivityDriver">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -15,7 +15,7 @@
         app:popupTheme="@style/Theme.Uber.PopupOverlay"
         />
     <include
-        layout="@layout/content_main" />
+        layout="@layout/content_main_driver" />
 
 
 
