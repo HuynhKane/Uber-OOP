@@ -10,6 +10,7 @@
     <style name="Theme.Uber.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="Theme.Uber.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

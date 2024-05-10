@@ -1,6 +1,6 @@
 package vn.iostar.uber.models;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class UuDai {
     private String idUuDai;
