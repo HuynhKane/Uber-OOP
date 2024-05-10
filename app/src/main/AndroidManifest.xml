@@ -16,17 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Uber"
         tools:targetApi="31">
-        <activity
-            android:name=".activitys.client.Map_TypeVehical"
-            android:exported="true">
 
-
-        </activity>
         <activity
             android:name=".activitys.client.FormLocalActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.client.HomeActivity"
+        android:name=".activitys.client.Map_TypeVehical"
+        android:exported="false" />
+        <activity
+            android:name=".activitys.SplashScreenActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
 
@@ -43,10 +41,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key" />
 
-        <activity
-            android:name=".activitys.SplashScreenActivity"
-            android:exported="true"
-            android:theme="@style/SplashTheme" />
+
     </application>
 
 </manifest>

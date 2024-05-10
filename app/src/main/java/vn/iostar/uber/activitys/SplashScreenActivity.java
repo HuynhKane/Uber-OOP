@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import vn.iostar.uber.R;
+import vn.iostar.uber.activitys.client.Map_TypeVehical;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
@@ -59,7 +60,7 @@ private void init(){
             FirebaseUser user = myFirebaseAuth.getCurrentUser();
             if(user != null){
                 Toast.makeText(SplashScreenActivity.this, "Welcome"+user.getUid(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashScreenActivity.this, Map_TypeVehical.class));
             }
             else{
                 showLoginDialog();
