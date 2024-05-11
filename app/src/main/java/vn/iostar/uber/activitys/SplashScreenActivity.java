@@ -60,7 +60,9 @@ private void init(){
             FirebaseUser user = myFirebaseAuth.getCurrentUser();
             if(user != null){
                 Toast.makeText(SplashScreenActivity.this, "Welcome"+user.getUid(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(SplashScreenActivity.this, Map_TypeVehical.class));
+
+                startActivity(new Intent(SplashScreenActivity.this, MainActivityClient.class));
+
             }
             else{
                 showLoginDialog();

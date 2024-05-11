@@ -42,7 +42,6 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import vn.iostar.uber.R;
-import vn.iostar.uber.databinding.FragmentHomeBinding;
 import vn.iostar.uber.databinding.FragmentMapBinding;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {

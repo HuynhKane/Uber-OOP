@@ -14,24 +14,24 @@ import android.view.ViewGroup;
 
 import vn.iostar.uber.R;
 
-public class home extends Fragment {
+public class HomeDriver extends Fragment {
 
-    private HomeViewModel mViewModel;
+    private HomeDriverViewModel mViewModel;
 
-    public static home newInstance() {
-        return new home();
+    public static HomeDriver newInstance() {
+        return new HomeDriver();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home_client, container, false);
+        return inflater.inflate(R.layout.fragment_home_driver, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(HomeDriverViewModel.class);
         // TODO: Use the ViewModel
     }
 

@@ -111,8 +111,8 @@
                     android:background="@drawable/bg_btn_round_white"
                     android:orientation="horizontal">
                     <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:src="@drawable/ic_square"/>
