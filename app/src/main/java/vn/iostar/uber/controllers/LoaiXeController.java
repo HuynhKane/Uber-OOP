@@ -53,6 +53,7 @@ public class LoaiXeController {
 
                 }
 
+//                return false;
             }
         });
 

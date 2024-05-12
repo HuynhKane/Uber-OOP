@@ -21,7 +21,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import vn.iostar.uber.R;
-import vn.iostar.uber.activitys.client.HomeActivity;
 import vn.iostar.uber.databinding.ActivityMainDriverBinding;
 
 public class MainActivityDriver extends AppCompatActivity {

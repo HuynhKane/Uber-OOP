@@ -1,7 +1,5 @@
 package vn.iostar.uber.activitys;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,14 +15,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import vn.iostar.uber.R;
-import vn.iostar.uber.activitys.client.HomeActivity;
 import vn.iostar.uber.databinding.ActivityMainClientBinding;
 
 public class MainActivityClient extends AppCompatActivity {

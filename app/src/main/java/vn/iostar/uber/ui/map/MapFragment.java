@@ -42,6 +42,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import vn.iostar.uber.R;
+import vn.iostar.uber.activitys.HomeActivity;
 import vn.iostar.uber.databinding.FragmentMapBinding;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -54,6 +55,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private LocationCallback locationCallback;
     private DataSnapshot dataSnapshot;
 
+    private String role= HomeActivity.role;
     private DatabaseError databaseError;
 
     //online system

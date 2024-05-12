@@ -15,14 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Uber"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activitys.driver.RegisterDriverActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activitys.client.RegisterClientActivity"
+            android:exported="true"></activity>
         <activity
             android:name=".activitys.client.FinalBookingFormActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.client.HomeActivity"
+            android:name=".activitys.HomeActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,7 +44,7 @@
             android:exported="true" />
         <activity
             android:name=".activitys.client.VoucherActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activitys.client.FormLocalActivity"
             android:exported="false" />
@@ -48,7 +52,7 @@
             android:name=".activitys.MainActivityClient"
             android:exported="true"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.Uber.NoActionBar"></activity>
+            android:theme="@style/Theme.Uber.NoActionBar" />
         <activity
             android:name=".activitys.MainActivityDriver"
             android:exported="true"
@@ -58,8 +62,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key" />
-
-
     </application>
 
 </manifest>

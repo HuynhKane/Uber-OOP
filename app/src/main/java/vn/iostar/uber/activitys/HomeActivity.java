@@ -1,4 +1,4 @@
-package vn.iostar.uber.activitys.client;
+package vn.iostar.uber.activitys;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthMethodPickerLayout;
@@ -25,9 +24,8 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import vn.iostar.uber.R;
-import vn.iostar.uber.activitys.MainActivityClient;
-import vn.iostar.uber.activitys.MainActivityDriver;
-import vn.iostar.uber.activitys.SplashScreenActivity;
+import vn.iostar.uber.activitys.client.RegisterClientActivity;
+import vn.iostar.uber.activitys.driver.RegisterDriverActivity;
 import vn.iostar.uber.controllers.TaiKhoanController;
 
 public class HomeActivity extends AppCompatActivity {
@@ -39,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
     public static String role="";
     public TaiKhoanController taiKhoanController=new TaiKhoanController();
     private FirebaseAuth.AuthStateListener listener;
- //   private ProgressDialog progressDialog ;
+    private ProgressDialog progressDialog ;
     protected void onStart() {
         super.onStart();
         delaySplashScreen();
@@ -69,13 +67,27 @@ public class HomeActivity extends AppCompatActivity {
             FirebaseUser user = myFirebaseAuth.getCurrentUser();
 
             if(user != null){
+               // progressDialog.dismiss();
                 Toast.makeText(HomeActivity.this, "Welcome"+user.getUid(), Toast.LENGTH_SHORT).show();
                 taiKhoanController.SaveAcc(role);
                 if(role.equals("client"))
-                    startActivity(new Intent(HomeActivity.this, MainActivityClient.class));
+                    if(taiKhoanController.CheckNum()){
+                        Intent intent=new Intent(HomeActivity.this, RegisterClientActivity.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        startActivity(new Intent(HomeActivity.this, MainActivityClient.class));
+                    }
                 else {
-                    startActivity(new Intent(HomeActivity.this, MainActivityDriver.class));
+                    if(taiKhoanController.CheckDriverInf()){
+                        Intent intent=new Intent(HomeActivity.this, RegisterDriverActivity.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        startActivity(new Intent(HomeActivity.this, MainActivityDriver.class));
+                    }
                 }
+
 
             }
             else{
@@ -87,7 +99,7 @@ public class HomeActivity extends AppCompatActivity {
     }
     private void handleClickLoginRole(){
         setContentView(R.layout.activity_home);
-        TextView btnLogin = findViewById(R.id.btn_login);
+        //TextView btnLogin = findViewById(R.id.btn_login);
         LinearLayout btnLogin_client=findViewById(R.id.btn_login_client);
         LinearLayout btnLogin_driver=findViewById(R.id.btn_login_driver);
 
@@ -121,9 +133,7 @@ public class HomeActivity extends AppCompatActivity {
                 .setTheme(R.style.LoginTheme)
                 .setAvailableProviders(providers)
                 .build(),LOGIN_REQUEST_CODE);
-//        progressDialog = new ProgressDialog(this);
-//        progressDialog.setMessage("Create new acc...");
-//        progressDialog.show();
+
     }
 
 
@@ -133,6 +143,7 @@ public class HomeActivity extends AppCompatActivity {
         Completable.timer(3, TimeUnit.SECONDS,
                         AndroidSchedulers.mainThread())
                 .subscribe(() ->  firebaseAuth.addAuthStateListener(listener));
+
     }
 
     @Override
