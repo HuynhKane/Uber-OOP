@@ -38,9 +38,6 @@ public class Map_TypeVehical extends AppCompatActivity {
                 lv_type.setAdapter(typeVehicalAdapter);
             }
         });
-
-
-
-
     }
 }
+
