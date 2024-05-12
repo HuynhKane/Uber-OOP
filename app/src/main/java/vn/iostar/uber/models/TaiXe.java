@@ -8,6 +8,11 @@ public class TaiXe {
     private String idXe;
     private String urlAva;
 
+    public TaiXe(String ten, String urlAva) {
+        this.ten = ten;
+        this.urlAva = urlAva;
+    }
+
     public TaiXe(String ten, String cccd, String sdt, String idXe, String urlAva) {
         this.ten = ten;
         this.cccd = cccd;

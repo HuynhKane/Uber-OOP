@@ -71,21 +71,34 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(HomeActivity.this, "Welcome"+user.getUid(), Toast.LENGTH_SHORT).show();
                 taiKhoanController.SaveAcc(role);
                 if(role.equals("client"))
-                    if(taiKhoanController.CheckNum()){
-                        Intent intent=new Intent(HomeActivity.this, RegisterClientActivity.class);
-                        startActivity(intent);
-                    }
-                    else {
-                        startActivity(new Intent(HomeActivity.this, MainActivityClient.class));
-                    }
+                    taiKhoanController.CheckNum(new TaiKhoanController.DataRetrievedCallback_Bool() {
+                        @Override
+                        public void onDataRetrieved(boolean num) {
+                            if(num){
+                                Intent intent=new Intent(HomeActivity.this, RegisterClientActivity.class);
+                                startActivity(intent);
+                            }
+                            else
+                            {
+                                startActivity(new Intent(HomeActivity.this, MainActivityClient.class));
+                            }
+                        }
+                    });
                 else {
-                    if(taiKhoanController.CheckDriverInf()){
-                        Intent intent=new Intent(HomeActivity.this, RegisterDriverActivity.class);
-                        startActivity(intent);
-                    }
-                    else {
-                        startActivity(new Intent(HomeActivity.this, MainActivityDriver.class));
-                    }
+                    taiKhoanController.CheckDriverInf(new TaiKhoanController.DataRetrievedCallback_Bool() {
+                        @Override
+                        public void onDataRetrieved(boolean num) {
+                            if(num){
+                                Intent intent=new Intent(HomeActivity.this, RegisterDriverActivity.class);
+                                startActivity(intent);
+                            }
+                            else
+                            {
+                                startActivity(new Intent(HomeActivity.this, MainActivityDriver.class));
+                            }
+                        }
+                    });
+
                 }
 
 

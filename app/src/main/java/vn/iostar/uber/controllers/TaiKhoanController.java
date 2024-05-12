@@ -3,6 +3,7 @@ package vn.iostar.uber.controllers;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -34,53 +35,61 @@ public class TaiKhoanController {
         }
 
         if(role.equals("client")){
-            KhachHang kh=new KhachHang(current.getDisplayName(),current.getPhoneNumber() ,url);
+            KhachHang kh=new KhachHang(current.getDisplayName() ,url);
             myRef.child(role).child(current.getUid()).setValue(kh);
+
         }
         else {
-            TaiXe tx=new TaiXe(current.getDisplayName(),"0",current.getPhoneNumber(),"0",url);
+            TaiXe tx=new TaiXe(current.getDisplayName(),url);
             myRef.child(role).child(current.getUid()).setValue(tx);
 
         }
 
     }
-    public boolean CheckNum(){
+    public interface DataRetrievedCallback_Bool {
+        void onDataRetrieved(boolean num);
+    }
+
+    public void CheckNum(DataRetrievedCallback_Bool callbackBool){
         FirebaseUser current= firebaseAuth.getCurrentUser();
          istrue=true;
-        myRef.child("client").orderByKey().equalTo(current.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+         myRef.child("client").orderByKey().equalTo(current.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebasesssss", "Error getting data", task.getException());
+                }
+                else {
+                DataSnapshot dataSnapshot = task.getResult().getChildren().iterator().next();
+                String temp=dataSnapshot.child("sdt").getValue(String.class);
 
-                    if(!dataSnapshot.child("sdt").getValue(String.class).equals("0")){
-                        istrue=false;
-                        break;
+                if(temp!=null){
+                    istrue=false;
                     }
                 }
-
+                callbackBool.onDataRetrieved(istrue);
             }
         });
-        return istrue;
+
     }
-    public boolean CheckDriverInf(){
+    public void CheckDriverInf(DataRetrievedCallback_Bool callbackBool){
         FirebaseUser current= firebaseAuth.getCurrentUser();
         istrue=true;
         myRef.child("driver").orderByKey().equalTo(current.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
+                DataSnapshot dataSnapshot = task.getResult().getChildren().iterator().next();
 
-                    if(!dataSnapshot.child("sdt").getValue(String.class).equals("0")
-                            && !dataSnapshot.child("cccd").getValue(String.class).equals("0")
-                            && !dataSnapshot.child("idXe").getValue(String.class).equals("0")){
+                if(dataSnapshot.child("sdt").getValue(String.class)!=null
+                            && dataSnapshot.child("cccd").getValue(String.class)!=null
+                            && dataSnapshot.child("idXe").getValue(String.class)!=null){
                         istrue=false;
-                        break;
                     }
-                }
+                callbackBool.onDataRetrieved(istrue);
 
             }
         });
-        return istrue;
+
     }
     public void UpdateAcc_Client( String newName,String newNum,Context context){
         ProgressDialog progressDialog=new ProgressDialog(context);

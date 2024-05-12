@@ -12,6 +12,11 @@ public class KhachHang {
         this.urlAva = urlAva;
     }
 
+    public KhachHang(String ten, String urlAva) {
+        this.ten = ten;
+        this.urlAva = urlAva;
+    }
+
     public KhachHang(String idTaiKhoan, String ten, String sdt, String urlAva) {
         this.idTaiKhoan = idTaiKhoan;
         this.ten = ten;
