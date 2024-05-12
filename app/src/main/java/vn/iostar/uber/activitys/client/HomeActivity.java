@@ -4,9 +4,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,9 @@ import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.MainActivityClient;
+import vn.iostar.uber.activitys.MainActivityDriver;
 import vn.iostar.uber.activitys.SplashScreenActivity;
+import vn.iostar.uber.controllers.TaiKhoanController;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -32,7 +36,10 @@ public class HomeActivity extends AppCompatActivity {
     private final static int LOGIN_REQUEST_CODE = 7171;
     private List<AuthUI.IdpConfig> providers;
     private FirebaseAuth firebaseAuth;
+    public static String role="";
+    public TaiKhoanController taiKhoanController=new TaiKhoanController();
     private FirebaseAuth.AuthStateListener listener;
+ //   private ProgressDialog progressDialog ;
     protected void onStart() {
         super.onStart();
         delaySplashScreen();
@@ -60,24 +67,44 @@ public class HomeActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         listener = myFirebaseAuth -> {
             FirebaseUser user = myFirebaseAuth.getCurrentUser();
+
             if(user != null){
                 Toast.makeText(HomeActivity.this, "Welcome"+user.getUid(), Toast.LENGTH_SHORT).show();
-
-                startActivity(new Intent(HomeActivity.this, MainActivityClient.class));
+                taiKhoanController.SaveAcc(role);
+                if(role.equals("client"))
+                    startActivity(new Intent(HomeActivity.this, MainActivityClient.class));
+                else {
+                    startActivity(new Intent(HomeActivity.this, MainActivityDriver.class));
+                }
 
             }
             else{
-                setContentView(R.layout.activity_home);
-                TextView btnLogin = findViewById(R.id.btn_login);
-                btnLogin.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showLoginDialog();
-                    }
-                });
+             //   progressDialog.dismiss();
+                handleClickLoginRole();
             }
         };
 
+    }
+    private void handleClickLoginRole(){
+        setContentView(R.layout.activity_home);
+        TextView btnLogin = findViewById(R.id.btn_login);
+        LinearLayout btnLogin_client=findViewById(R.id.btn_login_client);
+        LinearLayout btnLogin_driver=findViewById(R.id.btn_login_driver);
+
+        btnLogin_client.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                role="client";
+                showLoginDialog();
+            }
+        });
+        btnLogin_driver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                role="driver";
+                showLoginDialog();
+            }
+        });
     }
 
     private void showLoginDialog() {
@@ -93,13 +120,16 @@ public class HomeActivity extends AppCompatActivity {
                 .setTheme(R.style.LoginTheme)
                 .setAvailableProviders(providers)
                 .build(),LOGIN_REQUEST_CODE);
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setMessage("Create new acc...");
+//        progressDialog.show();
     }
 
 
     @SuppressLint("CheckResult")
     private void delaySplashScreen() {
 
-        Completable.timer(5, TimeUnit.SECONDS,
+        Completable.timer(3, TimeUnit.SECONDS,
                         AndroidSchedulers.mainThread())
                 .subscribe(() ->  firebaseAuth.addAuthStateListener(listener));
     }
@@ -111,6 +141,7 @@ public class HomeActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if(resultCode == RESULT_OK){
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
             }
             else{
                 Toast.makeText(this,"[ERROR]:" + response.getError().getMessage(), Toast.LENGTH_SHORT).show();
