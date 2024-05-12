@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "434196653492-57o6prevoe20331qcj927mj47budjn8m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.iostar.uber",
+            "certificate_hash": "3ba9cc0b0884fb9dcedc64e7cd80bfbac0bdc395"
+          }
+        },
+        {
           "client_id": "434196653492-04okb6jml5u6eufavh28v9h82iiigrki.apps.googleusercontent.com",
           "client_type": 3
         }

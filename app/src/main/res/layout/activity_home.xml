@@ -52,7 +52,7 @@
                     android:paddingBottom="10dp"
                     android:paddingRight="20dp"
                     android:paddingLeft="10dp"
-                    android:text="Sign in"/>
+                    android:text="Sign up"/>
 
             </LinearLayout>
         </LinearLayout>
