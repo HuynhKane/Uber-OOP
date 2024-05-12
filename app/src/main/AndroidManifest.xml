@@ -20,7 +20,7 @@
             android:name=".activitys.client.FinalBookingFormActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.MainActivityDriver"
+            android:name=".activitys.client.HomeActivity"
             android:exported="true">
 
             <intent-filter>
@@ -50,7 +50,7 @@
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.Uber.NoActionBar"></activity>
         <activity
-            android:name=".activitys.client.HomeActivity"
+            android:name=".activitys.MainActivityDriver"
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.Uber.NoActionBar" />
