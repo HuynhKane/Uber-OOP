@@ -1,5 +1,6 @@
 package vn.iostar.uber.activitys;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -13,6 +14,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -64,30 +68,36 @@ public class MainActivityDriver extends AppCompatActivity {
     }
     private void exit_button() {
 
-        navigationView.setNavigationItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_signout) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityDriver.this);
+        navigationView.getMenu().findItem(R.id.nav_signout).setOnMenuItemClickListener(menuItem -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityDriver.this);
 
-                builder.setTitle("Sign out")
-                        .setMessage("Bạn có muốn đăng xuất không?")
-                        .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
-                        .setPositiveButton("Sign out", (dialogInterface, i) -> {
-                            FirebaseAuth.getInstance().signOut();
-                            Intent intent = new Intent(MainActivityDriver.this, HomeActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
-                        })
-                        .setCancelable(false);
-                AlertDialog dialog = builder.create();
-                dialog.setOnShowListener(dialogInterface -> {
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                            .setTextColor(ContextCompat.getColor(MainActivityDriver.this, R.color.holo_red_dark));
-                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                            .setTextColor(ContextCompat.getColor(MainActivityDriver.this, R.color.holo_red_dark));
-                });
-                dialog.show();
-            }
+            builder.setTitle("Sign out")
+                    .setMessage("Bạn có muốn đăng xuất không?")
+                    .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
+                    .setPositiveButton("Sign out", (dialogInterface, i) -> {
+                        FirebaseAuth.getInstance().signOut();
+                        AuthUI.getInstance()
+                                .signOut(this)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Intent intent = new Intent(MainActivityDriver.this, HomeActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+
+                    })
+                    .setCancelable(false);
+            AlertDialog dialog = builder.create();
+            dialog.setOnShowListener(dialogInterface -> {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setTextColor(ContextCompat.getColor(MainActivityDriver.this, R.color.holo_red_dark));
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                        .setTextColor(ContextCompat.getColor(MainActivityDriver.this, R.color.holo_red_dark));
+            });
+            dialog.show();
             return true;
         });
 

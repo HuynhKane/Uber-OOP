@@ -117,6 +117,7 @@ public class HomeActivity extends AppCompatActivity {
                 .createSignInIntentBuilder()
                 .setAuthMethodPickerLayout(authMethodPickerLayout)
                 .setIsSmartLockEnabled(false)
+                .setAlwaysShowSignInMethodScreen(true)
                 .setTheme(R.style.LoginTheme)
                 .setAvailableProviders(providers)
                 .build(),LOGIN_REQUEST_CODE);
