@@ -82,7 +82,7 @@ public class TaiKhoanController {
 
                 if(dataSnapshot.child("sdt").getValue(String.class)!=null
                             && dataSnapshot.child("cccd").getValue(String.class)!=null
-                            && dataSnapshot.child("idXe").getValue(String.class)!=null){
+                            && dataSnapshot.child("idXe").getValue()!=null){
                         istrue=false;
                     }
                 callbackBool.onDataRetrieved(istrue);

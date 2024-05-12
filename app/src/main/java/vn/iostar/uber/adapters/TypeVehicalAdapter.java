@@ -23,6 +23,7 @@ public class TypeVehicalAdapter extends ArrayAdapter {
 
     public TypeVehicalAdapter(Context context, int resource, ArrayList<LoaiXe> list) {
         super(context, resource, list);
+        this.resource=resource;
         List = list;
     }
 
@@ -31,28 +32,31 @@ public class TypeVehicalAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View customView= convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        customView = inflater.inflate(R.layout.item_type_vehical, null);
+        customView = inflater.inflate(resource, null);
         ImageView imgHinh = (ImageView)  customView.findViewById(R.id.icon);
         TextView txtTen =(TextView) customView.findViewById(R.id.ten);
         TextView txtgia =(TextView) customView.findViewById(R.id.gia);
-        txtTen.setText(List.get(position).getTenLoaiXe());
-        txtgia.setText(List.get(position).getGia().toString()+" đ");
-        String id=List.get(position).getIdLoaiXe();
-        switch (id) {
-            case "idbike": {
-                imgHinh.setImageResource(R.drawable.ic_bike);
-                break;
-            }
-            case "idcar": {
-                imgHinh.setImageResource(R.drawable.ic_car);
-                break;
-            }
-            case "idlimo": {
-                imgHinh.setImageResource(R.drawable.ic_limo);
-                break;
-            }
+        if(imgHinh!=null && txtTen!=null && txtgia!=null){
+            txtTen.setText(List.get(position).getTenLoaiXe());
+            txtgia.setText(List.get(position).getGia().toString()+" đ");
+            String id=List.get(position).getIdLoaiXe();
+            switch (id) {
+                case "idbike": {
+                    imgHinh.setImageResource(R.drawable.ic_bike);
+                    break;
+                }
+                case "idcar": {
+                    imgHinh.setImageResource(R.drawable.ic_car);
+                    break;
+                }
+                case "idlimo": {
+                    imgHinh.setImageResource(R.drawable.ic_limo);
+                    break;
+                }
 
+            }
         }
+
         return customView;
     }
 }
