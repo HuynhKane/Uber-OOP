@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import vn.iostar.uber.R;
@@ -13,11 +12,12 @@ import vn.iostar.uber.adapters.TypeVehicalAdapter;
 import vn.iostar.uber.controllers.LoaiXeController;
 import vn.iostar.uber.models.LoaiXe;
 
-public class Map_TypeVehical extends AppCompatActivity {
+public class Map_TypeVehicalActivity extends AppCompatActivity {
 
     ListView lv_type;
     ArrayList<LoaiXe> listTypeVehical=new ArrayList<>();
     TypeVehicalAdapter typeVehicalAdapter;
+    public static LoaiXe loaiXe;
     LoaiXeController loaiXeController=new LoaiXeController();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class Map_TypeVehical extends AppCompatActivity {
             @Override
             public void onDataRetrieved(ArrayList<LoaiXe> listLoaiXe) {
                 listTypeVehical=listLoaiXe;
-                typeVehicalAdapter=new TypeVehicalAdapter(Map_TypeVehical.this,R.layout.item_type_vehical,listTypeVehical);
+                typeVehicalAdapter=new TypeVehicalAdapter(Map_TypeVehicalActivity.this,R.layout.item_type_vehical,listTypeVehical);
                 lv_type.setAdapter(typeVehicalAdapter);
             }
         });

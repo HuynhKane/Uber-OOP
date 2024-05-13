@@ -14,5 +14,6 @@
     <color name="text_color">#000000</color>
     <color name="score_color">#D0D0D0</color>
     <color name="holo_red_dark">#FF3B5998</color>
+    <color name="light_gray">#D7D7D7</color>
 
 </resources>

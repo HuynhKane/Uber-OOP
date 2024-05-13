@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import vn.iostar.uber.R;
-import vn.iostar.uber.activitys.client.Map_TypeVehical;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
