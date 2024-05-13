@@ -40,7 +40,7 @@ public class HomeActivity extends AppCompatActivity {
     public static String role="";
     public TaiKhoanController taiKhoanController=new TaiKhoanController();
     private FirebaseAuth.AuthStateListener listener;
-    private ProgressDialog progressDialog ;
+    //private ProgressDialog progressDialog=new ProgressDialog(HomeActivity.this) ;
     protected void onStart() {
         super.onStart();
         delaySplashScreen();
@@ -164,9 +164,9 @@ public class HomeActivity extends AppCompatActivity {
                 .setTheme(R.style.LoginTheme)
                 .setAvailableProviders(providers)
                 .build(),LOGIN_REQUEST_CODE);
-        ProgressDialog progressDialog = new ProgressDialog(HomeActivity.this);
-        progressDialog.setMessage("Login...");
-        progressDialog.show();
+//        ProgressDialog progressDialog = new ProgressDialog(HomeActivity.this);
+//        progressDialog.setMessage("Login...");
+//        progressDialog.show();
 
     }
 
