@@ -27,11 +27,7 @@
         <activity
             android:name=".activitys.HomeActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activitys.client.ChooseTypePayment"
@@ -40,11 +36,19 @@
             android:name=".activitys.client.CreditPayment"
             android:exported="false" />
         <activity
-            android:name=".activitys.client.Map_TypeVehical"
-            android:exported="true" />
+            android:name=".activitys.client.Map_TypeVehicalActivity"
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".activitys.client.VoucherActivity"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activitys.client.FormLocalActivity"
             android:exported="false" />

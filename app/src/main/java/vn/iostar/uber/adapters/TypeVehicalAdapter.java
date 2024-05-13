@@ -2,6 +2,8 @@ package vn.iostar.uber.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 
 import vn.iostar.uber.R;
+import vn.iostar.uber.activitys.client.Map_TypeVehicalActivity;
+import vn.iostar.uber.activitys.client.VoucherActivity;
 import vn.iostar.uber.models.LoaiXe;
 
 public class TypeVehicalAdapter extends ArrayAdapter {
@@ -21,10 +25,12 @@ public class TypeVehicalAdapter extends ArrayAdapter {
     int resource;
     ArrayList<LoaiXe> List= new ArrayList<LoaiXe>();
 
-    public TypeVehicalAdapter(Context context, int resource, ArrayList<LoaiXe> list) {
+    public TypeVehicalAdapter(Activity context, int resource, ArrayList<LoaiXe> list) {
+
         super(context, resource, list);
         this.resource=resource;
         List = list;
+        this.context=context;
     }
 
     @NonNull
@@ -57,6 +63,15 @@ public class TypeVehicalAdapter extends ArrayAdapter {
             }
         }
 
+        customView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, VoucherActivity.class);
+                Map_TypeVehicalActivity.loaiXe=List.get(position);
+                Log.d("loaiXe",List.get(position).getTenLoaiXe() );
+                context.startActivity(intent);
+            }
+        });
         return customView;
     }
 }

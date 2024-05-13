@@ -15,6 +15,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import vn.iostar.uber.activitys.client.RegisterClientActivity;
 import vn.iostar.uber.models.KhachHang;
 import vn.iostar.uber.models.TaiXe;
@@ -27,27 +30,24 @@ public class TaiKhoanController {
     boolean istrue;
 
     String idClient;
-    public void SaveAcc(String role) {
-        FirebaseUser current= firebaseAuth.getCurrentUser();
-        String url=current.getPhotoUrl().toString();
-        if(url.isEmpty()){
-            url="https://avatar.iran.liara.run/public/boy?username=Ash";
-        }
-
-        if(role.equals("client")){
-
-            myRef.child(role).child(current.getUid()).child("ten").setValue(current.getDisplayName() );
-            myRef.child(role).child(current.getUid()).child("urlAva").setValue(url );
-
-
-        }
-        else {
-            TaiXe tx=new TaiXe(current.getDisplayName(),url);
-            myRef.child(role).child(current.getUid()).setValue(tx);
-
-        }
-
-    }
+//    public void SaveAcc(String role) {
+//        FirebaseUser current= firebaseAuth.getCurrentUser();
+//        String url=current.getPhotoUrl().toString();
+//        if(url.isEmpty()){
+//            url="https://avatar.iran.liara.run/public/boy?username=Ash";
+//        }
+//
+//        if(role.equals("client")){
+//            myRef.child(role).child(current.getUid()).child("ten").setValue(current.getDisplayName() );
+//            myRef.child(role).child(current.getUid()).child("urlAva").setValue(url );
+//        }
+//        else {
+//            TaiXe tx=new TaiXe(current.getDisplayName(),url);
+//            myRef.child(role).child(current.getUid()).setValue(tx);
+//
+//        }
+//
+//    }
     public interface DataRetrievedCallback_Bool {
         void onDataRetrieved(boolean num);
     }
@@ -116,7 +116,13 @@ public class TaiKhoanController {
 
         FirebaseUser current= firebaseAuth.getCurrentUser();
         TaiXe tx=new TaiXe(current.getDisplayName(),newCccd,current.getPhoneNumber(),"0",current.getPhotoUrl().toString());
-        myRef.child("driver").child(current.getUid()).setValue(tx).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("driver/" + current.getUid() + "/ten",newName);
+        updates.put("driver/" + current.getUid() + "/sdt", newNum);
+        updates.put("driver/" + current.getUid() + "/cccd", newCccd);
+        myRef.updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Xe xe=new Xe(myRef.push().getKey(),bienSo,loaiXe);
@@ -124,5 +130,6 @@ public class TaiKhoanController {
                 progressDialog.dismiss();
             }
         });
+
     }
 }

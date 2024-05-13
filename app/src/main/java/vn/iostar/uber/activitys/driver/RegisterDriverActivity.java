@@ -16,16 +16,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
-import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
-import vn.iostar.uber.activitys.MainActivityClient;
 import vn.iostar.uber.activitys.MainActivityDriver;
-import vn.iostar.uber.activitys.client.Map_TypeVehical;
-import vn.iostar.uber.activitys.client.RegisterClientActivity;
 import vn.iostar.uber.adapters.TypeVehicalAdapter;
 import vn.iostar.uber.controllers.LoaiXeController;
 import vn.iostar.uber.controllers.TaiKhoanController;
-import vn.iostar.uber.databinding.ActivityRegisterBinding;
 import vn.iostar.uber.databinding.ActivityRegisterDriverBinding;
 import vn.iostar.uber.models.LoaiXe;
 

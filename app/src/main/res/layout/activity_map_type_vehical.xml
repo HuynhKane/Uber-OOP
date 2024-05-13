@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:name="com.google.android.gms.maps.SupportMapFragment"
-    tools:context=".activitys.client.Map_TypeVehical">
+    tools:context=".activitys.client.Map_TypeVehicalActivity">
 
 
     <fragment
