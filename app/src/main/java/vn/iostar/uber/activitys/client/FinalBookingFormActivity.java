@@ -10,8 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import vn.iostar.uber.R;
+import vn.iostar.uber.activitys.HomeActivity;
 import vn.iostar.uber.models.LoaiXe;
 import vn.iostar.uber.models.UuDai;
+import vn.iostar.uber.ui.home.home;
 
 public class FinalBookingFormActivity extends AppCompatActivity {
 
@@ -35,10 +37,12 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         TextView thoiGian = findViewById(R.id.txt_estimate_time);
         LinearLayout btn_confirm_booking = findViewById(R.id.btn_confirm_booking);
         ImageView typePay = findViewById(R.id.typePay);
+        LinearLayout btn_x=findViewById(R.id.x);
 
         //////////SetText//////////////////
-        diemDon.setText("Null");
-        diemDen.setText("Null");
+
+        diemDon.setText(home.GeocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.from));
+        diemDen.setText(home.GeocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.to));
         String id= loaiXe.getIdLoaiXe();
         switch (id) {
             case "idbike": {
@@ -97,6 +101,14 @@ public class FinalBookingFormActivity extends AppCompatActivity {
 
 
 
+        btn_x.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(FinalBookingFormActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     //TextView diemDen, TextView diemDon, TextView tongTien, ImageView typePay
     private void chooseDriver() {

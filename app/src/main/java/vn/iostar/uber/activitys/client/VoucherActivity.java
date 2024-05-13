@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import vn.iostar.uber.R;
+import vn.iostar.uber.activitys.HomeActivity;
 import vn.iostar.uber.adapters.TypeVehicalAdapter;
 import vn.iostar.uber.adapters.VoucherAdapter;
 import vn.iostar.uber.controllers.LoaiXeController;
@@ -39,6 +40,7 @@ public class VoucherActivity  extends AppCompatActivity {
 
     private void getForm() {
         lv_voucher=findViewById(R.id.lv_voucher);
+        LinearLayout btn_x=findViewById(R.id.x);
         listVoucher.clear();
         ProgressDialog progressDialog = new ProgressDialog(VoucherActivity.this);
         progressDialog.setMessage("Loading...");
@@ -87,7 +89,14 @@ public class VoucherActivity  extends AppCompatActivity {
             }
         });
 
+        btn_x.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent intent = new Intent(VoucherActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }

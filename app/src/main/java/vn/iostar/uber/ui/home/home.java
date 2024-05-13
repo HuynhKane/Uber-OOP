@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -81,8 +82,14 @@ public class home extends Fragment {
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Map_TypeVehicalActivity.class);
-                startActivity(intent);
+//                if(toFragment.getText().toString().isEmpty()){
+//                    Toast.makeText(getContext(),"Please pick your location",Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+                    Intent intent = new Intent(getContext(), Map_TypeVehicalActivity.class);
+                    startActivity(intent);
+//               }
+
             }
         });
     }

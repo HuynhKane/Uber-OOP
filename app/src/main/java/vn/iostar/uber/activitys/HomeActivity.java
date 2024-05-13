@@ -1,5 +1,6 @@
 package vn.iostar.uber.activitys;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -58,6 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         init();
     }
     private void init(){
+
         providers = Arrays.asList(
                 new AuthUI.IdpConfig.PhoneBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build());
@@ -67,9 +71,9 @@ public class HomeActivity extends AppCompatActivity {
             FirebaseUser user = myFirebaseAuth.getCurrentUser();
 
             if(user != null){
-               // progressDialog.dismiss();
                 Toast.makeText(HomeActivity.this, "Welcome"+user.getUid(), Toast.LENGTH_SHORT).show();
                // taiKhoanController.SaveAcc(role);
+
                 if(role.equals("client"))
                     taiKhoanController.CheckNum(new TaiKhoanController.DataRetrievedCallback_Bool() {
                         @Override
@@ -84,7 +88,7 @@ public class HomeActivity extends AppCompatActivity {
                             }
                         }
                     });
-                else {
+                else if(role.equals("driver")){
                     taiKhoanController.CheckDriverInf(new TaiKhoanController.DataRetrievedCallback_Bool() {
                         @Override
                         public void onDataRetrieved(boolean num) {
@@ -100,11 +104,25 @@ public class HomeActivity extends AppCompatActivity {
                     });
 
                 }
+                else {
+                    FirebaseAuth.getInstance().signOut();
+                    AuthUI.getInstance()
+                            .signOut(this)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    handleClickLoginRole();
+
+                                }
+                            });
+
+                }
+
 
 
             }
             else{
-             //   progressDialog.dismiss();
+
                 handleClickLoginRole();
             }
         };
@@ -146,6 +164,9 @@ public class HomeActivity extends AppCompatActivity {
                 .setTheme(R.style.LoginTheme)
                 .setAvailableProviders(providers)
                 .build(),LOGIN_REQUEST_CODE);
+        ProgressDialog progressDialog = new ProgressDialog(HomeActivity.this);
+        progressDialog.setMessage("Login...");
+        progressDialog.show();
 
     }
 

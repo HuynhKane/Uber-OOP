@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import vn.iostar.uber.R;
+import vn.iostar.uber.activitys.HomeActivity;
 
 public class FoundDriverActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class FoundDriverActivity extends AppCompatActivity {
     private void finishTrip() {
 
         LinearLayout btn_confirm_driver = findViewById(R.id.btn_confirm_driver);
+        LinearLayout btn_x = findViewById(R.id.x);
         btn_confirm_driver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,5 +33,14 @@ public class FoundDriverActivity extends AppCompatActivity {
 
             }
         });
+        btn_x.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(FoundDriverActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
