@@ -90,16 +90,16 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         btn_confirm_booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chooseDriver(diemDen, diemDon,tongTien,typePay);
-
+                chooseDriver();
+                //diemDen, diemDon,tongTien,typePay
             }
         });
 
 
 
     }
-
-    private void chooseDriver(TextView diemDen, TextView diemDon, TextView tongTien, ImageView typePay) {
+    //TextView diemDen, TextView diemDon, TextView tongTien, ImageView typePay
+    private void chooseDriver() {
 
         startActivity(new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class));
 

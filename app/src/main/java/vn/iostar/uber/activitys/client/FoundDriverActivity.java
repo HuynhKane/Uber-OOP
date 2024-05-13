@@ -21,15 +21,13 @@ public class FoundDriverActivity extends AppCompatActivity {
     }
 
     private void finishTrip() {
-        ProgressDialog progressDialog = new ProgressDialog(FoundDriverActivity.this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+
         LinearLayout btn_confirm_driver = findViewById(R.id.btn_confirm_driver);
         btn_confirm_driver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FoundDriverActivity.this, FinishTripActivity.class));
-                progressDialog.dismiss();
+
 
             }
         });

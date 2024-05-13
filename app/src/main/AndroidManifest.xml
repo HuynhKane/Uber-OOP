@@ -63,6 +63,16 @@
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.Uber.NoActionBar" />
+        <activity
+            android:name=".activitys.client.FoundDriverActivity"
+            android:exported="true"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.Uber.NoActionBar" />
+        <activity
+            android:name=".activitys.client.FinishTripActivity"
+            android:exported="true"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.Uber.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
