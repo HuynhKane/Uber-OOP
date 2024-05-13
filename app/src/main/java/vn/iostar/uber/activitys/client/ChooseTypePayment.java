@@ -12,7 +12,7 @@ import vn.iostar.uber.activitys.HomeActivity;
 import vn.iostar.uber.activitys.MainActivityDriver;
 
 public class ChooseTypePayment extends AppCompatActivity {
-    public static String typePayment ="";
+    public static String typePayment = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

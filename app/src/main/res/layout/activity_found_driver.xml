@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
-                android:text="Booking Inform"/>
+                android:text="Driver found!"/>
 
         </LinearLayout>
         <View
@@ -48,104 +48,17 @@
 
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
+    <fragment
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:gravity="center"
-            android:background="@drawable/bg_btn_back"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_round"/>
+        android:layout_height="400dp"
+        android:id="@+id/nav_home"
+        android:name="vn.iostar.uber.ui.map.MapFragment"
+        />
 
-            <TextView
-                android:id="@+id/txt_pick_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="Bình Định"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:textColor="@color/black"
-                android:textSize="15dp" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_btn_back"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_square"/>
-            <TextView
-                android:id="@+id/txt_destination"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Nha Trang"
-                android:layout_weight="1"
-                android:padding="10dp"
-                android:textSize="15dp"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:background="@null"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_btn_back"
-        android:padding="15dp">
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="5dp"
-            android:src="@drawable/ic_bike"/>
-        <TextView
-            android:id="@+id/ten"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:text="Bike"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-        <TextView
-            android:id="@+id/gia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="10.000đ/km"/>
-    </LinearLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="5dp"
         android:orientation="vertical"
         android:background="@color/black">
         <TableLayout
@@ -171,23 +84,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="5dp"
-                        app:tint="@color/white"
-                        android:src="@drawable/ic_voucher"/>
-                    <TextView
-                        android:id="@+id/txt_voucher"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:paddingLeft="10dp"
-                        android:textSize="15dp"
-                        android:textColor="@color/colorPrimary"
-                        android:text="20%"/>
-                </LinearLayout>
+                    android:layout_weight="1"/>
 
 
             </TableRow>
@@ -196,28 +93,11 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
 
-                    android:layout_weight="1"
-                    android:textSize="15dp"
-                    android:textColor="@color/white"
-                    android:text="PAYMENT"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:id="@+id/typePay"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-
-                        android:src="@drawable/ic_visa"
-                        app:tint="@color/white" />
-
-                </LinearLayout>
+                    android:layout_weight="1"/>
 
 
             </TableRow>
@@ -236,7 +116,7 @@
                         android:gravity="center"
                         android:textSize="15dp"
                         android:textColor="@color/white"
-                        android:text="COST"/>
+                        android:text="Biển số xe "/>
                     <TextView
                         android:id="@+id/total_price"
                         android:layout_width="wrap_content"
@@ -245,7 +125,7 @@
                         android:textSize="15dp"
                         android:paddingLeft="10dp"
                         android:textColor="@color/colorPrimary"
-                        android:text="50.000 đ"/>
+                        android:text="MA59-123.45"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -257,7 +137,7 @@
                         android:layout_height="40dp"
                         android:padding="5dp"
                         app:tint="@color/white"
-                        android:src="@drawable/ic_time"/>
+                        android:src="@drawable/ic_star"/>
                     <TextView
                         android:id="@+id/txt_estimate_time"
                         android:layout_width="wrap_content"
@@ -266,7 +146,7 @@
                         android:textSize="15dp"
                         android:paddingLeft="10dp"
                         android:textColor="@color/colorPrimary"
-                        android:text="15 mins"/>
+                        android:text="4.7"/>
                 </LinearLayout>
 
 
@@ -283,7 +163,7 @@
             tools:ignore="MissingConstraints">
 
             <LinearLayout
-                android:id="@+id/btn_confirm_booking"
+                android:id="@+id/btn_confirm_driver"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -294,12 +174,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Comfirm Payment"
+                    android:text="Comfirm Driver"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/btn_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -310,7 +191,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Back"
+                    android:text="Cancel"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
             </LinearLayout>
