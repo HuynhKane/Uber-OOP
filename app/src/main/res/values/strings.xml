@@ -18,4 +18,7 @@
     <string name="continue_text">Continue</string>
     <string name="first_name">First name</string>
     <string name="register_text">Register</string>
+    <string name="permission_require">Location required to use</string>
+    <string name="driver_not_found">Driver not found!\n</string>
+    <string name="not_found_key">Not found key\n</string>
 </resources>
