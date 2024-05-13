@@ -3,6 +3,7 @@ package vn.iostar.uber.ui.map;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -206,7 +208,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
                                 if (error != null)
                                     Snackbar.make(mapFragment.getView(), databaseError.getMessage(), Snackbar.LENGTH_LONG).show();
                                 else
-                                    Snackbar.make(mapFragment.getView(), "You're online", Snackbar.LENGTH_LONG).show();
+                                {
+                                    Snackbar snackbar = Snackbar.make(mapFragment.getView(), "You're online", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+
+                                }
                             });
 
                     registerOnlineSystem();

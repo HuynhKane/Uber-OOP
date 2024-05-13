@@ -2,6 +2,7 @@ package vn.iostar.uber.activitys.client;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -30,12 +31,16 @@ public class Map_TypeVehicalActivity extends AppCompatActivity {
     private void getForm() {
         lv_type=findViewById(R.id.lv_type);
         listTypeVehical.clear();
+        ProgressDialog progressDialog = new ProgressDialog(Map_TypeVehicalActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         loaiXeController.getListLoaiXe(new LoaiXeController.DataRetrievedCallback_LoaiXe() {
             @Override
             public void onDataRetrieved(ArrayList<LoaiXe> listLoaiXe) {
                 listTypeVehical=listLoaiXe;
                 typeVehicalAdapter=new TypeVehicalAdapter(Map_TypeVehicalActivity.this,R.layout.item_type_vehical,listTypeVehical);
                 lv_type.setAdapter(typeVehicalAdapter);
+                progressDialog.dismiss();
             }
         });
     }

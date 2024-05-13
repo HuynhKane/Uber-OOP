@@ -46,10 +46,10 @@ public class ChooseTypePayment extends AppCompatActivity {
     }
 
     private void showCreditScreen() {
-        startActivity(new Intent(ChooseTypePayment.this, FinalBookingFormActivity.class));
+        startActivity(new Intent(ChooseTypePayment.this, CreditPayment.class));
     }
 
     private void showFinalScreen() {
-        startActivity(new Intent(ChooseTypePayment.this, CreditPayment.class));
+        startActivity(new Intent(ChooseTypePayment.this, FinalBookingFormActivity.class));
     }
 }
