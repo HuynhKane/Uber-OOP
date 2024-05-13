@@ -35,8 +35,10 @@ public class TaiKhoanController {
         }
 
         if(role.equals("client")){
-            KhachHang kh=new KhachHang(current.getDisplayName() ,url);
-            myRef.child(role).child(current.getUid()).setValue(kh);
+
+            myRef.child(role).child(current.getUid()).child("ten").setValue(current.getDisplayName() );
+            myRef.child(role).child(current.getUid()).child("urlAva").setValue(url );
+
 
         }
         else {
@@ -61,9 +63,9 @@ public class TaiKhoanController {
                 }
                 else {
                 DataSnapshot dataSnapshot = task.getResult().getChildren().iterator().next();
-                String temp=dataSnapshot.child("sdt").getValue(String.class);
-
-                if(temp!=null){
+                String sdt=dataSnapshot.child("sdt").getValue(String.class);
+                String ten=dataSnapshot.child("ten").getValue(String.class);
+                if(sdt!=null){
                     istrue=false;
                     }
                 }
@@ -84,12 +86,12 @@ public class TaiKhoanController {
                             && dataSnapshot.child("cccd").getValue(String.class)!=null
                             && dataSnapshot.child("idXe").getValue()!=null){
                         istrue=false;
+
                     }
                 callbackBool.onDataRetrieved(istrue);
 
             }
         });
-
     }
     public void UpdateAcc_Client( String newName,String newNum,Context context){
         ProgressDialog progressDialog=new ProgressDialog(context);
