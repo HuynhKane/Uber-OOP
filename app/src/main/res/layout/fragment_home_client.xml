@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/img_home">
-
+        android:background="@drawable/img_home"
+        tools:context=".activitys.HomeActivity">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:paddingVertical="5dp"
-                android:src="@drawable/ic_menu"/>
+                android:src="@drawable/ic_menu" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,13 +36,17 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 />
-            <LinearLayout
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_launcher_round"/>
+
         </LinearLayout>
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
@@ -57,59 +61,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="40dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:layout_gravity="left"
-                        android:text="The Uber you know, booking every where"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:lineSpacingExtra="3dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginBottom="20dp"
-                        android:textColor="@color/white_mid"
-                        android:layout_gravity="left"
-                        android:text="Connecting users with professional drivers for convenient transportation"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="25dp"
-                        android:gravity="center"
-                        android:background="@drawable/bg_btn_round_white"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="BOOKING UBER NOW"
-                            android:textSize="15dp"
-                            android:textColor="@color/black"/>
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:padding="5dp"
-                            android:src="@drawable/ic_arrow_right"/>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="100dp"
-                    >
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:gravity="end"
-                        android:text="Drive when you want, make what you need"
+                        android:text="Go anywhere with Uber"
                         android:textColor="@color/white"
                         android:textSize="40dp"
                         android:textStyle="bold" />
@@ -117,38 +74,104 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
+                        android:textSize="17dp"
+                        android:lineSpacingExtra="3dp"
                         android:layout_marginTop="30dp"
                         android:layout_marginBottom="20dp"
-                        android:gravity="end"
-                        android:lineSpacingExtra="3dp"
-                        android:text="Uber's platform also enables aspiring drivers to easily sign up, joining a network of professionals providing transportation services"
                         android:textColor="@color/white_mid"
-                        android:textSize="20dp" />
+                        android:layout_gravity="left"
+                        android:text="Request a ride, hop in, and go"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:gravity="center"
+                        android:background="@drawable/bg_btn_round_white"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/ic_round"/>
 
+<!--                        <EditText-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:background="@null"-->
+<!--                            android:hint="From"-->
+<!--                            android:padding="10dp"-->
+<!--                            android:singleLine="true"-->
+<!--                            android:ellipsize="end"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="15dp" />-->
+                        <fragment
+                            android:id="@+id/from_fragment"
+                            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="10dp"
+                            android:elevation="10dp"
+                            />
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="40dp"-->
+<!--                            android:layout_height="40dp"-->
+<!--                            android:padding="10dp"-->
+<!--                            android:src="@drawable/ic_x"/>-->
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/bg_btn_round_white"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/ic_square"/>
+                        <fragment
+                            android:id="@+id/to_fragment"
+                            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="10dp"
+                            android:elevation="10dp"
+                            />
+
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:padding="25dp"
+                        android:padding="15dp"
                         android:gravity="center"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/bg_btn_round_white"
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="BECOME UBER DRIVER NOW"
+                            android:text="Next"
                             android:textSize="15dp"
                             android:textColor="@color/black"/>
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:padding="5dp"
                             android:src="@drawable/ic_arrow_right"/>
                     </LinearLayout>
                 </LinearLayout>
+
             </LinearLayout>
-        </ScrollView>
+        </LinearLayout>
+
 
     </LinearLayout>
 

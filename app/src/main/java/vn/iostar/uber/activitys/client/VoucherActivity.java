@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,7 +26,7 @@ public class VoucherActivity  extends AppCompatActivity {
     ListView lv_voucher;
     ArrayList<UuDai> listVoucher =new ArrayList<>();
     VoucherAdapter voucherAdapter;
-    LinearLayout btn_next;
+    LinearLayout btn_next; SearchView searchView;
     public static UuDai uuDai;
     UuDaiController uuDaiController=new UuDaiController();
     @Override
@@ -63,6 +64,28 @@ public class VoucherActivity  extends AppCompatActivity {
             }
         });
 
+        searchView=findViewById(R.id.search_bar);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                ArrayList<UuDai> temp=new ArrayList<UuDai>();
+                for(UuDai ud: listVoucher){
+                    if(ud.getUuDai().toLowerCase().contains(newText.toLowerCase()) ||ud.getMoTa().toLowerCase().contains(newText.toLowerCase())){
+                        temp.add(ud);
+                    }
+                }
+                voucherAdapter = new VoucherAdapter(VoucherActivity.this,R.layout.item_voucher, temp);
+                lv_voucher.setAdapter(voucherAdapter);
+                voucherAdapter.notifyDataSetChanged();
+                return false;
+
+            }
+        });
 
 
 

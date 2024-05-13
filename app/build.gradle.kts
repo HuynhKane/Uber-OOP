@@ -67,5 +67,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.2.0")
     implementation("com.firebase:geofire-android:3.2.0")
     implementation ("com.firebase:geofire-android-common:3.2.0")
+    implementation ("com.google.android.libraries.places:places:3.4.0")
 
 }

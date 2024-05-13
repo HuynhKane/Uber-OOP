@@ -49,8 +49,9 @@
             </LinearLayout>
         </LinearLayout>
         <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp"/>
 
 
