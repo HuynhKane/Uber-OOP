@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
+import vn.iostar.uber.controllers.FinalBookingController;
 import vn.iostar.uber.controllers.GeocodingHelper;
 import vn.iostar.uber.models.LoaiXe;
+import vn.iostar.uber.models.TaiXe;
 import vn.iostar.uber.models.UuDai;
 import vn.iostar.uber.ui.home.home;
 
@@ -22,9 +24,12 @@ public class FinalBookingFormActivity extends AppCompatActivity {
     ImageView icon ,typePayment;
     LinearLayout btn_confirm_booking, btn_x;
 
+    FinalBookingController finalBookingController=new FinalBookingController();
 
-    private String posFrom=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.from);
-    private String posTo=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.to);
+
+    private String posFrom;
+    private String posTo;
+    public static TaiXe taiXe=new TaiXe();
     private String typePay= ChooseTypePaymentActivity.typePayment;
     private LoaiXe typeCar= Map_TypeVehicalActivity.loaiXe;
     private UuDai voucher= VoucherActivity.uuDai;
@@ -51,8 +56,8 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         btn_confirm_booking = findViewById(R.id.btn_confirm_booking);
         typePayment = findViewById(R.id.typePay);
         btn_x=findViewById(R.id.x);
-    }
-    private void getInforBoooking(String posFrom, String posTo, String typePay, LoaiXe typeCar, UuDai voucher) {
+        posFrom=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.from);
+        posTo=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.to);
 
         diemDon.setText(posFrom);
         diemDen.setText(posTo);
@@ -95,24 +100,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         }
         tenXe.setText(typeCar.getTenLoaiXe());
         thoiGian.setText("15 min");
-        giaTien.setText(typeCar.getGia().toString());
         txt_uuDai.setText(voucher.getUuDai());
-
-
-        ////////////caculate final price///////////////
-        Float giaTien_float = typeCar.getGia();
-        String uuDai_str = voucher.getUuDai();
-        tongTien.setText(getFinalPrice(giaTien_float, uuDai_str).toString());
-
-        btn_confirm_booking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chooseDriver();
-                //diemDen, diemDon,tongTien,typePay
-            }
-        });
-
-
 
         btn_x.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +110,30 @@ public class FinalBookingFormActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        btn_confirm_booking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseDriver();
+
+            }
+        });
+
+    }
+    private void getInforBoooking(String posFrom, String posTo, String typePay, LoaiXe typeCar, UuDai voucher) {
+
+        Float initalPrice =finalBookingController.getPriceOfTypeCar(typeCar,home.from,home.to);
+        giaTien.setText(initalPrice.toString());
+
+
+        ////////////caculate final price///////////////
+        Double finalPrice =finalBookingController.getPriceUseVoucher(voucher,initalPrice);
+        tongTien.setText(finalPrice.toString());
+
+        finalBookingController.paymentInfor(typePay,finalPrice);
+
+        taiXe= finalBookingController.chooseDriver(home.from,home.to,typePay);
+
+
     }
 
 
@@ -132,10 +144,5 @@ public class FinalBookingFormActivity extends AppCompatActivity {
     }
 
 
-    private Double getFinalPrice(Float giaTienFloat, String uuDaiStr) {
-        uuDaiStr = uuDaiStr.replace("%", "");
-        Double gia_tien = (1 - Double.parseDouble(uuDaiStr)/100) * (giaTienFloat);
-        return gia_tien;
-    }
 
 }

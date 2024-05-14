@@ -30,6 +30,10 @@ public class TaiXe {
         this.urlAva = urlAva;
     }
 
+    public TaiXe() {
+
+    }
+
     public String getIdTaiKhoan() {
         return idTaiKhoan;
     }
