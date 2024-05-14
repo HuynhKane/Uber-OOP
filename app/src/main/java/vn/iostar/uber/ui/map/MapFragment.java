@@ -158,9 +158,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
         init();
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
-        if (mapFragment != null) {
+
             mapFragment.getMapAsync(this);
-        }
+
         return root;
     }
 
@@ -420,10 +420,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        if (mapFragment != null) {
-            getChildFragmentManager().beginTransaction().remove(mapFragment).commitAllowingStateLoss();
-            mapFragment = null;
-        }
     }
 
     @Override
