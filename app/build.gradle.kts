@@ -61,6 +61,7 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxjava:2.2.9")
     implementation ("com.firebaseui:firebase-ui-auth:8.0.2")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.google.maps.android:android-maps-utils:2.2.3")
 
 
     implementation("com.karumi:dexter:6.1.2")

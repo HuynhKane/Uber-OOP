@@ -10,22 +10,24 @@ import android.widget.LinearLayout;
 
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
+import vn.iostar.uber.databinding.ActivityFoundDriverBinding;
+import vn.iostar.uber.databinding.ActivityMainClientBinding;
 
 public class FoundDriverActivity extends AppCompatActivity {
+    private ActivityFoundDriverBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_found_driver);
+        binding = ActivityFoundDriverBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         finishTrip();
 
     }
 
     private void finishTrip() {
 
-        LinearLayout btn_confirm_driver = findViewById(R.id.btn_confirm_driver);
-        LinearLayout btn_x = findViewById(R.id.x);
-        btn_confirm_driver.setOnClickListener(new View.OnClickListener() {
+        binding.btnConfirmDriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FoundDriverActivity.this, FinishTripActivity.class));
@@ -33,7 +35,7 @@ public class FoundDriverActivity extends AppCompatActivity {
 
             }
         });
-        btn_x.setOnClickListener(new View.OnClickListener() {
+        binding.x.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -41,6 +43,10 @@ public class FoundDriverActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.txtTen.setText(FinalBookingFormActivity.taiXe.getTen());
+        binding.txtSdt.setText(FinalBookingFormActivity.taiXe.getSdt());
+
+
 
     }
 }
