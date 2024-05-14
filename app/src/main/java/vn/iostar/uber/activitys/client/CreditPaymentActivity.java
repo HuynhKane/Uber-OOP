@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import vn.iostar.uber.R;
 
-public class CreditPayment extends AppCompatActivity {
+public class CreditPaymentActivity extends AppCompatActivity {
 
 
     @Override

@@ -11,39 +11,52 @@ import android.widget.TextView;
 
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
+import vn.iostar.uber.controllers.GeocodingHelper;
 import vn.iostar.uber.models.LoaiXe;
 import vn.iostar.uber.models.UuDai;
 import vn.iostar.uber.ui.home.home;
 
 public class FinalBookingFormActivity extends AppCompatActivity {
+    GeocodingHelper geocodingHelper=new GeocodingHelper();
+    TextView diemDon,diemDen,tenXe,giaTien,txt_uuDai,tongTien,thoiGian;
+    ImageView icon ,typePayment;
+    LinearLayout btn_confirm_booking, btn_x;
+
+
+    private String posFrom=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.from);
+    private String posTo=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.to);
+    private String typePay= ChooseTypePaymentActivity.typePayment;
+    private LoaiXe typeCar= Map_TypeVehicalActivity.loaiXe;
+    private UuDai voucher= VoucherActivity.uuDai;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_booking_form);
-        getInforBoooking(Map_TypeVehicalActivity.loaiXe, VoucherActivity.uuDai, ChooseTypePayment.typePayment);
+        getForm();
+        getInforBoooking(posFrom,posTo,typePay,typeCar,voucher);
     }
 
-    private void getInforBoooking(LoaiXe loaiXe, UuDai uuDai, String typePayment) {
+    private void getForm() {
+        diemDon = findViewById(R.id.txt_pick_up);
+        diemDen = findViewById(R.id.txt_destination);
+        icon = findViewById(R.id.icon);
+        tenXe = findViewById(R.id.ten);
+        giaTien = findViewById(R.id.gia);
+        txt_uuDai = findViewById(R.id.txt_voucher);
+        tongTien = findViewById(R.id.total_price);
+        thoiGian = findViewById(R.id.txt_estimate_time);
+        btn_confirm_booking = findViewById(R.id.btn_confirm_booking);
+        typePayment = findViewById(R.id.typePay);
+        btn_x=findViewById(R.id.x);
+    }
+    private void getInforBoooking(String posFrom, String posTo, String typePay, LoaiXe typeCar, UuDai voucher) {
 
-        ////////get id /////////////////////////////////
-        TextView diemDon = findViewById(R.id.txt_pick_up);
-        TextView diemDen = findViewById(R.id.txt_destination);
-        ImageView icon = findViewById(R.id.icon);
-        TextView tenXe = findViewById(R.id.ten);
-        TextView giaTien = findViewById(R.id.gia);
-        TextView txt_uuDai = findViewById(R.id.txt_voucher);
-        TextView tongTien = findViewById(R.id.total_price);
-        TextView thoiGian = findViewById(R.id.txt_estimate_time);
-        LinearLayout btn_confirm_booking = findViewById(R.id.btn_confirm_booking);
-        ImageView typePay = findViewById(R.id.typePay);
-        LinearLayout btn_x=findViewById(R.id.x);
-
-        //////////SetText//////////////////
-
-        diemDon.setText(home.GeocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.from));
-        diemDen.setText(home.GeocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.to));
-        String id= loaiXe.getIdLoaiXe();
+        diemDon.setText(posFrom);
+        diemDen.setText(posTo);
+        String id= typeCar.getIdLoaiXe();
         switch (id) {
             case "idbike": {
                 icon.setImageResource(R.drawable.ic_bike);
@@ -59,36 +72,36 @@ public class FinalBookingFormActivity extends AppCompatActivity {
             }
 
         }
-        String type = typePayment;
+        String type = typePay;
         switch (type){
             case "cash":{
-                typePay.setImageResource(R.drawable.ic_cash);
+                typePayment.setImageResource(R.drawable.ic_cash);
                 break;
             }
             case "visa":{
-                typePay.setImageResource(R.drawable.ic_visa);
+                typePayment.setImageResource(R.drawable.ic_visa);
                 break;
             }
             case "master_card":{
-                typePay.setImageResource(R.drawable.ic_mastercard);
+                typePayment.setImageResource(R.drawable.ic_mastercard);
                 break;
             }
             case "paypal":{
-                typePay.setImageResource(R.drawable.ic_paypal);
+                typePayment.setImageResource(R.drawable.ic_paypal);
                 break;
             }
 
 
         }
-        tenXe.setText(loaiXe.getTenLoaiXe());
+        tenXe.setText(typeCar.getTenLoaiXe());
         thoiGian.setText("15 min");
-        giaTien.setText(loaiXe.getGia().toString());
-        txt_uuDai.setText(uuDai.getUuDai());
+        giaTien.setText(typeCar.getGia().toString());
+        txt_uuDai.setText(voucher.getUuDai());
 
 
         ////////////caculate final price///////////////
-        Float giaTien_float = loaiXe.getGia();
-        String uuDai_str = uuDai.getUuDai();
+        Float giaTien_float = typeCar.getGia();
+        String uuDai_str = voucher.getUuDai();
         tongTien.setText(getFinalPrice(giaTien_float, uuDai_str).toString());
 
         btn_confirm_booking.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +123,8 @@ public class FinalBookingFormActivity extends AppCompatActivity {
             }
         });
     }
-    //TextView diemDen, TextView diemDon, TextView tongTien, ImageView typePay
+
+
     private void chooseDriver() {
 
         startActivity(new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class));

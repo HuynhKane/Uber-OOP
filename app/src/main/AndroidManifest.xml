@@ -35,10 +35,10 @@
 
         </activity>
         <activity
-            android:name=".activitys.client.ChooseTypePayment"
+            android:name=".activitys.client.ChooseTypePaymentActivity"
             android:exported="false" />
         <activity
-            android:name=".activitys.client.CreditPayment"
+            android:name=".activitys.client.CreditPaymentActivity"
             android:exported="false" />
         <activity
             android:name=".activitys.client.Map_TypeVehicalActivity"

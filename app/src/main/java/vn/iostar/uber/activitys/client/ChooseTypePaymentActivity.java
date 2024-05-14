@@ -1,6 +1,5 @@
 package vn.iostar.uber.activitys.client;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,17 +8,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
-import vn.iostar.uber.activitys.MainActivityDriver;
-import vn.iostar.uber.activitys.driver.RegisterDriverActivity;
 
-public class ChooseTypePayment extends AppCompatActivity {
+public class ChooseTypePaymentActivity extends AppCompatActivity {
     public static String typePayment = "";
 
     @Override
@@ -58,17 +50,17 @@ public class ChooseTypePayment extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(ChooseTypePayment.this, HomeActivity.class);
+                Intent intent = new Intent(ChooseTypePaymentActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });
     }
 
     private void showCreditScreen() {
-        startActivity(new Intent(ChooseTypePayment.this, CreditPayment.class));
+        startActivity(new Intent(ChooseTypePaymentActivity.this, CreditPaymentActivity.class));
     }
 
     private void showFinalScreen() {
-        startActivity(new Intent(ChooseTypePayment.this, FinalBookingFormActivity.class));
+        startActivity(new Intent(ChooseTypePaymentActivity.this, FinalBookingFormActivity.class));
     }
 }
