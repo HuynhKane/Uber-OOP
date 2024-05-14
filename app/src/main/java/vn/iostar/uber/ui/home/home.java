@@ -60,26 +60,20 @@ public class home extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home_client, container, false);
         initializePlaces();
         setupAutocompleteFragment();
-        handleNext(rootView);
+        btnConfirmLocation_Click(rootView);//***
 
         return rootView;
 
     }
 
 
-    private void handleNext(View rootView) {
+    private void btnConfirmLocation_Click(View rootView) {
         btn_next = rootView.findViewById(R.id.next);
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(toFragment.getText().toString().isEmpty()){
-//                    Toast.makeText(getContext(),"Please pick your location",Toast.LENGTH_SHORT).show();
-//                }
-//                else {
                     Intent intent = new Intent(getContext(), Map_TypeVehicalActivity.class);
                     startActivity(intent);
-//               }
-
             }
         });
     }

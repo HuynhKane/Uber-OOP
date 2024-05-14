@@ -2,28 +2,21 @@ package vn.iostar.uber.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-
-import com.google.android.material.radiobutton.MaterialRadioButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import vn.iostar.uber.R;
-import vn.iostar.uber.activitys.client.Map_TypeVehicalActivity;
 import vn.iostar.uber.activitys.client.VoucherActivity;
-import vn.iostar.uber.models.LoaiXe;
 import vn.iostar.uber.models.UuDai;
 
 public class VoucherAdapter extends ArrayAdapter {
@@ -72,6 +65,11 @@ public class VoucherAdapter extends ArrayAdapter {
         }
 
 
+        btnAddVoucher_click(customView,position);//****
+        return customView;
+    }
+
+    private void btnAddVoucher_click(View customView, int position) {
         customView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +78,5 @@ public class VoucherAdapter extends ArrayAdapter {
                 notifyDataSetChanged();
             }
         });
-        return customView;
     }
 }

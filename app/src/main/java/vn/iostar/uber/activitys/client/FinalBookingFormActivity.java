@@ -4,10 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
@@ -23,6 +28,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
     TextView diemDon,diemDen,tenXe,giaTien,txt_uuDai,tongTien,thoiGian;
     ImageView icon ,typePayment;
     LinearLayout btn_confirm_booking, btn_x;
+    TableLayout table;
 
     FinalBookingController finalBookingController=new FinalBookingController();
 
@@ -55,7 +61,12 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         thoiGian = findViewById(R.id.txt_estimate_time);
         btn_confirm_booking = findViewById(R.id.btn_confirm_booking);
         typePayment = findViewById(R.id.typePay);
+        table=findViewById(R.id.table);
         btn_x=findViewById(R.id.x);
+
+        table.setVisibility(View.GONE);
+
+
         posFrom=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.from);
         posTo=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.to);
 
@@ -110,11 +121,26 @@ public class FinalBookingFormActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        btn_confirm_booking.setOnClickListener(new View.OnClickListener() {
+        btn_confirm_booking.setOnClickListener(new View.OnClickListener() {   //*****
             @Override
             public void onClick(View v) {
-                chooseDriver();
+                getInforBoooking(posFrom,posTo,typePay,typeCar,voucher);
+                table.setVisibility(View.VISIBLE);
+                Toast.makeText(FinalBookingFormActivity.this,"Looking for your driver...",Toast.LENGTH_SHORT).show();
+                new CountDownTimer(5000, 1000) {
 
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        // Có thể cập nhật giao diện người dùng nếu cần mỗi giây
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
+                        startActivity(intent);
+                        finish(); // Kết thúc Activity hiện tại nếu cần thiết
+                    }
+                }.start();
             }
         });
 
@@ -137,11 +163,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
     }
 
 
-    private void chooseDriver() {
 
-        startActivity(new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class));
-
-    }
 
 
 

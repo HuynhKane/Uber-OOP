@@ -122,60 +122,8 @@
             android:src="@drawable/ic_arrow_right"/>
     </RelativeLayout>
 </LinearLayout>
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:layout_width="350dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="136dp"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        app:cardCornerRadius="16dp"-->
-<!--    app:cardElevation="10dp"-->
-<!--    app:cardUseCompatPadding="true"-->
-<!--    app:contentPadding="16dp"-->
-<!--    app:layout_constraintEnd_toEndOf="parent"-->
-<!--    app:layout_constraintHorizontal_bias="0.0"-->
-<!--    app:layout_constraintStart_toStartOf="parent"-->
-<!--    app:layout_constraintTop_toTopOf="parent">-->
-
-<!--    <Button-->
-<!--        android:id="@+id/btn_credit"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="200sp"-->
-<!--        android:background="@drawable/bg_btn_back"-->
-<!--        android:drawableRight="@drawable/ic_arrow_right"-->
-<!--        android:drawablePadding="8dp"-->
-<!--        android:text="CREDIT"-->
-<!--        android:textSize="16sp" />-->
-
-<!--</androidx.cardview.widget.CardView>-->
 
 
-<!--<androidx.cardview.widget.CardView-->
-<!--        android:layout_width="350dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="124dp"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        app:cardCornerRadius="16dp"-->
-<!--    app:cardElevation="8dp"-->
-<!--    app:cardUseCompatPadding="true"-->
-<!--    app:contentPadding="16dp"-->
-<!--    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--    app:layout_constraintEnd_toEndOf="parent"-->
-<!--    app:layout_constraintHorizontal_bias="0.0"-->
-<!--    app:layout_constraintStart_toStartOf="parent">-->
-
-<!--    <Button-->
-<!--        android:id="@+id/btn_cash"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="200sp"-->
-<!--        android:background="@drawable/bg_btn_back"-->
-<!--        android:drawableRight="@drawable/ic_arrow_right"-->
-<!--        android:drawablePadding="8dp"-->
-<!--        android:text="CASH"-->
-<!--        android:textSize="16sp" />-->
-
-<!--</androidx.cardview.widget.CardView>-->
 
 
 

@@ -63,6 +63,11 @@ public class TypeVehicalAdapter extends ArrayAdapter {
             }
         }
 
+       btnChooseVehicle_click(customView,position);//****
+        return customView;
+    }
+
+    private void btnChooseVehicle_click(View customView, int position) {
         customView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +77,5 @@ public class TypeVehicalAdapter extends ArrayAdapter {
                 context.startActivity(intent);
             }
         });
-        return customView;
     }
 }
