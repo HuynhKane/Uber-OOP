@@ -10,6 +10,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,7 +158,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
         init();
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+
+            mapFragment.getMapAsync(this);
+
         return root;
     }
 
@@ -254,6 +257,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
 
     private void loadAvailableDrivers() {
 
+        if(getContext()==null){
+            Log.d("CONTEX","nullllll");
+        }
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Snackbar.make(getView(), getString(R.string.permission_require), Snackbar.LENGTH_SHORT).show();

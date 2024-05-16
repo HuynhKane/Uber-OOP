@@ -4,46 +4,75 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
+import vn.iostar.uber.controllers.FinalBookingController;
+import vn.iostar.uber.controllers.GeocodingHelper;
 import vn.iostar.uber.models.LoaiXe;
+import vn.iostar.uber.models.TaiXe;
 import vn.iostar.uber.models.UuDai;
 import vn.iostar.uber.ui.home.home;
 
 public class FinalBookingFormActivity extends AppCompatActivity {
+    GeocodingHelper geocodingHelper=new GeocodingHelper();
+    TextView diemDon,diemDen,tenXe,giaTien,txt_uuDai,tongTien,thoiGian;
+    ImageView icon ,typePayment;
+    LinearLayout btn_confirm_booking, btn_x;
+    TableLayout table;
+
+    FinalBookingController finalBookingController=new FinalBookingController();
+
+
+    private String posFrom;
+    private String posTo;
+    public static TaiXe taiXe=new TaiXe();
+    private String typePay= ChooseTypePaymentActivity.typePayment;
+    private LoaiXe typeCar= Map_TypeVehicalActivity.loaiXe;
+    private UuDai voucher= VoucherActivity.uuDai;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_booking_form);
-        getInforBoooking(Map_TypeVehicalActivity.loaiXe, VoucherActivity.uuDai, ChooseTypePayment.typePayment);
+        getForm();
+        getInforBoooking(posFrom,posTo,typePay,typeCar,voucher);
     }
 
-    private void getInforBoooking(LoaiXe loaiXe, UuDai uuDai, String typePayment) {
+    private void getForm() {
+        diemDon = findViewById(R.id.txt_pick_up);
+        diemDen = findViewById(R.id.txt_destination);
+        icon = findViewById(R.id.icon);
+        tenXe = findViewById(R.id.ten);
+        giaTien = findViewById(R.id.gia);
+        txt_uuDai = findViewById(R.id.txt_voucher);
+        tongTien = findViewById(R.id.total_price);
+        thoiGian = findViewById(R.id.txt_estimate_time);
+        btn_confirm_booking = findViewById(R.id.btn_confirm_booking);
+        typePayment = findViewById(R.id.typePay);
+        table=findViewById(R.id.table);
+        btn_x=findViewById(R.id.x);
 
-        ////////get id /////////////////////////////////
-        TextView diemDon = findViewById(R.id.txt_pick_up);
-        TextView diemDen = findViewById(R.id.txt_destination);
-        ImageView icon = findViewById(R.id.icon);
-        TextView tenXe = findViewById(R.id.ten);
-        TextView giaTien = findViewById(R.id.gia);
-        TextView txt_uuDai = findViewById(R.id.txt_voucher);
-        TextView tongTien = findViewById(R.id.total_price);
-        TextView thoiGian = findViewById(R.id.txt_estimate_time);
-        LinearLayout btn_confirm_booking = findViewById(R.id.btn_confirm_booking);
-        ImageView typePay = findViewById(R.id.typePay);
-        LinearLayout btn_x=findViewById(R.id.x);
+        table.setVisibility(View.GONE);
 
-        //////////SetText//////////////////
 
-        diemDon.setText(home.GeocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.from));
-        diemDen.setText(home.GeocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.to));
-        String id= loaiXe.getIdLoaiXe();
+        posFrom=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.from);
+        posTo=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.to);
+
+        diemDon.setText(posFrom);
+        diemDen.setText(posTo);
+        String id= typeCar.getIdLoaiXe();
         switch (id) {
             case "idbike": {
                 icon.setImageResource(R.drawable.ic_bike);
@@ -59,47 +88,30 @@ public class FinalBookingFormActivity extends AppCompatActivity {
             }
 
         }
-        String type = typePayment;
+        String type = typePay;
         switch (type){
             case "cash":{
-                typePay.setImageResource(R.drawable.ic_cash);
+                typePayment.setImageResource(R.drawable.ic_cash);
                 break;
             }
             case "visa":{
-                typePay.setImageResource(R.drawable.ic_visa);
+                typePayment.setImageResource(R.drawable.ic_visa);
                 break;
             }
             case "master_card":{
-                typePay.setImageResource(R.drawable.ic_mastercard);
+                typePayment.setImageResource(R.drawable.ic_mastercard);
                 break;
             }
             case "paypal":{
-                typePay.setImageResource(R.drawable.ic_paypal);
+                typePayment.setImageResource(R.drawable.ic_paypal);
                 break;
             }
 
 
         }
-        tenXe.setText(loaiXe.getTenLoaiXe());
+        tenXe.setText(typeCar.getTenLoaiXe());
         thoiGian.setText("15 min");
-        giaTien.setText(loaiXe.getGia().toString());
-        txt_uuDai.setText(uuDai.getUuDai());
-
-
-        ////////////caculate final price///////////////
-        Float giaTien_float = loaiXe.getGia();
-        String uuDai_str = uuDai.getUuDai();
-        tongTien.setText(getFinalPrice(giaTien_float, uuDai_str).toString());
-
-        btn_confirm_booking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chooseDriver();
-                //diemDen, diemDon,tongTien,typePay
-            }
-        });
-
-
+        txt_uuDai.setText(voucher.getUuDai());
 
         btn_x.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,19 +121,50 @@ public class FinalBookingFormActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        btn_confirm_booking.setOnClickListener(new View.OnClickListener() {   //*****
+            @Override
+            public void onClick(View v) {
+                getInforBoooking(posFrom,posTo,typePay,typeCar,voucher);
+                table.setVisibility(View.VISIBLE);
+                Toast.makeText(FinalBookingFormActivity.this,"Looking for your driver...",Toast.LENGTH_SHORT).show();
+                new CountDownTimer(5000, 1000) {
+
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        // Có thể cập nhật giao diện người dùng nếu cần mỗi giây
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
+                        startActivity(intent);
+                        finish(); // Kết thúc Activity hiện tại nếu cần thiết
+                    }
+                }.start();
+            }
+        });
+
     }
-    //TextView diemDen, TextView diemDon, TextView tongTien, ImageView typePay
-    private void chooseDriver() {
+    private void getInforBoooking(String posFrom, String posTo, String typePay, LoaiXe typeCar, UuDai voucher) {
 
-        startActivity(new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class));
+        Float initalPrice =finalBookingController.getPriceOfTypeCar(typeCar,home.from,home.to);
+        giaTien.setText(initalPrice.toString());
+
+
+        ////////////caculate final price///////////////
+        Double finalPrice =finalBookingController.getPriceUseVoucher(voucher,initalPrice);
+        tongTien.setText(finalPrice.toString());
+
+        finalBookingController.paymentInfor(typePay,finalPrice);
+
+        taiXe= finalBookingController.chooseDriver(home.from,home.to,typePay);
+
 
     }
 
 
-    private Double getFinalPrice(Float giaTienFloat, String uuDaiStr) {
-        uuDaiStr = uuDaiStr.replace("%", "");
-        Double gia_tien = (1 - Double.parseDouble(uuDaiStr)/100) * (giaTienFloat);
-        return gia_tien;
-    }
+
+
+
 
 }

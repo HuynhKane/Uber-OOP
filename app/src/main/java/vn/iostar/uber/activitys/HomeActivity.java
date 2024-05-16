@@ -40,6 +40,7 @@ public class HomeActivity extends AppCompatActivity {
     public static String role="";
     public TaiKhoanController taiKhoanController=new TaiKhoanController();
     private FirebaseAuth.AuthStateListener listener;
+    ProgressDialog progressDialog;
     //private ProgressDialog progressDialog=new ProgressDialog(HomeActivity.this) ;
     protected void onStart() {
         super.onStart();
@@ -86,6 +87,7 @@ public class HomeActivity extends AppCompatActivity {
                             {
                                 startActivity(new Intent(HomeActivity.this, MainActivityClient.class));
                             }
+                            dismissProgressDialog();
                         }
                     });
                 else if(role.equals("driver")){
@@ -100,6 +102,7 @@ public class HomeActivity extends AppCompatActivity {
                             {
                                 startActivity(new Intent(HomeActivity.this, MainActivityDriver.class));
                             }
+                            dismissProgressDialog();
                         }
                     });
 
@@ -112,6 +115,7 @@ public class HomeActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     handleClickLoginRole();
+                                    dismissProgressDialog();
 
                                 }
                             });
@@ -164,10 +168,15 @@ public class HomeActivity extends AppCompatActivity {
                 .setTheme(R.style.LoginTheme)
                 .setAvailableProviders(providers)
                 .build(),LOGIN_REQUEST_CODE);
-//        ProgressDialog progressDialog = new ProgressDialog(HomeActivity.this);
-//        progressDialog.setMessage("Login...");
-//        progressDialog.show();
+        progressDialog = new ProgressDialog(HomeActivity.this);
+        progressDialog.setMessage("Login...");
+        progressDialog.show();
 
+    }
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
 

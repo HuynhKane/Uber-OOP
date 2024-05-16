@@ -15,11 +15,8 @@ import java.util.ArrayList;
 
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
-import vn.iostar.uber.adapters.TypeVehicalAdapter;
 import vn.iostar.uber.adapters.VoucherAdapter;
-import vn.iostar.uber.controllers.LoaiXeController;
 import vn.iostar.uber.controllers.UuDaiController;
-import vn.iostar.uber.models.LoaiXe;
 import vn.iostar.uber.models.UuDai;
 
 public class VoucherActivity  extends AppCompatActivity {
@@ -60,7 +57,7 @@ public class VoucherActivity  extends AppCompatActivity {
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(VoucherActivity.this, ChooseTypePayment.class);
+                Intent intent = new Intent(VoucherActivity.this, ChooseTypePaymentActivity.class);
                 Log.d("uuDaiiiiii",uuDai.getUuDai().toString() );
                 startActivity(intent);
             }
