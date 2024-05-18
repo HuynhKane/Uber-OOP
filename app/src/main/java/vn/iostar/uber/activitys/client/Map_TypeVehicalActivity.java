@@ -11,25 +11,38 @@ import android.util.Log;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.iostar.uber.R;
 import vn.iostar.uber.adapters.TypeVehicalAdapter;
-import vn.iostar.uber.controllers.LoaiXeController;
+import vn.iostar.uber.controllers.callAPI.LoaiXeController;
 import vn.iostar.uber.models.LoaiXe;
+import vn.iostar.uber.models.VehicleType;
+import vn.iostar.uber.retrofit.RetrofitService;
 import vn.iostar.uber.ui.map.MapFragment;
 
 public class Map_TypeVehicalActivity extends AppCompatActivity {
 
     ListView lv_type;
-    ArrayList<LoaiXe> listTypeVehical=new ArrayList<>();
+    ArrayList<VehicleType> listTypeVehical=new ArrayList<>();
     TypeVehicalAdapter typeVehicalAdapter;
     Fragment mapFragment;
     public static LoaiXe loaiXe;
-    LoaiXeController loaiXeController=new LoaiXeController();
+ //   LoaiXeController loaiXeController=new LoaiXeController();
+    RetrofitService retrofitService=new RetrofitService();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ProgressDialog progressDialog = new ProgressDialog(Map_TypeVehicalActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         setContentView(R.layout.activity_map_type_vehical);
+        progressDialog.dismiss();
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.mymap, new MapFragment())
@@ -41,21 +54,38 @@ public class Map_TypeVehicalActivity extends AppCompatActivity {
     }
 
 
+
     private void getForm() {
         lv_type=findViewById(R.id.lv_type);
         listTypeVehical.clear();
-        ProgressDialog progressDialog = new ProgressDialog(Map_TypeVehicalActivity.this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-        loaiXeController.getListLoaiXe(new LoaiXeController.DataRetrievedCallback_LoaiXe() {
+        LoaiXeController loaiXeController=retrofitService.getRetrofit().create(LoaiXeController.class);
+
+        loaiXeController.getListLoaiXe().enqueue(new Callback<ArrayList<VehicleType>>() {
             @Override
-            public void onDataRetrieved(ArrayList<LoaiXe> listLoaiXe) {
-                listTypeVehical=listLoaiXe;
+            public void onResponse(Call<ArrayList<VehicleType>> call, Response<ArrayList<VehicleType>> response) {
+                listTypeVehical=  response.body();
+                //Log.d("API",listTypeVehical.toString());
                 typeVehicalAdapter=new TypeVehicalAdapter(Map_TypeVehicalActivity.this,R.layout.item_type_vehical,listTypeVehical);
                 lv_type.setAdapter(typeVehicalAdapter);
-                progressDialog.show();
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<VehicleType>> call, Throwable t) {
+
             }
         });
+
+
+//        loaiXeController.getListLoaiXe(new LoaiXeController.DataRetrievedCallback_LoaiXe() {
+//            @Override
+//            public void onDataRetrieved(ArrayList<LoaiXe> listLoaiXe) {
+//                listTypeVehical=listLoaiXe;
+//                typeVehicalAdapter=new TypeVehicalAdapter(Map_TypeVehicalActivity.this,R.layout.item_type_vehical,listTypeVehical);
+//                lv_type.setAdapter(typeVehicalAdapter);
+//                progressDialog.show();
+//            }
+//        });
     }
     @Override
     public void onBackPressed() {

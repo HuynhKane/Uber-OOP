@@ -19,13 +19,14 @@ import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.client.Map_TypeVehicalActivity;
 import vn.iostar.uber.activitys.client.VoucherActivity;
 import vn.iostar.uber.models.LoaiXe;
+import vn.iostar.uber.models.VehicleType;
 
 public class TypeVehicalAdapter extends ArrayAdapter {
     Activity context;
     int resource;
-    ArrayList<LoaiXe> List= new ArrayList<LoaiXe>();
+    ArrayList<VehicleType> List= new ArrayList<VehicleType>();
 
-    public TypeVehicalAdapter(Activity context, int resource, ArrayList<LoaiXe> list) {
+    public TypeVehicalAdapter(Activity context, int resource, ArrayList<VehicleType> list) {
 
         super(context, resource, list);
         this.resource=resource;
@@ -43,9 +44,9 @@ public class TypeVehicalAdapter extends ArrayAdapter {
         TextView txtTen =(TextView) customView.findViewById(R.id.ten);
         TextView txtgia =(TextView) customView.findViewById(R.id.gia);
         if(imgHinh!=null && txtTen!=null && txtgia!=null){
-            txtTen.setText(List.get(position).getTenLoaiXe());
-            txtgia.setText(List.get(position).getGia().toString()+" đ");
-            String id=List.get(position).getIdLoaiXe();
+            txtTen.setText(List.get(position).getVehicleName());
+            txtgia.setText(List.get(position).getVehiclePrice().toString()+" đ");
+            String id=List.get(position).getVehicleTypeId();
             switch (id) {
                 case "idbike": {
                     imgHinh.setImageResource(R.drawable.ic_bike);
@@ -63,19 +64,19 @@ public class TypeVehicalAdapter extends ArrayAdapter {
             }
         }
 
-       btnChooseVehicle_click(customView,position);//****
+      // btnChooseVehicle_click(customView,position);//****
         return customView;
     }
 
-    private void btnChooseVehicle_click(View customView, int position) {
-        customView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, VoucherActivity.class);
-                Map_TypeVehicalActivity.loaiXe=List.get(position);
-                Log.d("loaiXe",List.get(position).getTenLoaiXe() );
-                context.startActivity(intent);
-            }
-        });
-    }
+//    private void btnChooseVehicle_click(View customView, int position) {
+//        customView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, VoucherActivity.class);
+//                Map_TypeVehicalActivity.loaiXe=List.get(position);
+//                Log.d("loaiXe",List.get(position).getTenLoaiXe() );
+//                context.startActivity(intent);
+//            }
+//        });
+//    }
 }
