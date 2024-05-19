@@ -2,6 +2,7 @@ package vn.iostar.uber.activitys.client;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -139,7 +140,9 @@ public class FinalBookingFormActivity extends AppCompatActivity {
                         Toast.makeText(FinalBookingFormActivity.this,"Chờ đi",Toast.LENGTH_SHORT).show();
 //                        Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
 //                        v.getContext().startActivity(intent);
-
+                        ProgressDialog progressDialog = new ProgressDialog(FinalBookingFormActivity.this);
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.show();
                     }
 
                     @Override

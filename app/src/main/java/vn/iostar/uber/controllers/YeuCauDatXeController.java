@@ -193,4 +193,28 @@ public class YeuCauDatXeController {
         });
     }
 
+    public void acceptThisClient(String idDriver, String idClient){
+
+
+    }
+    public void denyThisClient(String cityName,String idDriver, String idClient,Callback callback){
+        DatabaseReference cityRef =myRef.child("driverLocation").child(cityName).child(idDriver).child("client");
+        cityRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key=snapshot.getKey();
+                    String id = snapshot.child("idclient").getValue(String.class);
+                    if(id.equals(idClient)){
+                        cityRef.child(key).removeValue();
+                        break;
+                    }
+                    callback.onSuccess();
+                }
+            }
+        });
+
+    }
+
+
 }
