@@ -19,6 +19,7 @@ import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.client.Map_TypeVehicalActivity;
 import vn.iostar.uber.activitys.client.VoucherActivity;
 import vn.iostar.uber.models.LoaiXe;
+import vn.iostar.uber.models.VehicleType;
 
 public class TypeVehicalAdapter extends ArrayAdapter {
     Activity context;
@@ -63,19 +64,19 @@ public class TypeVehicalAdapter extends ArrayAdapter {
             }
         }
 
-       btnChooseVehicle_click(customView,position);//****
+      // btnChooseVehicle_click(customView,position);//****
         return customView;
     }
 
-    private void btnChooseVehicle_click(View customView, int position) {
-        customView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, VoucherActivity.class);
-                Map_TypeVehicalActivity.loaiXe=List.get(position);
-                Log.d("loaiXe",List.get(position).getTenLoaiXe() );
-                context.startActivity(intent);
-            }
-        });
-    }
+//    private void btnChooseVehicle_click(View customView, int position) {
+//        customView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, VoucherActivity.class);
+//                Map_TypeVehicalActivity.loaiXe=List.get(position);
+//                Log.d("loaiXe",List.get(position).getTenLoaiXe() );
+//                context.startActivity(intent);
+//            }
+//        });
+//    }
 }
