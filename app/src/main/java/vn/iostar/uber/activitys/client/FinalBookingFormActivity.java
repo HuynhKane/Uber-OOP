@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
@@ -21,6 +22,7 @@ import vn.iostar.uber.controllers.GeocodingHelper;
 import vn.iostar.uber.models.LoaiXe;
 import vn.iostar.uber.models.TaiXe;
 import vn.iostar.uber.models.UuDai;
+import vn.iostar.uber.models.YeuCauDatXe;
 import vn.iostar.uber.ui.home.home;
 
 public class FinalBookingFormActivity extends AppCompatActivity {
@@ -40,7 +42,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
     private LoaiXe typeCar= Map_TypeVehicalActivity.loaiXe;
     private UuDai voucher= VoucherActivity.uuDai;
 
-
+    private YeuCauDatXe yeuCauDatXe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +160,8 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         finalBookingController.paymentInfor(typePay,finalPrice);
 
         taiXe= finalBookingController.chooseDriver(home.from,home.to,typePay);
+        yeuCauDatXe=new YeuCauDatXe("0", FirebaseAuth.getInstance().getCurrentUser().getUid(),typeCar.getIdLoaiXe(),voucher.getIdUuDai(),posFrom,posTo,finalPrice,"");
+        //Luu yeu cau đặt xe cho lịch sử
 
 
     }

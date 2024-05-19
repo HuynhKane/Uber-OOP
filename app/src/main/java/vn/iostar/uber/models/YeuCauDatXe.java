@@ -31,6 +31,9 @@ public class YeuCauDatXe {
         this.trangThai = trangThai;
     }
 
+    public YeuCauDatXe(String number, String uid, String idLoaiXe, String idUuDai, String posFrom, String posTo, Double finalPrice, String trangThai) {
+    }
+
     public String getIdDatXe() {
         return idDatXe;
     }
