@@ -66,8 +66,6 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         table=findViewById(R.id.table);
         btn_x=findViewById(R.id.x);
 
-        table.setVisibility(View.GONE);
-
 
         posFrom=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.from);
         posTo=geocodingHelper.getAddressFromLatLng(FinalBookingFormActivity.this,home.to);
@@ -126,23 +124,9 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         btn_confirm_booking.setOnClickListener(new View.OnClickListener() {   //*****
             @Override
             public void onClick(View v) {
-                getInforBoooking(posFrom,posTo,typePay,typeCar,voucher);
-                table.setVisibility(View.VISIBLE);
-                Toast.makeText(FinalBookingFormActivity.this,"Looking for your driver...",Toast.LENGTH_SHORT).show();
-                new CountDownTimer(5000, 1000) {
+                Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
+                startActivity(intent);
 
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        // Có thể cập nhật giao diện người dùng nếu cần mỗi giây
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
-                        startActivity(intent);
-                        finish(); // Kết thúc Activity hiện tại nếu cần thiết
-                    }
-                }.start();
             }
         });
 
@@ -158,7 +142,6 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         tongTien.setText(finalPrice.toString());
 
         finalBookingController.paymentInfor(typePay,finalPrice);
-
         taiXe= finalBookingController.chooseDriver(home.from,home.to,typePay);
         yeuCauDatXe=new YeuCauDatXe("0", FirebaseAuth.getInstance().getCurrentUser().getUid(),typeCar.getIdLoaiXe(),voucher.getIdUuDai(),posFrom,posTo,finalPrice,"");
         //Luu yeu cau đặt xe cho lịch sử
