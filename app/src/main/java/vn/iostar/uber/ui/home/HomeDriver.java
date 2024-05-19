@@ -11,12 +11,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import vn.iostar.uber.R;
+import vn.iostar.uber.activitys.client.FinalBookingFormActivity;
+import vn.iostar.uber.controllers.YeuCauDatXeController;
 
 public class HomeDriver extends Fragment {
 
     private HomeDriverViewModel mViewModel;
+    private YeuCauDatXeController yeuCauDatXeController=new YeuCauDatXeController();
 
     public static HomeDriver newInstance() {
         return new HomeDriver();
@@ -25,6 +29,18 @@ public class HomeDriver extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        yeuCauDatXeController.listenClient("Dĩ An", "Uz4J0EoWBoNXIcIIjebjT36c91y2", new YeuCauDatXeController.Retriver_Client() {
+            @Override
+            public void onSuccess(String idClient) {
+                Toast.makeText(getContext(),idClient,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        });
         return inflater.inflate(R.layout.fragment_home_driver, container, false);
     }
 

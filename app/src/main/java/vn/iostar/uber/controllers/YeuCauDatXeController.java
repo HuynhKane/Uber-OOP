@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,7 +40,7 @@ public class YeuCauDatXeController {
     FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
     ArrayList<YeuCauDatXe> list=new ArrayList<YeuCauDatXe>();
     FinalBookingController finalBookingController=new FinalBookingController();
-    Double closest=-1.0; String keyClosest;String cityName="";
+    Double closest=-1.0; String keyClosest;String city;
     public interface Callback_Bool {
         void onSuccess();
 
@@ -48,14 +49,24 @@ public class YeuCauDatXeController {
         void onSuccess(YeuCauDatXe first);
         void onFail();
     }
+    public interface Callback {
+        void onSuccess();
+        void onFail();
+
+    }
+    public interface Retriver_Client {
+        void onSuccess(String idClient);
+        void onFail();
+
+    }
 
     public void addNewYeuCauDatXe(YeuCauDatXe yeuCauDatXe, Context context,Callback_Bool callback) throws IOException {
         FirebaseUser current= firebaseAuth.getCurrentUser();
         Geocoder geocoder = new Geocoder(context);
         List<Address> addressList;
         addressList = geocoder.getFromLocation(home.from.latitude,home.from.longitude, 1);
-        cityName =addressList.get(0).getLocality();
-
+        String cityName =addressList.get(0).getLocality();
+        city=cityName;
 
         myRef.child("yeuCauDatXe").child(cityName).child(String.valueOf(System.currentTimeMillis())).setValue(yeuCauDatXe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -65,7 +76,7 @@ public class YeuCauDatXeController {
         });
     }
 
-    public void getYeuCauDatXeXom_City(Callback_YeuCauDatXe callbackYeuCauDatXe){
+    public void getYeuCauDatXeXom_City(String cityName,Callback_YeuCauDatXe callbackYeuCauDatXe){
         myRef.child("yeuCauDatXe").child(cityName).orderByKey().limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -89,7 +100,7 @@ public class YeuCauDatXeController {
         });
 
     }
-    public void distant(LatLng client,Callback_Bool callbackBool){
+    public void distant(LatLng client,String cityName){
          closest=-1.0;
 
         myRef.child("driverLocation").child(cityName).addValueEventListener(new ValueEventListener() {
@@ -109,9 +120,7 @@ public class YeuCauDatXeController {
 
                     } else {
                     Log.d("sssssss", "Không có dữ liệu cho thành phố này.");
-                    callbackBool.onSuccess();
                 }
-
             }
 
             @Override
@@ -129,9 +138,59 @@ public class YeuCauDatXeController {
         });
     }
 
-//    public void a(String cityName){
-//        myRef.child("driverLocation").child(cityName).get
-//    }
+    public void consider_room(String cityName, String idDriver,String idClient, Callback callback) {
+        DatabaseReference cityRef = myRef.child("driverLocation").child(cityName);
 
+        cityRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // driverLocation tồn tại
+                    String time = String.valueOf(System.currentTimeMillis());
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("client/" + time + "/idclient", idClient);
+                    cityRef.child(idDriver).updateChildren(map);
+                    callback.onSuccess();
+
+                } else {
+                    callback.onFail();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void listenClient(String cityName, String idDriver, Retriver_Client callback) {
+        DatabaseReference cityRef = myRef.child("driverLocation").child(cityName);
+
+        cityRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    cityRef.child(idDriver).child("client").orderByKey().limitToFirst(1).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                        @Override
+                        public void onSuccess(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                // Lấy dữ liệu từ snapshot
+                                String idClient = snapshot.child("idclient").getValue(String.class);
+                                callback.onSuccess(idClient);
+                            }
+                        }
+                    });
+
+                } else {
+                    callback.onFail();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }

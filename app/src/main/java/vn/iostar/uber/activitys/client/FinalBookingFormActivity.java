@@ -132,9 +132,22 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         btn_confirm_booking.setOnClickListener(new View.OnClickListener() {   //*****
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
-                v.getContext().startActivity(intent);
 
+                yeuCauDatXeController.consider_room("Dĩ An", "Uz4J0EoWBoNXIcIIjebjT36c91y2", FirebaseAuth.getInstance().getCurrentUser().getUid(), new YeuCauDatXeController.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(FinalBookingFormActivity.this,"Chờ đi",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
+                        v.getContext().startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFail() {
+                        Toast.makeText(FinalBookingFormActivity.this,"kHÔNG CÓ TÀI XẾ TRONG KHU VỰC",Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                finish();
             }
         });
 
@@ -152,21 +165,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         finalBookingController.paymentInfor(typePay,finalPrice);
         //taiXe= finalBookingController.chooseDriver(home.from,home.to,typePay);
 
-        YeuCauDatXe yeuCauDatXe=new YeuCauDatXe( FirebaseAuth.getInstance().getCurrentUser().getUid(),typeCar.getIdLoaiXe(),voucher.getIdUuDai(),home.from.toString(),home.to.toString(),finalPrice,"wait");
-        yeuCauDatXeController.addNewYeuCauDatXe(yeuCauDatXe, FinalBookingFormActivity.this, new YeuCauDatXeController.Callback_Bool() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(FinalBookingFormActivity.this,"Request was sent",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        yeuCauDatXeController.distant(home.from, new YeuCauDatXeController.Callback_Bool() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(FinalBookingFormActivity.this,"Request was sent",Toast.LENGTH_SHORT).show();
-            }
-        });
-        //Luu yeu cau đặt xe cho lịch sử
+       // YeuCauDatXe yeuCauDatXe=new YeuCauDatXe( FirebaseAuth.getInstance().getCurrentUser().getUid(),typeCar.getIdLoaiXe(),voucher.getIdUuDai(),home.from.toString(),home.to.toString(),finalPrice,"wait");
 
 
     }
