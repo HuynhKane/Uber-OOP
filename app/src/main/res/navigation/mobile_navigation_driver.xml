@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="vn.iostar.uber.ui.home.home"
+        android:name="vn.iostar.uber.ui.home.HomeDriver"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home_driver" />
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -22,4 +22,5 @@
         android:name="vn.iostar.uber.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
 </navigation>

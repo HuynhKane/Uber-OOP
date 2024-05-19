@@ -4,11 +4,24 @@ public class KhachHang {
     private String idTaiKhoan;
     private String ten;
     private String sdt;
+    private String urlAva;
 
-    public KhachHang(String idTaiKhoan, String ten, String sdt) {
+    public KhachHang(String ten, String sdt, String urlAva) {
+        this.ten = ten;
+        this.sdt = sdt;
+        this.urlAva = urlAva;
+    }
+
+    public KhachHang(String ten, String urlAva) {
+        this.ten = ten;
+        this.urlAva = urlAva;
+    }
+
+    public KhachHang(String idTaiKhoan, String ten, String sdt, String urlAva) {
         this.idTaiKhoan = idTaiKhoan;
         this.ten = ten;
         this.sdt = sdt;
+        this.urlAva = urlAva;
     }
 
     public String getIdTaiKhoan() {
@@ -33,5 +46,13 @@ public class KhachHang {
 
     public void setSdt(String sdt) {
         this.sdt = sdt;
+    }
+
+    public String getUrlAva() {
+        return urlAva;
+    }
+
+    public void setUrlAva(String urlAva) {
+        this.urlAva = urlAva;
     }
 }

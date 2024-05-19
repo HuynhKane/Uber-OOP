@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FAFAFA"
-    android:gravity="fill"
+    android:background="@drawable/bg_btn_round_white"
     android:orientation="vertical"
-    android:weightSum="2">
+    android:padding="10dp"
+    android:elevation="10dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="106dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="3">
+        >
 
-        <RadioButton
-            android:id="@+id/rdb_clicked_voucher"
-            android:layout_width="424dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+        <ImageView
+            android:id="@+id/check"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_check"/>
 
         <LinearLayout
-            android:layout_width="654dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:weightSum="2">
+            >
 
             <TextView
                 android:id="@+id/txt_discount"
@@ -36,7 +37,7 @@
                 android:layout_weight="1"
                 android:text="50%"
                 android:textAlignment="textStart"
-                android:textSize="34sp"
+                android:textSize="40sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -77,6 +78,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:text="Dành cho người dễ thương."
                         android:textSize="8sp" />
                 </LinearLayout>
@@ -113,9 +116,9 @@
 
         <ImageView
             android:id="@+id/ic_voucher"
-            android:layout_width="488dp"
+            android:layout_width="75dp"
             android:layout_height="75dp"
-            android:layout_weight="1"
+
             tools:src="@drawable/ic_voucher"/>
 
     </LinearLayout>

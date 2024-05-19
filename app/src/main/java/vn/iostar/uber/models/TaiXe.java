@@ -6,13 +6,32 @@ public class TaiXe {
     private String cccd;
     private String sdt;
     private String idXe;
+    private String urlAva;
 
-    public TaiXe(String idTaiKhoan, String ten, String cccd, String sdt, String idXe) {
+    public TaiXe(String ten, String urlAva) {
+        this.ten = ten;
+        this.urlAva = urlAva;
+    }
+
+    public TaiXe(String ten, String cccd, String sdt, String idXe, String urlAva) {
+        this.ten = ten;
+        this.cccd = cccd;
+        this.sdt = sdt;
+        this.idXe = idXe;
+        this.urlAva = urlAva;
+    }
+
+    public TaiXe(String idTaiKhoan, String ten, String cccd, String sdt, String idXe, String urlAva) {
         this.idTaiKhoan = idTaiKhoan;
         this.ten = ten;
         this.cccd = cccd;
         this.sdt = sdt;
         this.idXe = idXe;
+        this.urlAva = urlAva;
+    }
+
+    public TaiXe() {
+
     }
 
     public String getIdTaiKhoan() {
@@ -53,5 +72,13 @@ public class TaiXe {
 
     public void setIdXe(String idXe) {
         this.idXe = idXe;
+    }
+
+    public String getUrlAva() {
+        return urlAva;
+    }
+
+    public void setUrlAva(String urlAva) {
+        this.urlAva = urlAva;
     }
 }

@@ -12,10 +12,13 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="api_key">AIzaSyBr9nMaxxI2JdbMboRrJ1TD5_NOV3Krq00</string>
+    <string name="api_key">AIzaSyDQyDRUoq1OWU9LMnCeizrsHHznui5ocaE</string>
     <string name="last_name">Last name</string>
     <string name="phone_number">Phone Number</string>
     <string name="continue_text">Continue</string>
     <string name="first_name">First name</string>
     <string name="register_text">Register</string>
+    <string name="permission_require">Location required to use</string>
+    <string name="driver_not_found">Driver not found!\n</string>
+    <string name="not_found_key">Not found key\n</string>
 </resources>

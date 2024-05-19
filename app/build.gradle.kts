@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -60,9 +61,12 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxjava:2.2.9")
     implementation ("com.firebaseui:firebase-ui-auth:8.0.2")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
-
+    implementation ("com.google.maps.android:android-maps-utils:2.2.3")
 
     implementation("com.karumi:dexter:6.1.2")
     implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("com.firebase:geofire-android:3.2.0")
+    implementation ("com.firebase:geofire-android-common:3.2.0")
+    implementation ("com.google.android.libraries.places:places:3.4.0")
 
 }

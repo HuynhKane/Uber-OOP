@@ -15,8 +15,17 @@
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="driver" />
     </group>
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_signout"
+                android:icon="@drawable/ic_logout"
+                android:title="Sign out" />
+        </menu>
+    </item>
 
 
 </menu>

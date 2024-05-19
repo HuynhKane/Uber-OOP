@@ -6,13 +6,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:name="com.google.android.gms.maps.SupportMapFragment"
-    tools:context=".activitys.client.Map_TypeVehical">
+    tools:context=".activitys.client.Map_TypeVehicalActivity">
 
 
     <fragment
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:id="@+id/nav_home"
+        android:id="@+id/mymap"
         android:name="vn.iostar.uber.ui.map.MapFragment"
          />
     <LinearLayout
@@ -34,34 +34,8 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="vertical">
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:padding="10dp"
-           android:layout_margin="10dp"
-           android:background="@drawable/bg_btn_next"
-           android:gravity="center">
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:textSize="15dp"
-               android:textColor="@color/white"
-               android:text="Next"/>
-       </LinearLayout>
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:padding="10dp"
-           android:layout_margin="10dp"
-           android:background="@drawable/bg_btn_back"
-           android:gravity="center">
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:textSize="15dp"
-               android:textColor="@color/black"
-               android:text="Back"/>
-       </LinearLayout>
+
+
    </LinearLayout>
 
     </LinearLayout>
