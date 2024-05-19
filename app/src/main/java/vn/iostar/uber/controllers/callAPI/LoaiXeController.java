@@ -10,14 +10,14 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import vn.iostar.uber.models.LoaiXe;
-import vn.iostar.uber.models.VehicleType;
+
 
 public interface LoaiXeController {
     @GET("uber/vehicle/type/all")
-    Call<ArrayList<VehicleType>> getListLoaiXe();
+    Call<ArrayList<LoaiXe>> getListLoaiXe();
 
     @POST("uber/vehicle/type/add")
-    Call<VehicleType> addLoaiXe(@Body VehicleType loaiXe);
+    Call<LoaiXe> addLoaiXe(@Body LoaiXe loaiXe);
 
     @DELETE("uber/vehicle/type/delete/{id}")
     Call<Void> deleteLoaiXe(@Path("id") String id);

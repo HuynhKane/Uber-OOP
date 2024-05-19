@@ -24,9 +24,9 @@ import vn.iostar.uber.models.VehicleType;
 public class TypeVehicalAdapter extends ArrayAdapter {
     Activity context;
     int resource;
-    ArrayList<VehicleType> List= new ArrayList<VehicleType>();
+    ArrayList<LoaiXe> List= new ArrayList<LoaiXe>();
 
-    public TypeVehicalAdapter(Activity context, int resource, ArrayList<VehicleType> list) {
+    public TypeVehicalAdapter(Activity context, int resource, ArrayList<LoaiXe> list) {
 
         super(context, resource, list);
         this.resource=resource;
@@ -44,9 +44,9 @@ public class TypeVehicalAdapter extends ArrayAdapter {
         TextView txtTen =(TextView) customView.findViewById(R.id.ten);
         TextView txtgia =(TextView) customView.findViewById(R.id.gia);
         if(imgHinh!=null && txtTen!=null && txtgia!=null){
-            txtTen.setText(List.get(position).getVehicleName());
-            txtgia.setText(List.get(position).getVehiclePrice().toString()+" đ");
-            String id=List.get(position).getVehicleTypeId();
+            txtTen.setText(List.get(position).getTenLoaiXe());
+            txtgia.setText(List.get(position).getGia().toString()+" đ");
+            String id=List.get(position).getIdLoaiXe();
             switch (id) {
                 case "idbike": {
                     imgHinh.setImageResource(R.drawable.ic_bike);

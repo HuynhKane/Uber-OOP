@@ -27,7 +27,7 @@ import vn.iostar.uber.ui.map.MapFragment;
 public class Map_TypeVehicalActivity extends AppCompatActivity {
 
     ListView lv_type;
-    ArrayList<VehicleType> listTypeVehical=new ArrayList<>();
+    ArrayList<LoaiXe> listTypeVehical=new ArrayList<>();
     TypeVehicalAdapter typeVehicalAdapter;
     Fragment mapFragment;
     public static LoaiXe loaiXe;
@@ -60,9 +60,9 @@ public class Map_TypeVehicalActivity extends AppCompatActivity {
         listTypeVehical.clear();
         LoaiXeController loaiXeController=retrofitService.getRetrofit().create(LoaiXeController.class);
 
-        loaiXeController.getListLoaiXe().enqueue(new Callback<ArrayList<VehicleType>>() {
+        loaiXeController.getListLoaiXe().enqueue(new Callback<ArrayList<LoaiXe>>() {
             @Override
-            public void onResponse(Call<ArrayList<VehicleType>> call, Response<ArrayList<VehicleType>> response) {
+            public void onResponse(Call<ArrayList<LoaiXe>> call, Response<ArrayList<LoaiXe>> response) {
                 listTypeVehical=  response.body();
                 //Log.d("API",listTypeVehical.toString());
                 typeVehicalAdapter=new TypeVehicalAdapter(Map_TypeVehicalActivity.this,R.layout.item_type_vehical,listTypeVehical);
@@ -71,7 +71,7 @@ public class Map_TypeVehicalActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<VehicleType>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<LoaiXe>> call, Throwable t) {
 
             }
         });

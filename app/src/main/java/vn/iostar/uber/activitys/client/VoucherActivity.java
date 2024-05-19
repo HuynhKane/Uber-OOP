@@ -13,11 +13,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
 import vn.iostar.uber.adapters.VoucherAdapter;
-import vn.iostar.uber.controllers.UuDaiController;
+import vn.iostar.uber.controllers.callAPI.UuDaiController;
 import vn.iostar.uber.models.UuDai;
+import vn.iostar.uber.retrofit.RetrofitService;
 
 public class VoucherActivity  extends AppCompatActivity {
 
@@ -26,7 +30,9 @@ public class VoucherActivity  extends AppCompatActivity {
     VoucherAdapter voucherAdapter;
     LinearLayout btn_next; SearchView searchView;
     public static UuDai uuDai;
-    UuDaiController uuDaiController=new UuDaiController();
+
+
+    RetrofitService retrofitService=new RetrofitService();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,15 +48,32 @@ public class VoucherActivity  extends AppCompatActivity {
         ProgressDialog progressDialog = new ProgressDialog(VoucherActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
-        uuDaiController.getListUuDai(new UuDaiController.DataRetrievedCallback_UuDai() {
+
+        UuDaiController uuDaiController = retrofitService.getRetrofit().create(UuDaiController.class);
+
+        uuDaiController.getListUuDai().enqueue(new Callback<ArrayList<UuDai>>() {
             @Override
-            public void onDataRetrieved(ArrayList<UuDai> listUuDai) {
-                listVoucher = listUuDai;
+            public void onResponse(Call<ArrayList<UuDai>> call, Response<ArrayList<UuDai>> response) {
+                listVoucher = response.body();
                 voucherAdapter = new VoucherAdapter(VoucherActivity.this,R.layout.item_voucher, listVoucher);
                 lv_voucher.setAdapter(voucherAdapter);
                 progressDialog.dismiss();
             }
-        } );
+
+            @Override
+            public void onFailure(Call<ArrayList<UuDai>> call, Throwable throwable) {
+
+            }
+        });
+//        uuDaiController.getListUuDai(new UuDaiController.DataRetrievedCallback_UuDai() {
+//            @Override
+//            public void onDataRetrieved(ArrayList<UuDai> listUuDai) {
+//                listVoucher = listUuDai;
+//                voucherAdapter = new VoucherAdapter(VoucherActivity.this,R.layout.item_voucher, listVoucher);
+//                lv_voucher.setAdapter(voucherAdapter);
+//                progressDialog.dismiss();
+//            }
+//        } );
 
 
         btn_next= findViewById(R.id.btn_next);
