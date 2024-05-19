@@ -15,10 +15,13 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.IOException;
+
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
 import vn.iostar.uber.controllers.FinalBookingController;
 import vn.iostar.uber.controllers.GeocodingHelper;
+import vn.iostar.uber.controllers.YeuCauDatXeController;
 import vn.iostar.uber.models.LoaiXe;
 import vn.iostar.uber.models.TaiXe;
 import vn.iostar.uber.models.UuDai;
@@ -42,14 +45,19 @@ public class FinalBookingFormActivity extends AppCompatActivity {
     private LoaiXe typeCar= Map_TypeVehicalActivity.loaiXe;
     private UuDai voucher= VoucherActivity.uuDai;
 
-    private YeuCauDatXe yeuCauDatXe;
+    private YeuCauDatXeController yeuCauDatXeController=new YeuCauDatXeController();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_booking_form);
         getForm();
-        getInforBoooking(posFrom,posTo,typePay,typeCar,voucher);
+        try {
+            getInforBoooking(posFrom,posTo,typePay,typeCar,voucher);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void getForm() {
@@ -125,13 +133,13 @@ public class FinalBookingFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
-                startActivity(intent);
+                v.getContext().startActivity(intent);
 
             }
         });
 
     }
-    private void getInforBoooking(String posFrom, String posTo, String typePay, LoaiXe typeCar, UuDai voucher) {
+    private void getInforBoooking(String posFrom, String posTo, String typePay, LoaiXe typeCar, UuDai voucher) throws IOException {
 
         Float initalPrice =finalBookingController.getPriceOfTypeCar(typeCar,home.from,home.to);
         giaTien.setText(initalPrice.toString());
@@ -142,8 +150,22 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         tongTien.setText(finalPrice.toString());
 
         finalBookingController.paymentInfor(typePay,finalPrice);
-        taiXe= finalBookingController.chooseDriver(home.from,home.to,typePay);
-        yeuCauDatXe=new YeuCauDatXe("0", FirebaseAuth.getInstance().getCurrentUser().getUid(),typeCar.getIdLoaiXe(),voucher.getIdUuDai(),posFrom,posTo,finalPrice,"");
+        //taiXe= finalBookingController.chooseDriver(home.from,home.to,typePay);
+
+        YeuCauDatXe yeuCauDatXe=new YeuCauDatXe( FirebaseAuth.getInstance().getCurrentUser().getUid(),typeCar.getIdLoaiXe(),voucher.getIdUuDai(),home.from.toString(),home.to.toString(),finalPrice,"wait");
+        yeuCauDatXeController.addNewYeuCauDatXe(yeuCauDatXe, FinalBookingFormActivity.this, new YeuCauDatXeController.Callback_Bool() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(FinalBookingFormActivity.this,"Request was sent",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        yeuCauDatXeController.distant(home.from, new YeuCauDatXeController.Callback_Bool() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(FinalBookingFormActivity.this,"Request was sent",Toast.LENGTH_SHORT).show();
+            }
+        });
         //Luu yeu cau đặt xe cho lịch sử
 
 

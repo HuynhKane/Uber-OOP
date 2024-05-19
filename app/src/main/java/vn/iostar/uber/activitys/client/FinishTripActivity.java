@@ -27,7 +27,7 @@ public class FinishTripActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(FinishTripActivity.this, HomeActivity.class);
-                startActivity(intent);
+                v.getContext().startActivity(intent);
             }
         });
 

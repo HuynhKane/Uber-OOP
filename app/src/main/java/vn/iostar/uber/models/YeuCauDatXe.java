@@ -7,10 +7,10 @@ public class YeuCauDatXe {
     private String idUuDai;
     private String diemDen;
     private String diemDon;
-    private Float chiPhi;
+    private Double chiPhi;
     private String trangThai;
 
-    public YeuCauDatXe(String idDatXe, String idKhachHang, String idLoaiXe, String idUuDai, String diemDen, String diemDon, Float chiPhi, String trangThai) {
+    public YeuCauDatXe(String idDatXe, String idKhachHang, String idLoaiXe, String idUuDai, String diemDen, String diemDon, Double chiPhi, String trangThai) {
         this.idDatXe = idDatXe;
         this.idKhachHang = idKhachHang;
         this.idLoaiXe = idLoaiXe;
@@ -21,7 +21,7 @@ public class YeuCauDatXe {
         this.trangThai = trangThai;
     }
 
-    public YeuCauDatXe(String idKhachHang, String idLoaiXe, String idUuDai, String diemDen, String diemDon, Float chiPhi, String trangThai) {
+    public YeuCauDatXe(String idKhachHang, String idLoaiXe, String idUuDai, String diemDen, String diemDon, Double chiPhi, String trangThai) {
         this.idKhachHang = idKhachHang;
         this.idLoaiXe = idLoaiXe;
         this.idUuDai = idUuDai;
@@ -31,8 +31,6 @@ public class YeuCauDatXe {
         this.trangThai = trangThai;
     }
 
-    public YeuCauDatXe(String number, String uid, String idLoaiXe, String idUuDai, String posFrom, String posTo, Double finalPrice, String trangThai) {
-    }
 
     public String getIdDatXe() {
         return idDatXe;
@@ -82,11 +80,11 @@ public class YeuCauDatXe {
         this.diemDon = diemDon;
     }
 
-    public Float getChiPhi() {
+    public Double getChiPhi() {
         return chiPhi;
     }
 
-    public void setChiPhi(Float chiPhi) {
+    public void setChiPhi(Double chiPhi) {
         this.chiPhi = chiPhi;
     }
 

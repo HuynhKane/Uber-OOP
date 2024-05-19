@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.google.android.gms.maps.MapsInitializer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class Map_TypeVehicalActivity extends AppCompatActivity {
         progressDialog.show();
         setContentView(R.layout.activity_map_type_vehical);
         progressDialog.dismiss();
-
+        MapsInitializer.initialize(Map_TypeVehicalActivity.this);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.mymap, new MapFragment())

@@ -145,7 +145,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
     }
 
     private void registerOnlineSystem() {
-        onlineRef.addValueEventListener(onlineValueEnventListener);
+       if(role.equals("driver")){
+           onlineRef.addValueEventListener(onlineValueEnventListener);
+       }
 
     }
 
@@ -159,7 +161,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
 
-            mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);
 
         return root;
     }
@@ -193,48 +195,50 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
                 LatLng newPosition = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 18f));
 
-                Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-                List<Address> addressList;
-                try{
-                    addressList = geocoder.getFromLocation(locationResult.getLastLocation().getLatitude(),
-                            locationResult.getLastLocation().getLongitude(), 1);
-                    String cityName = addressList.get(0).getLocality();
-                    driverLocationRef = FirebaseDatabase.getInstance().getReference("driverLocation")
-                            .child(cityName);
-                    currentUserRef = driverLocationRef.child(FirebaseAuth.getInstance().getUid());
-                    geoFire = new GeoFire(driverLocationRef);
+                if(role.equals("driver")){
+                    Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                    List<Address> addressList;
+                    try{
+                        addressList = geocoder.getFromLocation(locationResult.getLastLocation().getLatitude(),
+                                locationResult.getLastLocation().getLongitude(), 1);
+                        String cityName = addressList.get(0).getLocality();
+                        driverLocationRef = FirebaseDatabase.getInstance().getReference("driverLocation")
+                                .child(cityName);
+                        currentUserRef = driverLocationRef.child(FirebaseAuth.getInstance().getUid());
+                        geoFire = new GeoFire(driverLocationRef);
 
 
-                    //udpate location
-                    geoFire.setLocation(FirebaseAuth.getInstance().getCurrentUser().getUid(), new GeoLocation(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude()),
-                            (key, error) -> {
-                                if (error != null)
-                                    Snackbar.make(mapFragment.getView(), databaseError.getMessage(), Snackbar.LENGTH_LONG).show();
-                                else
-                                {
-                                    Snackbar snackbar = Snackbar.make(mapFragment.getView(), "You're online", Snackbar.LENGTH_LONG);
-                                    snackbar.show();
+                        //udpate location
+                        geoFire.setLocation(FirebaseAuth.getInstance().getCurrentUser().getUid(), new GeoLocation(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude()),
+                                (key, error) -> {
+                                    if (error != null)
+                                        Snackbar.make(mapFragment.getView(), databaseError.getMessage(), Snackbar.LENGTH_LONG).show();
+                                    else
+                                    {
+                                        Snackbar snackbar = Snackbar.make(mapFragment.getView(), "You're online", Snackbar.LENGTH_LONG);
+                                        snackbar.show();
 
-                                }
-                            });
+                                    }
+                                });
 
-                    registerOnlineSystem();
+                        registerOnlineSystem();
 
-                } catch (IOException e) {
-                    Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                }
-                if (firstTime) {
-                    previousLoc = curLoc = locationResult.getLastLocation();
-                    firstTime = false;
-                } else {
-                    previousLoc = curLoc;
-                    curLoc = locationResult.getLastLocation();
-                }
+                    } catch (IOException e) {
+                        Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                    }
+                    if (firstTime) {
+                        previousLoc = curLoc = locationResult.getLastLocation();
+                        firstTime = false;
+                    } else {
+                        previousLoc = curLoc;
+                        curLoc = locationResult.getLastLocation();
+                    }
 
-                if (previousLoc.distanceTo(curLoc) / 1000 <= LIMIT_RANGE) {
-                    loadAvailableDrivers();
-                } else {
+                    if (previousLoc.distanceTo(curLoc) / 1000 <= LIMIT_RANGE) {
+                        loadAvailableDrivers();
+                    } else {
 
+                    }
                 }
                 //here, after set location, get address city name
 
@@ -251,7 +255,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
 
 
-        loadAvailableDrivers();
+        //loadAvailableDrivers();
 
     }
 
@@ -261,7 +265,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
             Log.d("CONTEX","nullllll");
         }
 
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (role.equals("client") || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Snackbar.make(getView(), getString(R.string.permission_require), Snackbar.LENGTH_SHORT).show();
             return;
         }
