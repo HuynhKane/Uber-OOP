@@ -166,7 +166,7 @@ public class YeuCauDatXeController {
     public void listenClient(String cityName, String idDriver, Retriver_Client callback) {
         DatabaseReference cityRef = myRef.child("driverLocation").child(cityName);
 
-        cityRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        cityRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {

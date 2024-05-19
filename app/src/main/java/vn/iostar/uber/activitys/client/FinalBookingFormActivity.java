@@ -137,8 +137,9 @@ public class FinalBookingFormActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
                         Toast.makeText(FinalBookingFormActivity.this,"Chờ đi",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
-                        v.getContext().startActivity(intent);
+//                        Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
+//                        v.getContext().startActivity(intent);
+
                     }
 
                     @Override
