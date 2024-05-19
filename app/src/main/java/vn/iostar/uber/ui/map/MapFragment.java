@@ -72,6 +72,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
+import vn.iostar.uber.activitys.MainActivityDriver;
 import vn.iostar.uber.callback.IFirebaseDriverInforListener;
 import vn.iostar.uber.callback.IFirebaseFailedListener;
 import vn.iostar.uber.databinding.FragmentMapBinding;
@@ -162,6 +163,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+
 
         return root;
     }

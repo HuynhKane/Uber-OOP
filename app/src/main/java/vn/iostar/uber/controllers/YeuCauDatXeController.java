@@ -60,66 +60,47 @@ public class YeuCauDatXeController {
 
     }
 
-    public void addNewYeuCauDatXe(YeuCauDatXe yeuCauDatXe, Context context,Callback_Bool callback) throws IOException {
-        FirebaseUser current= firebaseAuth.getCurrentUser();
-        Geocoder geocoder = new Geocoder(context);
+//    public void addNewYeuCauDatXe(YeuCauDatXe yeuCauDatXe, Context context,Callback_Bool callback) throws IOException {
+//        FirebaseUser current= firebaseAuth.getCurrentUser();
+//        Geocoder geocoder = new Geocoder(context);
+//        List<Address> addressList;
+//        addressList = geocoder.getFromLocation(home.from.latitude,home.from.longitude, 1);
+//        String cityName =addressList.get(0).getLocality();
+//        city=cityName;
+//
+//        myRef.child("yeuCauDatXe").child(cityName).child(String.valueOf(System.currentTimeMillis())).setValue(yeuCauDatXe).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                callback.onSuccess();
+//            }
+//        });
+//    }
+
+
+    public void getIdFirstDriver(Context context,Retriver_Client callback) throws IOException {
+        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
         List<Address> addressList;
         addressList = geocoder.getFromLocation(home.from.latitude,home.from.longitude, 1);
         String cityName =addressList.get(0).getLocality();
-        city=cityName;
+        DatabaseReference cityRef = myRef.child("driverLocation").child(cityName);
 
-        myRef.child("yeuCauDatXe").child(cityName).child(String.valueOf(System.currentTimeMillis())).setValue(yeuCauDatXe).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                callback.onSuccess();
-            }
-        });
-    }
-
-    public void getYeuCauDatXeXom_City(String cityName,Callback_YeuCauDatXe callbackYeuCauDatXe){
-        myRef.child("yeuCauDatXe").child(cityName).orderByKey().limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    // Lấy dữ liệu từ snapshot
-                    YeuCauDatXe yeuCauDatXe = snapshot.getValue(YeuCauDatXe.class);
-                    if (yeuCauDatXe != null) {
-                        callbackYeuCauDatXe.onSuccess(yeuCauDatXe);
-
-                    }
-                    else {
-                        callbackYeuCauDatXe.onFail();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-    public void distant(LatLng client,String cityName){
-         closest=-1.0;
-
-        myRef.child("driverLocation").child(cityName).addValueEventListener(new ValueEventListener() {
+        cityRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                        String key = childSnapshot.getKey();
-                        Double  lat= childSnapshot.child("l").child("0").getValue(Double .class);
-                        Double  lng= childSnapshot.child("l").child("1").getValue(Double .class);
-                        Double  distance= finalBookingController.calculateDistanceInKm(client,new LatLng(lat,lng));
-                        if(distance>closest){
-                            closest=distance;
-                            keyClosest=key;
+                    cityRef.orderByKey().limitToFirst(1).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                        @Override
+                        public void onSuccess(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                // Lấy dữ liệu từ snapshot
+                                String idClient = snapshot.getKey();
+                                callback.onSuccess(idClient);
+                            }
                         }
-                        ;}
+                    });
 
-                    } else {
-                    Log.d("sssssss", "Không có dữ liệu cho thành phố này.");
+                } else {
+                    callback.onFail();
                 }
             }
 
@@ -129,16 +110,15 @@ public class YeuCauDatXeController {
             }
         });
     }
-    public void deleteYeuCauDatXe(String cityName, String idYC,Callback_Bool callbackBool){
-        myRef.child("yeuCauDatXe").child(cityName).child(idYC).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                callbackBool.onSuccess();
-            }
-        });
-    }
 
-    public void consider_room(String cityName, String idDriver,String idClient, Callback callback) {
+
+
+
+    public void consider_room(Context context, String idDriver,String idClient, Callback callback) throws IOException {
+        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
+        List<Address> addressList;
+        addressList = geocoder.getFromLocation(home.from.latitude,home.from.longitude, 1);
+        String cityName =addressList.get(0).getLocality();
         DatabaseReference cityRef = myRef.child("driverLocation").child(cityName);
 
         cityRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -163,7 +143,13 @@ public class YeuCauDatXeController {
             }
         });
     }
-    public void listenClient(String cityName, String idDriver, Retriver_Client callback) {
+    public void listenClient(Context context,LatLng curPos, String idDriver, Retriver_Client callback) throws IOException {
+
+        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
+        List<Address> addressList;
+        addressList = geocoder.getFromLocation(curPos.latitude,curPos.longitude, 1);
+        String cityName =addressList.get(0).getLocality();
+        city=cityName;
         DatabaseReference cityRef = myRef.child("driverLocation").child(cityName);
 
         cityRef.addValueEventListener(new ValueEventListener() {
