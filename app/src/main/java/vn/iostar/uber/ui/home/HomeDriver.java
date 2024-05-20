@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -31,6 +32,7 @@ import java.io.IOException;
 
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.MainActivityDriver;
+import vn.iostar.uber.activitys.client.ContactFormActivity;
 import vn.iostar.uber.activitys.client.FinalBookingFormActivity;
 import vn.iostar.uber.controllers.GeocodingHelper;
 import vn.iostar.uber.controllers.YeuCauDatXeController;
@@ -102,7 +104,8 @@ public class HomeDriver extends Fragment {
                     yeuCauDatXeController.acceptThisClient(getContext(), MainActivityDriver.curPos, FirebaseAuth.getInstance().getUid(), idClient, new YeuCauDatXeController.Callback() {
                         @Override
                         public void onSuccess() {
-
+                            Intent intent=new Intent(getContext(), ContactFormActivity.class);
+                            startActivity(intent);
                         }
 
                         @Override
