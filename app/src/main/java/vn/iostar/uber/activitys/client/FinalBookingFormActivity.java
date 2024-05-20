@@ -38,7 +38,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
 
     FinalBookingController finalBookingController=new FinalBookingController();
 
-
+    YeuCauDatXe yeuCauDatXe;
     private String posFrom;
     private String posTo;
     public static TaiXe taiXe=new TaiXe();
@@ -139,6 +139,50 @@ public class FinalBookingFormActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(String idClient) {
                             idDriverTemp=idClient;
+                            try {
+                                yeuCauDatXeController.consider_room(FinalBookingFormActivity.this, idClient, FirebaseAuth.getInstance().getCurrentUser().getUid(), new YeuCauDatXeController.Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Toast.makeText(FinalBookingFormActivity.this,"Chờ đi",Toast.LENGTH_SHORT).show();
+                                        yeuCauDatXeController.addNewYeuCauDatXe(yeuCauDatXe, FinalBookingFormActivity.this, new YeuCauDatXeController.Callback_Bool() {
+                                            @Override
+                                            public void onSuccess() {
+                                                Toast.makeText(FinalBookingFormActivity.this,"OK sắp có xe r ",Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        });
+                                        try {
+                                            yeuCauDatXeController.foundDriver(FinalBookingFormActivity.this, FirebaseAuth.getInstance().getUid(), new YeuCauDatXeController.Retriver_Client() {
+                                                @Override
+                                                public void onSuccess(String idClient) {
+                                                    Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
+                                                    v.getContext().startActivity(intent);
+                                                }
+
+                                                @Override
+                                                public void onFail() {
+
+                                                }
+                                            });
+                                        } catch (IOException e) {
+                                            throw new RuntimeException(e);
+                                        }
+
+
+//                                        ProgressDialog progressDialog = new ProgressDialog(FinalBookingFormActivity.this);
+//                                        progressDialog.setMessage("Loading...");
+//                                        progressDialog.show();
+                                    }
+
+                                    @Override
+                                    public void onFail() {
+                                        Toast.makeText(FinalBookingFormActivity.this,"kHÔNG CÓ TÀI XẾ TRONG KHU VỰC",Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
 
                         @Override
@@ -150,27 +194,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
 
-                try {
-                    yeuCauDatXeController.consider_room(FinalBookingFormActivity.this, idDriverTemp, FirebaseAuth.getInstance().getCurrentUser().getUid(), new YeuCauDatXeController.Callback() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(FinalBookingFormActivity.this,"Chờ đi",Toast.LENGTH_SHORT).show();
-    //                        Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
-    //                        v.getContext().startActivity(intent);
-                            ProgressDialog progressDialog = new ProgressDialog(FinalBookingFormActivity.this);
-                            progressDialog.setMessage("Loading...");
-                            progressDialog.show();
-                        }
 
-                        @Override
-                        public void onFail() {
-                            Toast.makeText(FinalBookingFormActivity.this,"kHÔNG CÓ TÀI XẾ TRONG KHU VỰC",Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
                 finish();
             }
         });
@@ -189,7 +213,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
         finalBookingController.paymentInfor(typePay,finalPrice);
         //taiXe= finalBookingController.chooseDriver(home.from,home.to,typePay);
 
-       // YeuCauDatXe yeuCauDatXe=new YeuCauDatXe( FirebaseAuth.getInstance().getCurrentUser().getUid(),typeCar.getIdLoaiXe(),voucher.getIdUuDai(),home.from.toString(),home.to.toString(),finalPrice,"wait");
+        yeuCauDatXe =new YeuCauDatXe( FirebaseAuth.getInstance().getCurrentUser().getUid(),typeCar.getIdLoaiXe(),voucher.getIdUuDai(),home.from.toString(),home.to.toString(),finalPrice,"wait");
 
 
     }

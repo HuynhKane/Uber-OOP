@@ -50,7 +50,7 @@ public class YeuCauDatXeController {
         void onFail();
     }
     public interface Callback {
-        void onSuccess();
+        void onSuccess() ;
         void onFail();
 
     }
@@ -60,21 +60,25 @@ public class YeuCauDatXeController {
 
     }
 
-//    public void addNewYeuCauDatXe(YeuCauDatXe yeuCauDatXe, Context context,Callback_Bool callback) throws IOException {
-//        FirebaseUser current= firebaseAuth.getCurrentUser();
-//        Geocoder geocoder = new Geocoder(context);
-//        List<Address> addressList;
-//        addressList = geocoder.getFromLocation(home.from.latitude,home.from.longitude, 1);
-//        String cityName =addressList.get(0).getLocality();
-//        city=cityName;
-//
-//        myRef.child("yeuCauDatXe").child(cityName).child(String.valueOf(System.currentTimeMillis())).setValue(yeuCauDatXe).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                callback.onSuccess();
-//            }
-//        });
-//    }
+    public void addNewYeuCauDatXe(YeuCauDatXe yeuCauDatXe, Context context,Callback_Bool callback){
+        FirebaseUser current= firebaseAuth.getCurrentUser();
+        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
+        List<Address> addressList;
+        try {
+            addressList = geocoder.getFromLocation(home.from.latitude,home.from.longitude, 1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String cityName =addressList.get(0).getLocality();
+        city=cityName;
+
+        myRef.child("yeuCauDatXe").child(cityName).child(current.getUid()).child(String.valueOf(System.currentTimeMillis())).setValue(yeuCauDatXe).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                callback.onSuccess();
+            }
+        });
+    }
 
 
     public void getIdFirstDriver(Context context,Retriver_Client callback) throws IOException {
@@ -88,7 +92,7 @@ public class YeuCauDatXeController {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    cityRef.orderByKey().limitToFirst(1).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                    cityRef.orderByKey().limitToLast(1).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                         @Override
                         public void onSuccess(DataSnapshot dataSnapshot) {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -156,7 +160,7 @@ public class YeuCauDatXeController {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    cityRef.child(idDriver).child("client").orderByKey().limitToFirst(1).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                    cityRef.child(idDriver).child("client").orderByKey().limitToLast(1).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                         @Override
                         public void onSuccess(DataSnapshot dataSnapshot) {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -179,28 +183,85 @@ public class YeuCauDatXeController {
         });
     }
 
-    public void acceptThisClient(String idDriver, String idClient){
+    public void acceptThisClient(Context context,LatLng curPos,String idDriver, String idClient,Callback callback) throws IOException {
+        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
+        List<Address> addressList;
+        addressList = geocoder.getFromLocation( curPos.latitude, curPos.longitude, 1);
+        String cityName =addressList.get(0).getLocality();
+        DatabaseReference cityRef =myRef.child("yeuCauDatXe").child(cityName).child(idClient);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("/idDriver", idDriver);
+        cityRef.child(String.valueOf(System.currentTimeMillis())).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                callback.onSuccess();
+            }
+        });
 
 
     }
-    public void denyThisClient(String cityName,String idDriver, String idClient,Callback callback){
+    public void denyThisClient(Context context,String idDriver, String idClient,Callback callback) {
+        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
+        List<Address> addressList;
+        try {
+            addressList = geocoder.getFromLocation(home.from.latitude,home.from.longitude, 1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String cityName =addressList.get(0).getLocality();
         DatabaseReference cityRef =myRef.child("driverLocation").child(cityName).child(idDriver).child("client");
         cityRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key=snapshot.getKey();
-                    String id = snapshot.child("idclient").getValue(String.class);
-                    if(id.equals(idClient)){
-                        cityRef.child(key).removeValue();
-                        break;
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String key=snapshot.getKey();
+                        String id = snapshot.child("idclient").getValue(String.class);
+                        if(id.equals(idClient)){
+                            cityRef.child(key).removeValue();
+                            break;
+                        }
+                        callback.onSuccess();
                     }
-                    callback.onSuccess();
+
+                } else {
+                    callback.onFail();
                 }
+
             }
         });
 
     }
 
+    public void foundDriver(Context context, String idClient,Retriver_Client callback) throws IOException {
+        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
+        List<Address> addressList;
+        addressList = geocoder.getFromLocation( home.from.latitude, home.from.longitude, 1);
+        String cityName =addressList.get(0).getLocality();
+        DatabaseReference cityRef =myRef.child("yeuCauDatXe").child(cityName).child(idClient);
+        cityRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    cityRef.orderByKey().limitToLast(1).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                        @Override
+                        public void onSuccess(DataSnapshot dataSnapshot) {
+                            String idDriver = snapshot.child("idDriver").getValue(String.class);
+                            callback.onSuccess(idDriver);
+                        }
+                    });
+
+                } else {
+                    callback.onFail();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }

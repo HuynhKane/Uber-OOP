@@ -97,14 +97,38 @@ public class HomeDriver extends Fragment {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    yeuCauDatXeController.acceptThisClient(getContext(), MainActivityDriver.curPos, FirebaseAuth.getInstance().getUid(), idClient, new YeuCauDatXeController.Callback() {
+                        @Override
+                        public void onSuccess() {
 
+                        }
+
+                        @Override
+                        public void onFail() {
+
+                        }
+                    });
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 dialog.dismiss();
             }
         });
         nono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                yeuCauDatXeController.denyThisClient(getContext(), FirebaseAuth.getInstance().getUid(), idClient, new YeuCauDatXeController.Callback() {
+                    @Override
+                    public void onSuccess() {
 
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
                 dialog.dismiss();
             }
         });
