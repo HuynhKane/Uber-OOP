@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import vn.iostar.uber.activitys.client.RegisterClientActivity;
@@ -62,11 +63,16 @@ public class TaiKhoanController {
                     Log.e("firebasesssss", "Error getting data", task.getException());
                 }
                 else {
-                DataSnapshot dataSnapshot = task.getResult().getChildren().iterator().next();
-                String sdt=dataSnapshot.child("sdt").getValue(String.class);
-                String ten=dataSnapshot.child("ten").getValue(String.class);
-                if(sdt!=null){
-                    istrue=false;
+                    if (task.isSuccessful() && task.getResult().exists()) {
+                        Iterator<DataSnapshot> iterator = task.getResult().getChildren().iterator();
+                        if (iterator.hasNext()) {
+                            DataSnapshot dataSnapshot = iterator.next();
+                            String sdt = dataSnapshot.child("sdt").getValue(String.class);
+                            String ten = dataSnapshot.child("ten").getValue(String.class);
+                            if (sdt != null) {
+                                istrue = false;
+                            }
+                        }
                     }
                 }
                 callbackBool.onDataRetrieved(istrue);
