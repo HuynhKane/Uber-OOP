@@ -4,6 +4,13 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -14,13 +21,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Uber"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".activitys.client.ContactFormActivity"
+            android:exported="false" />
         <activity
             android:name=".activitys.driver.RegisterDriverActivity"
             android:exported="false" />
         <activity
             android:name=".activitys.client.RegisterClientActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activitys.client.FinalBookingFormActivity"
             android:exported="false" />
@@ -32,7 +43,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".activitys.client.ChooseTypePaymentActivity"
@@ -42,14 +52,10 @@
             android:exported="false" />
         <activity
             android:name=".activitys.client.Map_TypeVehicalActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".activitys.client.VoucherActivity"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".activitys.client.FormLocalActivity"
             android:exported="false" />

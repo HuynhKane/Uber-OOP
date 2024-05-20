@@ -19,6 +19,7 @@ import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.client.Map_TypeVehicalActivity;
 import vn.iostar.uber.activitys.client.VoucherActivity;
 import vn.iostar.uber.models.LoaiXe;
+import vn.iostar.uber.models.VehicleType;
 
 public class TypeVehicalAdapter extends ArrayAdapter {
     Activity context;

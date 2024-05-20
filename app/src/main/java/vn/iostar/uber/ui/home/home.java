@@ -73,7 +73,7 @@ public class home extends Fragment {
             @Override
             public void onClick(View v) {
                     Intent intent = new Intent(getContext(), Map_TypeVehicalActivity.class);
-                    startActivity(intent);
+                    v.getContext().startActivity(intent);
             }
         });
     }

@@ -48,7 +48,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")
-    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.google.firebase:firebase-database:21.0.0")
     implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
@@ -59,14 +59,18 @@ dependencies {
 
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
     implementation("io.reactivex.rxjava2:rxjava:2.2.9")
-    implementation ("com.firebaseui:firebase-ui-auth:8.0.2")
-    implementation ("com.google.android.gms:play-services-maps:18.2.0")
-    implementation ("com.google.maps.android:android-maps-utils:2.2.3")
+    implementation("com.firebaseui:firebase-ui-auth:8.0.2")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.maps.android:android-maps-utils:2.2.3")
 
     implementation("com.karumi:dexter:6.1.2")
     implementation("com.google.android.gms:play-services-location:21.2.0")
     implementation("com.firebase:geofire-android:3.2.0")
-    implementation ("com.firebase:geofire-android-common:3.2.0")
-    implementation ("com.google.android.libraries.places:places:3.4.0")
+    implementation("com.firebase:geofire-android-common:3.2.0")
+    implementation("com.google.android.libraries.places:places:3.4.0")
 
+
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
 }
