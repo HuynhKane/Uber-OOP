@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,8 +92,8 @@ public class HomeDriver extends Fragment {
         // Lấy các view từ layout dialog
         TextView name = dialogView.findViewById(R.id.txtName);
         TextView distance = dialogView.findViewById(R.id.txtkm);
-        Button ok = dialogView.findViewById(R.id.btn_ok);
-        Button nono = dialogView.findViewById(R.id.btn_nono);
+        LinearLayout ok = dialogView.findViewById(R.id.btn_ok);
+        LinearLayout nono = dialogView.findViewById(R.id.btn_nono);
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
