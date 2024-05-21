@@ -46,7 +46,7 @@ public class RegisterDriverActivity extends AppCompatActivity {
             @Override
             public void onDataRetrieved(ArrayList<LoaiXe> listLoaiXe) {
                 listTypeVehical=listLoaiXe;
-             //   typeVehicalAdapter=new TypeVehicalAdapter(RegisterDriverActivity.this, com.karumi.dexter.R.layout.support_simple_spinner_dropdown_item,listTypeVehical);
+                typeVehicalAdapter=new TypeVehicalAdapter(RegisterDriverActivity.this, com.karumi.dexter.R.layout.support_simple_spinner_dropdown_item,listTypeVehical);
                 binding.spinnerDropdown.setAdapter(typeVehicalAdapter);
             }
         });

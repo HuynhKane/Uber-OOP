@@ -148,7 +148,6 @@ public class FinalBookingFormActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess() {
                                                 Toast.makeText(FinalBookingFormActivity.this,"OK sắp có xe r ",Toast.LENGTH_SHORT).show();
-
                                             }
                                         });
                                         try {
@@ -161,7 +160,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
 
                                                 @Override
                                                 public void onFail() {
-
+                                                    Toast.makeText(FinalBookingFormActivity.this,"Gía như cô ấy đừng xuất hiện",Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         } catch (IOException e) {

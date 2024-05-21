@@ -139,6 +139,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
         super.onDestroy();
     }
 
+    public void off(){
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        geoFire.removeLocation(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        onlineRef.removeEventListener(onlineValueEnventListener);
+    }
+
     @Override
     public void onResume() {
         super.onResume();

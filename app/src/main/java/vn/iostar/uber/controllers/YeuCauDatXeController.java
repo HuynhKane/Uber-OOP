@@ -38,6 +38,7 @@ public class YeuCauDatXeController {
     DatabaseReference myRef = database.getReference();
 
     FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
+    public static ValueEventListener valueEventListener;
     ArrayList<YeuCauDatXe> list=new ArrayList<YeuCauDatXe>();
     FinalBookingController finalBookingController=new FinalBookingController();
     Double closest=-1.0; String keyClosest;String city;
@@ -57,7 +58,10 @@ public class YeuCauDatXeController {
     public interface Retriver_Client {
         void onSuccess(String idClient);
         void onFail();
-
+    }
+    public interface Retriver_Client_DatabaseReference {
+        void onSuccess(String idClient,DatabaseReference myref);
+        void onFail();
     }
 
     public void addNewYeuCauDatXe(YeuCauDatXe yeuCauDatXe, Context context,Callback_Bool callback){
@@ -147,7 +151,7 @@ public class YeuCauDatXeController {
             }
         });
     }
-    public void listenClient(Context context,LatLng curPos, String idDriver, Retriver_Client callback) throws IOException {
+    public void listenClient(Context context,LatLng curPos, String idDriver, Retriver_Client_DatabaseReference callback) throws IOException {
 
         Geocoder geocoder = new Geocoder(context,Locale.getDefault());
         List<Address> addressList;
@@ -156,7 +160,7 @@ public class YeuCauDatXeController {
         city=cityName;
         DatabaseReference cityRef = myRef.child("driverLocation").child(cityName);
 
-        cityRef.addValueEventListener(new ValueEventListener() {
+        valueEventListener= cityRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -166,7 +170,48 @@ public class YeuCauDatXeController {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 // Lấy dữ liệu từ snapshot
                                 String idClient = snapshot.child("idclient").getValue(String.class);
-                                callback.onSuccess(idClient);
+                                callback.onSuccess(idClient,cityRef);
+                            }
+                        }
+                    });
+
+                } else {
+                    callback.onFail();
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    public void acceptThisClient(Context context,LatLng curPos,String idDriver, String idClient,Callback callback) throws IOException {
+        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
+        List<Address> addressList;
+        addressList = geocoder.getFromLocation( curPos.latitude, curPos.longitude, 1);
+        String cityName =addressList.get(0).getLocality();
+        DatabaseReference cityRef =myRef.child("yeuCauDatXe").child(cityName).child(idClient);
+        cityRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    cityRef.orderByKey().limitToLast(1).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                        @Override
+                        public void onSuccess(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                // Lấy dữ liệu từ snapshot
+                                String id = snapshot.getKey();
+                                Map<String, Object> map = new HashMap<>();
+                                map.put("idDriver/", idDriver);
+                                cityRef.child(id).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        callback.onSuccess();
+                                    }
+                                });
+
                             }
                         }
                     });
@@ -181,45 +226,29 @@ public class YeuCauDatXeController {
 
             }
         });
-    }
-
-    public void acceptThisClient(Context context,LatLng curPos,String idDriver, String idClient,Callback callback) throws IOException {
-        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
-        List<Address> addressList;
-        addressList = geocoder.getFromLocation( curPos.latitude, curPos.longitude, 1);
-        String cityName =addressList.get(0).getLocality();
-        DatabaseReference cityRef =myRef.child("yeuCauDatXe").child(cityName).child(idClient);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("/idDriver", idDriver);
-        cityRef.child(String.valueOf(System.currentTimeMillis())).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                callback.onSuccess();
-            }
-        });
 
 
     }
-    public void denyThisClient(Context context,String idDriver, String idClient,Callback callback) {
+    public void denyThisClient(Context context,LatLng curPos,String idDriver, String idClient,Callback callback) {
         Geocoder geocoder = new Geocoder(context,Locale.getDefault());
         List<Address> addressList;
         try {
-            addressList = geocoder.getFromLocation(home.from.latitude,home.from.longitude, 1);
+            addressList = geocoder.getFromLocation( curPos.latitude, curPos.longitude, 1);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         String cityName =addressList.get(0).getLocality();
-        DatabaseReference cityRef =myRef.child("driverLocation").child(cityName).child(idDriver).child("client");
+        DatabaseReference cityRef =myRef.child("driverLocation").child(cityName).child(idDriver);
         cityRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot snapshot : dataSnapshot.child("client").getChildren()) {
                         String key=snapshot.getKey();
+
                         String id = snapshot.child("idclient").getValue(String.class);
                         if(id.equals(idClient)){
-                            cityRef.child(key).removeValue();
+                            cityRef.child("client").child(key).removeValue();
                             break;
                         }
                         callback.onSuccess();
@@ -247,8 +276,18 @@ public class YeuCauDatXeController {
                     cityRef.orderByKey().limitToLast(1).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                         @Override
                         public void onSuccess(DataSnapshot dataSnapshot) {
-                            String idDriver = snapshot.child("idDriver").getValue(String.class);
-                            callback.onSuccess(idDriver);
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                // Lấy dữ liệu từ snapshot
+                                String id = snapshot.getKey();
+                                String idDriver = snapshot.child("idDriver").getValue(String.class);
+                                if(idDriver!=null){
+                                    callback.onSuccess(idDriver);
+                                }
+                                else {
+                                    callback.onFail();
+                                }
+                            }
+
                         }
                     });
 

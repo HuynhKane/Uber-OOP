@@ -31,24 +31,24 @@ public class TaiKhoanController {
     boolean istrue;
 
     String idClient;
-//    public void SaveAcc(String role) {
-//        FirebaseUser current= firebaseAuth.getCurrentUser();
-//        String url=current.getPhotoUrl().toString();
-//        if(url.isEmpty()){
-//            url="https://avatar.iran.liara.run/public/boy?username=Ash";
-//        }
-//
-//        if(role.equals("client")){
-//            myRef.child(role).child(current.getUid()).child("ten").setValue(current.getDisplayName() );
-//            myRef.child(role).child(current.getUid()).child("urlAva").setValue(url );
-//        }
-//        else {
-//            TaiXe tx=new TaiXe(current.getDisplayName(),url);
-//            myRef.child(role).child(current.getUid()).setValue(tx);
-//
-//        }
-//
-//    }
+    public void SaveAcc(String role) {
+        FirebaseUser current= firebaseAuth.getCurrentUser();
+        String url=current.getPhotoUrl().toString();
+        if(url.isEmpty()){
+            url="https://avatar.iran.liara.run/public/boy?username=Ash";
+        }
+
+        if(role.equals("client")){
+            myRef.child(role).child(current.getUid()).child("ten").setValue(current.getDisplayName() );
+            myRef.child(role).child(current.getUid()).child("urlAva").setValue(url );
+        }
+        else {
+            TaiXe tx=new TaiXe(current.getDisplayName(),url);
+            myRef.child(role).child(current.getUid()).setValue(tx);
+
+        }
+
+    }
     public interface DataRetrievedCallback_Bool {
         void onDataRetrieved(boolean num);
     }

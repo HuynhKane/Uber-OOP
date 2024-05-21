@@ -73,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
 
             if(user != null){
                 Toast.makeText(HomeActivity.this, "Welcome"+user.getUid(), Toast.LENGTH_SHORT).show();
-               // taiKhoanController.SaveAcc(role);
+                taiKhoanController.SaveAcc(role);
 
                 if(role.equals("client"))
                     taiKhoanController.CheckNum(new TaiKhoanController.DataRetrievedCallback_Bool() {
@@ -94,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
                     taiKhoanController.CheckDriverInf(new TaiKhoanController.DataRetrievedCallback_Bool() {
                         @Override
                         public void onDataRetrieved(boolean num) {
-                            if(num){
+                            if(!num){
                                 Intent intent=new Intent(HomeActivity.this, RegisterDriverActivity.class);
                                 startActivity(intent);
                             }
