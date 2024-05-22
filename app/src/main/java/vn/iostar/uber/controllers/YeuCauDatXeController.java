@@ -86,37 +86,53 @@ public class YeuCauDatXeController {
 
 
     public void getIdFirstDriver(Context context,Retriver_Client callback) throws IOException {
+
         Geocoder geocoder = new Geocoder(context,Locale.getDefault());
         List<Address> addressList;
         addressList = geocoder.getFromLocation(home.from.latitude,home.from.longitude, 1);
         String cityName =addressList.get(0).getLocality();
         DatabaseReference cityRef = myRef.child("driverLocation").child(cityName);
-
-        cityRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        cityRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    cityRef.orderByKey().limitToLast(1).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                        @Override
-                        public void onSuccess(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                // Lấy dữ liệu từ snapshot
-                                String idClient = snapshot.getKey();
-                                callback.onSuccess(idClient);
-                            }
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String itsYouu=null;
+                    double closest=999999999999.0;
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String key=snapshot.getKey();
+                        Double lat= snapshot.child("l").child("0").getValue(Double.class);
+                        Double lon= snapshot.child("l").child("1").getValue(Double.class);
+                        LatLng latLng= new LatLng(lat,lon);
+
+                        double distance= finalBookingController.calculateDistanceInKm(latLng,home.from);
+                        Log.d("Loiiiiiii", String.valueOf(distance));
+                        if(closest>distance){
+                            closest=distance;
+                            itsYouu=key;Log.d("Loiiiiiii",key);
                         }
-                    });
+
+                    }
+                    // if itsYouu!=null Log.e("DRIVER",itsYouu);
+                    callback.onSuccess(itsYouu);
+
+//                    cityRef.orderByKey().limitToLast(1).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+//                        @Override
+//                        public void onSuccess(DataSnapshot dataSnapshot) {
+//                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                                // Lấy dữ liệu từ snapshot
+//                                String idClient = snapshot.getKey();
+//                                callback.onSuccess(idClient);
+//                            }
+//                        }
+//                    });
 
                 } else {
                     callback.onFail();
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
         });
+
+
     }
 
 
