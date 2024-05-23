@@ -44,12 +44,7 @@ public class Map_TypeVehicalActivity extends AppCompatActivity {
         progressDialog.show();
         setContentView(R.layout.activity_map_type_vehical);
         progressDialog.dismiss();
-        MapsInitializer.initialize(Map_TypeVehicalActivity.this);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.mymap, new MapFragment())
-                    .commit();
-        }
+
         getForm();
       //  attackMap();
 
@@ -89,17 +84,7 @@ public class Map_TypeVehicalActivity extends AppCompatActivity {
 //            }
 //        });
     }
-    @Override
-    public void onBackPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.mymap);
-        if (mapFragment != null) {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.remove(mapFragment);
-            transaction.commit();
-        }
-        super.onBackPressed();
-    }
+
 
 }
 

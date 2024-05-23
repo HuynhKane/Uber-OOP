@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,6 +32,7 @@ public class VoucherActivity  extends AppCompatActivity {
     VoucherAdapter voucherAdapter;
     LinearLayout btn_next; SearchView searchView;
     public static UuDai uuDai;
+    public static  boolean isChoose=false;
 
 
     RetrofitService retrofitService=new RetrofitService();
@@ -76,13 +79,21 @@ public class VoucherActivity  extends AppCompatActivity {
 //        } );
 
 
+
         btn_next= findViewById(R.id.btn_next);
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(VoucherActivity.this, ChooseTypePaymentActivity.class);
-                Log.d("uuDaiiiiii",uuDai.getUuDai().toString() );
-                startActivity(intent);
+                if(isChoose){isChoose=false;
+                    Intent intent = new Intent(VoucherActivity.this, ChooseTypePaymentActivity.class);
+                    Log.d("uuDaiiiiii",uuDai.getUuDai().toString() );
+                    startActivity(intent);
+
+                }
+                else {
+                    Toast.makeText(VoucherActivity.this,"Vui loòng chọn 1 voucher",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

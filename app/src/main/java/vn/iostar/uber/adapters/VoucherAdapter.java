@@ -75,6 +75,7 @@ public class VoucherAdapter extends ArrayAdapter {
             public void onClick(View v) {
                 selectedItemPosition = position;
                 VoucherActivity.uuDai=List.get(position);
+                VoucherActivity.isChoose=true;
                 notifyDataSetChanged();
             }
         });
