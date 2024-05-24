@@ -151,11 +151,11 @@ public class FinalBookingFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                    yeuCauDatXeController.getIdClosestDriver(cityName, "0",home.from,new YeuCauDatXeController.Retriver_Client() {
+                    yeuCauDatXeController.getIdClosestDriver(cityName, null,home.from,new YeuCauDatXeController.Retriver_Client() {
                         @Override
                         public void onSuccess(String idClient) {
                             idDriverTemp=idClient;
-                                yeuCauDatXeController.consider_room(cityName, idClient, FirebaseAuth.getInstance().getCurrentUser().getUid(), home.from,new YeuCauDatXeController.Callback() {
+                                yeuCauDatXeController.consider_room(cityName, idClient,null, FirebaseAuth.getInstance().getCurrentUser().getUid(), home.from,new YeuCauDatXeController.Callback() {
                                     @Override
                                     public void onSuccess() {
                                         Toast.makeText(FinalBookingFormActivity.this,"Chờ đi",Toast.LENGTH_SHORT).show();

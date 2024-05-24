@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -68,7 +69,7 @@ public class YeuCauDatXeController {
         void onFail();
     }
 
-    public void addNewYeuCauDatXe(YeuCauDatXe yeuCauDatXe, String cityName,Callback_Bool callback){
+    public void addNewYeuCauDatXe(YeuCauDatXe yeuCauDatXe, String cityName,Callback_Bool callback){ //When client click confirm booking button, save this request's inf4
         FirebaseUser current= firebaseAuth.getCurrentUser();
         myRef.child("yeuCauDatXe").child(cityName).child(current.getUid()).child(String.valueOf(System.currentTimeMillis())).setValue(yeuCauDatXe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -79,7 +80,7 @@ public class YeuCauDatXeController {
     }
 
 
-    public void getIdClosestDriver(String cityName,String denyDriver,LatLng curPos,Retriver_Client callback) {
+    public void getIdClosestDriver(String cityName,ArrayList<String> denyDriver,LatLng curPos,Retriver_Client callback) { //Find closest driver in this city
 
         DatabaseReference cityRef = myRef.child("driverLocation").child(cityName);
         cityRef.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
@@ -97,9 +98,9 @@ public class YeuCauDatXeController {
 
                         double distance= finalBookingController.calculateDistanceInKm(latLng,curPos);
                        // Log.d("Loiiiiiii", String.valueOf(distance));
-                        if(closest>distance && !key.equals(denyDriver)){
-                            closest=distance;
-                            itsYouu=key;Log.d("Loiiiiiii",key);
+                        if (denyDriver == null || (closest > distance && !denyDriver.contains(key))) {
+                            closest = distance;
+                            itsYouu = key; // Log.d("Loiiiiiii", key);
                         }
 
                     }
@@ -120,7 +121,7 @@ public class YeuCauDatXeController {
     }
 
 
-    public void consider_room(String cityName, String idDriver,String idClient,LatLng curPos, Callback callback)  {
+    public void consider_room(String cityName, String idDriver,ArrayList<String> denyDriver,String idClient,LatLng curPos, Callback callback)  { //When you find suit driver, add this client into "consider_room" of this driver
 
         DatabaseReference cityRef = myRef.child("driverLocation").child(cityName);
 
@@ -136,6 +137,9 @@ public class YeuCauDatXeController {
                         String time = String.valueOf(System.currentTimeMillis());
                         Map<String, Object> map = new HashMap<>();
                         map.put("client/" + time + "/idclient", idClient);
+                        if(denyDriver!=null){
+                            map.put("client/" + time + "/iddeny/", denyDriver);
+                        }
                         map.put("client/" + time + "/l/0", curPos.latitude);
                         map.put("client/" + time + "/l/1", curPos.longitude);
                         cityRef.child(idDriver).updateChildren(map);
@@ -253,13 +257,27 @@ public class YeuCauDatXeController {
                         Double lat= snapshot.child("l").child("0").getValue(Double.class);
                         Double lon= snapshot.child("l").child("1").getValue(Double.class);
                         LatLng posClient= new LatLng(lat,lon);
+
+//                        ArrayList<String> denyDriver =  snapshot.child("iddeny").getValue(ArrayList.class);
+//                        if (denyDriver == null) {
+//                            denyDriver = new ArrayList<>();
+//                        }
+                        GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {};
+                        ArrayList<String> denyDriver = snapshot.child("iddeny").getValue(t);
+
+                        if (denyDriver == null) {
+                            denyDriver = new ArrayList<>();
+                        }
+
+                        denyDriver.add(idDriver);
                         if(id.equals(idClient)){
                             cityRef.child("client").child(key).removeValue();// Xóa khách hàng ra khỏi hàng chờ của tài xế này
 
-                            getIdClosestDriver(cityName,idDriver, posClient,new Retriver_Client() { //Tìm khách tài xế khác cho nhỏ này
+                            ArrayList<String> finalDenyDriver = denyDriver;
+                             getIdClosestDriver(cityName,finalDenyDriver, posClient,new Retriver_Client() { //Tìm khách tài xế khác cho nhỏ này
                                     @Override
                                     public void onSuccess(String idClient) {//Client nhưng mà thiệt ra là driver =)))
-                                            consider_room(cityName, idClient, id,posClient, new Callback() {//Add nhỏ này vào phòng chờ tài xế khác
+                                            consider_room(cityName, idClient, finalDenyDriver, id,posClient, new Callback() {//Add nhỏ này vào phòng chờ tài xế khác
                                                 @Override
                                                 public void onSuccess() {
 
@@ -332,5 +350,6 @@ public class YeuCauDatXeController {
             }
         });
     }
+
 
 }
