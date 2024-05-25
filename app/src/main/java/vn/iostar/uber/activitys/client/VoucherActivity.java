@@ -23,6 +23,7 @@ import vn.iostar.uber.activitys.HomeActivity;
 import vn.iostar.uber.adapters.VoucherAdapter;
 import vn.iostar.uber.controllers.callAPI.UuDaiController;
 import vn.iostar.uber.models.UuDai;
+import vn.iostar.uber.retrofit.ApiResponse;
 import vn.iostar.uber.retrofit.RetrofitService;
 
 public class VoucherActivity  extends AppCompatActivity {
@@ -54,17 +55,24 @@ public class VoucherActivity  extends AppCompatActivity {
 
         UuDaiController uuDaiController = retrofitService.getRetrofit().create(UuDaiController.class);
 
-        uuDaiController.getListUuDai().enqueue(new Callback<ArrayList<UuDai>>() {
+        uuDaiController.getListUuDai().enqueue(new Callback<ApiResponse<UuDai>>() {
             @Override
-            public void onResponse(Call<ArrayList<UuDai>> call, Response<ArrayList<UuDai>> response) {
-                listVoucher = response.body();
-                voucherAdapter = new VoucherAdapter(VoucherActivity.this,R.layout.item_voucher, listVoucher);
-                lv_voucher.setAdapter(voucherAdapter);
-                progressDialog.dismiss();
+            public void onResponse(Call<ApiResponse<UuDai>> call, Response<ApiResponse<UuDai>> response) {
+                assert response.body() != null;
+                if(response.body().getHttpStatus().equals("OK")){
+                    listVoucher = response.body().getData();
+                    voucherAdapter = new VoucherAdapter(VoucherActivity.this,R.layout.item_voucher, listVoucher);
+                    lv_voucher.setAdapter(voucherAdapter);
+                    progressDialog.dismiss();
+                }
+                else {
+                    Toast.makeText(VoucherActivity.this,response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
-            public void onFailure(Call<ArrayList<UuDai>> call, Throwable throwable) {
+            public void onFailure(Call<ApiResponse<UuDai>> call, Throwable throwable) {
 
             }
         });

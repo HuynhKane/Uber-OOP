@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.common.api.Status;
@@ -40,6 +41,8 @@ import vn.iostar.uber.controllers.GeocodingHelper;
 public class home extends Fragment {
 
     private HomeViewModel mViewModel;
+    private boolean isFromPlaceSelected = false;
+    private boolean isToPlaceSelected = false;
     AutocompleteSupportFragment fromFragment ;
     AutocompleteSupportFragment toFragment ;
 
@@ -72,8 +75,13 @@ public class home extends Fragment {
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!isFromPlaceSelected || !isToPlaceSelected) {
+                    // Show an error message to the user
+                    Toast.makeText(getContext(), "Please select a place in the field", Toast.LENGTH_SHORT).show();
+                } else {
                     Intent intent = new Intent(getContext(), Map_TypeVehicalActivity.class);
                     v.getContext().startActivity(intent);
+                }
             }
         });
     }
@@ -100,6 +108,7 @@ public class home extends Fragment {
                 if (place.getLatLng() != null) {
                     LatLng latLng = place.getLatLng();
                     from=latLng;
+                    isFromPlaceSelected = true;
                     Log.d("latLngFrom", latLng.toString());
 
                 }
@@ -121,6 +130,7 @@ public class home extends Fragment {
                 if (place.getLatLng() != null) {
                     LatLng latLng = place.getLatLng();
                     to=latLng;
+                    isToPlaceSelected = true;
                     Log.d("latLngTo", latLng.toString());
                 }
             }
@@ -140,6 +150,7 @@ public class home extends Fragment {
                 .addOnFailureListener(e -> Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show())
                 .addOnSuccessListener(location -> {
                     from = new LatLng(location.getLatitude(), location.getLongitude());
+                    isFromPlaceSelected=true;
                     fromFragment.setText(geocodingHelpe.getAddressFromLatLng(getActivity(),from));
                     Log.d("latLnini", from.toString());
                 });
