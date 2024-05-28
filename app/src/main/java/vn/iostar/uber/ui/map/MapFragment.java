@@ -80,7 +80,7 @@ import vn.iostar.uber.models.GeoQueryModel;
 import vn.iostar.uber.models.TaiXe;
 import vn.iostar.uber.models.ViTri;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, IFirebaseDriverInforListener, IFirebaseFailedListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private FragmentMapBinding binding;
     //Common
@@ -126,7 +126,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
         @Override
         public void onCancelled(@NonNull DatabaseError error) {
             Snackbar.make(mapFragment.getView(), databaseError.getMessage(), Snackbar.LENGTH_LONG).show();
-
         }
     };
 
@@ -152,9 +151,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
     }
 
     private void registerOnlineSystem() {
-       if(role.equals("driver")){
-           onlineRef.addValueEventListener(onlineValueEnventListener);
-       }
+        if(role.equals("driver")){
+            onlineRef.addValueEventListener(onlineValueEnventListener);
+        }
 
     }
 
@@ -176,24 +175,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
 
     private void init() {
 
-        iFirebaseDriverInforListener = this;
-        iFirebaseFailedListener = this;
+//        iFirebaseDriverInforListener = this;
+//        iFirebaseFailedListener = this;
 
 
         onlineRef = FirebaseDatabase.getInstance().getReference().child(".info/connected");
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            locationRequest = new LocationRequest();
+            locationRequest.setSmallestDisplacement(10f);
+            locationRequest.setInterval(5000);
+            locationRequest.setFastestInterval(3000);
+            locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
         }
 
 
 
-
-
-        locationRequest = new LocationRequest();
-        locationRequest.setSmallestDisplacement(10f);
-        locationRequest.setInterval(5000);
-        locationRequest.setFastestInterval(3000);
-        locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
 
 
         locationCallback = new LocationCallback() {
@@ -243,15 +239,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
                     }
 
                     if (previousLoc.distanceTo(curLoc) / 1000 <= LIMIT_RANGE) {
-                        loadAvailableDrivers();
+                        // loadAvailableDrivers();
                     } else {
 
                     }
                 }
                 //here, after set location, get address city name
-
-
-
             }
         };
 
@@ -267,166 +260,165 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
 
     }
 
-    private void loadAvailableDrivers() {
+//    private void loadAvailableDrivers() {
+//
+//        if(getContext()==null){
+//            Log.d("CONTEX","nullllll");
+//        }
+//
+//        if (role.equals("client") || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            Snackbar.make(getView(), getString(R.string.permission_require), Snackbar.LENGTH_SHORT).show();
+//            return;
+//        }
+//        fusedLocationProviderClient.getLastLocation()
+//                .addOnFailureListener(e -> Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show())
+//                .addOnSuccessListener(location -> {
+//                    //Load all driver
+//                    Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+//                    List<Address> addressList;
+//
+//                    try {
+//                        addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(),1);
+//                        cityName = addressList.get(0).getLocality();
+//
+//                        //Query
+//
+//                        DatabaseReference driver_location_ref = FirebaseDatabase.getInstance()
+//                                .getReference("DriverLocations")
+//                                .child(cityName);
+//
+//                        GeoFire gf = new GeoFire(driver_location_ref);
+//                        GeoQuery geoQuery = gf.queryAtLocation(new GeoLocation(location.getLatitude(),location.getLongitude()),distance);
+//
+//                        geoQuery.removeAllListeners();
+//
+////                        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+////                            @Override
+////                            public void onKeyEntered(String key, GeoLocation location) {
+////                                driverFound.add(new ViTri(key, location));
+////
+////                            }
+////
+////                            @Override
+////                            public void onKeyExited(String key) {
+////
+////                            }
+////
+////                            @Override
+////                            public void onKeyMoved(String key, GeoLocation location) {
+////
+////                            }
+////
+////                            @Override
+////                            public void onGeoQueryReady() {
+////                                if(distance <= LIMIT_RANGE){
+////                                    distance++;
+////                                    loadAvailableDrivers();
+////                                }
+////                                else{
+////                                    distance = 1.0;
+////                                    addDriverMarker();
+////                                }
+////
+////                            }
+////
+////                            @Override
+////                            public void onGeoQueryError(DatabaseError error) {
+////                                Snackbar.make(getView(),error.getMessage(), Snackbar.LENGTH_SHORT).show();
+////
+////                            }
+////                        });
+//
+//                        driver_location_ref.addChildEventListener(new ChildEventListener() {
+//                            @Override
+//                            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                                GeoQueryModel geoQueryModel = dataSnapshot.getValue(GeoQueryModel.class);
+//                                GeoLocation geoLocation = new GeoLocation(geoQueryModel.getL().get(0),
+//                                        geoQueryModel.getL().get(1));
+//                                ViTri viTri = new ViTri(dataSnapshot.getKey(), geoLocation);
+//                                Location newDriverLocation = new Location("");
+//                                newDriverLocation.setLatitude(geoLocation.latitude);
+//                                newDriverLocation.setLongitude(geoLocation.longitude);
+//
+//                                float newDistance = location.distanceTo(newDriverLocation)/1000;
+//
+//                                if(newDistance <= LIMIT_RANGE){
+//                                   // findDriverByKey(viTri);
+//                                }
+//
+//                            }
+//
+//                            @Override
+//                            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//
+//                            }
+//                        });
+//
+//
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
+//                    }
+//
+//                });
+//    }
 
-        if(getContext()==null){
-            Log.d("CONTEX","nullllll");
-        }
+//    @SuppressLint("CheckResult")
+//    private void addDriverMarker() {
+//        if(driverFound.size() > 0){
+//            Observable.fromIterable(driverFound)
+//                    .subscribeOn(Schedulers.newThread())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(viTri -> {
+//                        findDriverByKey(viTri);
+//                    }, throwable -> {
+//                        Snackbar.make(getView(),throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+//                    },()->{});
+//        }
+//        else {
+//            Snackbar.make(getView(),getString(R.string.driver_not_found), Snackbar.LENGTH_SHORT).show();
+//        }
+//    }
 
-        if (role.equals("client") || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Snackbar.make(getView(), getString(R.string.permission_require), Snackbar.LENGTH_SHORT).show();
-            return;
-        }
-        fusedLocationProviderClient.getLastLocation()
-                .addOnFailureListener(e -> Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show())
-                .addOnSuccessListener(location -> {
-                    //Load all driver
-                    Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-                    List<Address> addressList;
-
-                    try {
-                        addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(),1);
-                        cityName = addressList.get(0).getLocality();
-
-                        //Query
-
-                        DatabaseReference driver_location_ref = FirebaseDatabase.getInstance()
-                                .getReference("DriverLocations")
-                                .child(cityName);
-
-                        GeoFire gf = new GeoFire(driver_location_ref);
-                        GeoQuery geoQuery = gf.queryAtLocation(new GeoLocation(location.getLatitude(),location.getLongitude()),distance);
-
-                        geoQuery.removeAllListeners();
-
-                        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
-                            @Override
-                            public void onKeyEntered(String key, GeoLocation location) {
-                                driverFound.add(new ViTri(key, location));
-
-                            }
-
-                            @Override
-                            public void onKeyExited(String key) {
-
-                            }
-
-                            @Override
-                            public void onKeyMoved(String key, GeoLocation location) {
-
-                            }
-
-                            @Override
-                            public void onGeoQueryReady() {
-                                if(distance <= LIMIT_RANGE){
-                                    distance++;
-                                    loadAvailableDrivers();
-                                }
-                                else{
-                                    distance = 1.0;
-                                    addDriverMarker();
-                                }
-
-                            }
-
-                            @Override
-                            public void onGeoQueryError(DatabaseError error) {
-                                Snackbar.make(getView(),error.getMessage(), Snackbar.LENGTH_SHORT).show();
-
-                            }
-                        });
-
-                        driver_location_ref.addChildEventListener(new ChildEventListener() {
-                            @Override
-                            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                                GeoQueryModel geoQueryModel = dataSnapshot.getValue(GeoQueryModel.class);
-                                GeoLocation geoLocation = new GeoLocation(geoQueryModel.getL().get(0),
-                                        geoQueryModel.getL().get(1));
-                                ViTri viTri = new ViTri(dataSnapshot.getKey(), geoLocation);
-                                Location newDriverLocation = new Location("");
-                                newDriverLocation.setLatitude(geoLocation.latitude);
-                                newDriverLocation.setLongitude(geoLocation.longitude);
-
-                                float newDistance = location.distanceTo(newDriverLocation)/1000;
-
-                                if(newDistance <= LIMIT_RANGE){
-                                    findDriverByKey(viTri);
-                                }
-
-                            }
-
-                            @Override
-                            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                            }
-
-                            @Override
-                            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                            }
-
-                            @Override
-                            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                    }
-
-                });
-    }
-
-    @SuppressLint("CheckResult")
-    private void addDriverMarker() {
-        if(driverFound.size() > 0){
-            Observable.fromIterable(driverFound)
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(viTri -> {
-
-                        findDriverByKey(viTri);
-                    }, throwable -> {
-                        Snackbar.make(getView(),throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
-                    },()->{});
-        }
-        else {
-            Snackbar.make(getView(),getString(R.string.driver_not_found), Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-    private void findDriverByKey(ViTri viTri) {
-        FirebaseDatabase.getInstance()
-                .getReference("driver")
-                .child(viTri.getKey())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(dataSnapshot.hasChildren()){
-                            viTri.setDriverInforModel(dataSnapshot.getValue(TaiXe.class));
-                            iFirebaseDriverInforListener.onDriverInforLoadSuccess(viTri);
-                        }
-                        else
-                            iFirebaseFailedListener.onFirebaseFailed(getString(R.string.not_found_key) + viTri.getKey());
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        iFirebaseFailedListener.onFirebaseFailed(databaseError.getMessage());
-
-                    }
-                });
-    }
+//    private void findDriverByKey(ViTri viTri) {
+//        FirebaseDatabase.getInstance()
+//                .getReference("driver")
+//                .child(viTri.getKey())
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        if(dataSnapshot.hasChildren()){
+//                            viTri.setDriverInforModel(dataSnapshot.getValue(TaiXe.class));
+//                            iFirebaseDriverInforListener.onDriverInforLoadSuccess(viTri);
+//                        }
+//                        else
+//                            iFirebaseFailedListener.onFirebaseFailed(getString(R.string.not_found_key) + viTri.getKey());
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//                        iFirebaseFailedListener.onFirebaseFailed(databaseError.getMessage());
+//
+//                    }
+//                });
+//    }
 
     @Override
     public void onDestroyView() {
@@ -500,53 +492,53 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, IFireba
         }
     }
 
-    @Override
-    public void onDriverInforLoadSuccess(ViTri driverGeoModel) {
-        if(!markerList.containsKey(driverGeoModel.getKey())){
-            markerList.put(driverGeoModel.getKey(), mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(driverGeoModel.getGeoLocation().latitude,
-                            driverGeoModel.getGeoLocation().longitude))
-                    .flat(true)
-                    .title(buildName(driverGeoModel.getDriverInforModel().getTen(),
-                            driverGeoModel.getDriverInforModel().getIdXe()))
-                    .snippet(driverGeoModel.getDriverInforModel().getSdt())
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_car))));
-        }
-        if(!TextUtils.isEmpty(cityName)){
-            DatabaseReference driverLocation = FirebaseDatabase.getInstance()
-                    .getReference("DriverLocations")
-                    .child(cityName)
-                    .child(driverGeoModel.getKey());
-            driverLocation.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(!dataSnapshot.hasChildren()){
-                        if(markerList.get(driverGeoModel.getKey()) != null){
-                            markerList.get(driverGeoModel.getKey()).remove();
-                        }
-                        markerList.remove(driverGeoModel.getKey());
-                        driverLocation.removeEventListener(this);
-                    }
-                }
+//    @Override
+//    public void onDriverInforLoadSuccess(ViTri driverGeoModel) {
+//        if(!markerList.containsKey(driverGeoModel.getKey())){
+//            markerList.put(driverGeoModel.getKey(), mMap.addMarker(new MarkerOptions()
+//                    .position(new LatLng(driverGeoModel.getGeoLocation().latitude,
+//                            driverGeoModel.getGeoLocation().longitude))
+//                    .flat(true)
+//                    .title(buildName(driverGeoModel.getDriverInforModel().getTen(),
+//                            driverGeoModel.getDriverInforModel().getIdXe()))
+//                    .snippet(driverGeoModel.getDriverInforModel().getSdt())
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_car))));
+//        }
+//        if(!TextUtils.isEmpty(cityName)){
+//            DatabaseReference driverLocation = FirebaseDatabase.getInstance()
+//                    .getReference("DriverLocations")
+//                    .child(cityName)
+//                    .child(driverGeoModel.getKey());
+//            driverLocation.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    if(!dataSnapshot.hasChildren()){
+//                        if(markerList.get(driverGeoModel.getKey()) != null){
+//                            markerList.get(driverGeoModel.getKey()).remove();
+//                        }
+//                        markerList.remove(driverGeoModel.getKey());
+//                        driverLocation.removeEventListener(this);
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//                    Snackbar.make(getView(), databaseError.getMessage(), Snackbar.LENGTH_SHORT).show();
+//
+//                }
+//            });
+//        }
+//
+//
+//    }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Snackbar.make(getView(), databaseError.getMessage(), Snackbar.LENGTH_SHORT).show();
+//    private String buildName(String ten, String idXe) {
+//        return new StringBuilder(ten).append("|").append(idXe).toString();
+//    }
 
-                }
-            });
-        }
-
-
-    }
-
-    private String buildName(String ten, String idXe) {
-        return new StringBuilder(ten).append("|").append(idXe).toString();
-    }
-
-    @Override
-    public void onFirebaseFailed(String message) {
-        Snackbar.make(getView(),message, Snackbar.LENGTH_SHORT).show();
-
-    }
+//    @Override
+//    public void onFirebaseFailed(String message) {
+//        Snackbar.make(getView(),message, Snackbar.LENGTH_SHORT).show();
+//
+//    }
 }

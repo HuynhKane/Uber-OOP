@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -23,7 +22,8 @@ import vn.iostar.uber.activitys.HomeActivity;
 import vn.iostar.uber.adapters.VoucherAdapter;
 import vn.iostar.uber.controllers.callAPI.UuDaiController;
 import vn.iostar.uber.models.UuDai;
-import vn.iostar.uber.retrofit.ApiResponse;
+import vn.iostar.uber.retrofit.ApiResponseArList;
+import vn.iostar.uber.retrofit.ApiResponseString;
 import vn.iostar.uber.retrofit.RetrofitService;
 
 public class VoucherActivity  extends AppCompatActivity {
@@ -55,9 +55,9 @@ public class VoucherActivity  extends AppCompatActivity {
 
         UuDaiController uuDaiController = retrofitService.getRetrofit().create(UuDaiController.class);
 
-        uuDaiController.getListUuDai().enqueue(new Callback<ApiResponse<UuDai>>() {
+        uuDaiController.getListUuDai().enqueue(new Callback<ApiResponseArList<UuDai>>() {
             @Override
-            public void onResponse(Call<ApiResponse<UuDai>> call, Response<ApiResponse<UuDai>> response) {
+            public void onResponse(Call<ApiResponseArList<UuDai>> call, Response<ApiResponseArList<UuDai>> response) {
                 assert response.body() != null;
                 if(response.body().getHttpStatus().equals("OK")){
                     listVoucher = response.body().getData();
@@ -72,7 +72,7 @@ public class VoucherActivity  extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<UuDai>> call, Throwable throwable) {
+            public void onFailure(Call<ApiResponseArList<UuDai>> call, Throwable throwable) {
 
             }
         });
@@ -93,6 +93,19 @@ public class VoucherActivity  extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isChoose){isChoose=false;
+                    UuDaiController uuDaiController = retrofitService.getRetrofit().create(UuDaiController.class);
+
+                    uuDaiController.chooseVoucher(uuDai.getIdUuDai()).enqueue(new Callback<ApiResponseString<String>>() {
+                        @Override
+                        public void onResponse(Call<ApiResponseString<String>> call, Response<ApiResponseString<String>> response) {
+                            Toast.makeText(VoucherActivity.this,response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ApiResponseString<String>> call, Throwable throwable) {
+                            //Toast.makeText(context,response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     Intent intent = new Intent(VoucherActivity.this, ChooseTypePaymentActivity.class);
                     Log.d("uuDaiiiiii",uuDai.getUuDai().toString() );
                     startActivity(intent);

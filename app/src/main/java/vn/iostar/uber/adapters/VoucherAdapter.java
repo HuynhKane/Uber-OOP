@@ -23,14 +23,14 @@ import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.client.VoucherActivity;
 import vn.iostar.uber.controllers.callAPI.UuDaiController;
 import vn.iostar.uber.models.UuDai;
-import vn.iostar.uber.retrofit.ApiResponse;
+import vn.iostar.uber.retrofit.ApiResponseString;
 import vn.iostar.uber.retrofit.RetrofitService;
 
 public class VoucherAdapter extends ArrayAdapter {
     Activity context;
     int resource;
     ArrayList<UuDai> List= new ArrayList<UuDai>();
-    RetrofitService retrofitService;
+    RetrofitService retrofitService=new RetrofitService();
     public VoucherAdapter(Activity context, int resource, ArrayList<UuDai> list) {
         super(context, resource, list);
         this.context=context;
@@ -84,21 +84,6 @@ public class VoucherAdapter extends ArrayAdapter {
                 selectedItemPosition = position;
                 VoucherActivity.uuDai=List.get(position);
                 VoucherActivity.isChoose=true;
-                UuDaiController uuDaiController = retrofitService.getRetrofit().create(UuDaiController.class);
-
-                uuDaiController.chooseVoucher(List.get(position).getIdUuDai()).enqueue(new Callback<ApiResponse<UuDai>>() {
-                    @Override
-                    public void onResponse(Call<ApiResponse<UuDai>> call, Response<ApiResponse<UuDai>> response) {
-                        if(response.body().getHttpStatus().equals("OK")){
-                            Toast.makeText(context,response.body().getMessage(),Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ApiResponse<UuDai>> call, Throwable throwable) {
-
-                    }
-                });
                 notifyDataSetChanged();
             }
         });
