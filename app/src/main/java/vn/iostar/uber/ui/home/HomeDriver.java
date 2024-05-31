@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import vn.iostar.uber.R;
+import vn.iostar.uber.activitys.HomeActivity;
 import vn.iostar.uber.activitys.MainActivityDriver;
 import vn.iostar.uber.activitys.client.ContactFormActivity;
 import vn.iostar.uber.activitys.client.FinalBookingFormActivity;
@@ -150,29 +152,30 @@ public class HomeDriver extends Fragment {
         mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
 
-
-        try {
-            yeuCauDatXeController.listenClient(getContext(),MainActivityDriver.curPos, FirebaseAuth.getInstance().getUid(), new YeuCauDatXeController.Retriver_Client_DatabaseReference() {
-                @Override
-                public void onSuccess(String idClient,DatabaseReference myref) {
-                    myrefDriver=myref;
-                    Toast.makeText(getContext(),idClient,Toast.LENGTH_SHORT).show();
-                    listUserWait.add(idClient);
-                    Log.d("KHANH",listUserWait.toString());
+       if(MainActivityDriver.curPos!=null){
+           try {
+               yeuCauDatXeController.listenClient(getContext(),MainActivityDriver.curPos, FirebaseAuth.getInstance().getUid(), new YeuCauDatXeController.Retriver_Client_DatabaseReference() {
+                   @Override
+                   public void onSuccess(String idClient,DatabaseReference myref) {
+                       myrefDriver=myref;
+                       Toast.makeText(getContext(),idClient,Toast.LENGTH_SHORT).show();
+                       listUserWait.add(idClient);
+                       Log.d("KHANH",listUserWait.toString());
 
 //                    myref.removeEventListener(YeuCauDatXeController.valueEventListener );
 //                    showCustomDialog(idClient,myref);
 
-                }
+                   }
 
-                @Override
-                public void onFail() {
+                   @Override
+                   public void onFail() {
 
-                }
-            });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+                   }
+               });
+           } catch (IOException e) {
+               throw new RuntimeException(e);
+           }
+       }
         return rootView;
     }
 
