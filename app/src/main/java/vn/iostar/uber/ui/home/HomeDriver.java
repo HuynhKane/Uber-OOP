@@ -62,6 +62,7 @@ public class HomeDriver extends Fragment {
     GeocodingHelper geocodingHelpe= new GeocodingHelper();
     public DatabaseReference myrefDriver;
 
+    //Sử lý các yêu cầu đặt xe được gửi tới
     public class RealtimeArrayList<E> extends ArrayList<E> {
         private final Queue<E> queue = new LinkedList<>();
         private final Object lock = new Object();
@@ -136,7 +137,7 @@ public class HomeDriver extends Fragment {
 
 
     }
-    RealtimeArrayList<String> listUserWait=new RealtimeArrayList<>();
+    RealtimeArrayList<String> listUserWait=new RealtimeArrayList<>(); //Khởi tạo list yêu cầu
     public static HomeDriver newInstance() {
         return new HomeDriver();
     }
@@ -151,9 +152,10 @@ public class HomeDriver extends Fragment {
 
         mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
-
+        //Nếu driver đang trực tuyến
        if(MainActivityDriver.curPos!=null){
            try {
+               //Driver lắng nghe các yêu cầu
                yeuCauDatXeController.listenClient(getContext(),MainActivityDriver.curPos, FirebaseAuth.getInstance().getUid(), new YeuCauDatXeController.Retriver_Client_DatabaseReference() {
                    @Override
                    public void onSuccess(String idClient,DatabaseReference myref) {
@@ -203,7 +205,7 @@ public class HomeDriver extends Fragment {
         TextView name = dialogView.findViewById(R.id.txtName);
         TextView distance = dialogView.findViewById(R.id.txtkm);
         TextView countDown = dialogView.findViewById(R.id.countDown);
-        LinearLayout nono = dialogView.findViewById(R.id.btn_nono);
+        LinearLayout yess = dialogView.findViewById(R.id.btn_yess);
 
         name.setText(idClient);
 
@@ -232,7 +234,7 @@ public class HomeDriver extends Fragment {
             }
         }.start();
 
-        nono.setOnClickListener(new View.OnClickListener() {
+        yess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {

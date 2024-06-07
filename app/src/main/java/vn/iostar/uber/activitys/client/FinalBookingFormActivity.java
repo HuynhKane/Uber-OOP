@@ -133,7 +133,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(FinalBookingFormActivity.this, HomeActivity.class);
+                Intent intent = new Intent(FinalBookingFormActivity.this, FormWaiting.class);
                 startActivity(intent);
             }
         });
