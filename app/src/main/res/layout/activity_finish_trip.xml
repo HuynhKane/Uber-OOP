@@ -110,34 +110,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 >
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="148dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="5dp"
-                        app:tint="@color/white"
-                        android:src="@drawable/ic_star"/>
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="5dp"
-                        app:tint="@color/white"
-                        android:src="@drawable/ic_star"/>
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="5dp"
-                        app:tint="@color/white"
-                        android:src="@drawable/ic_star"/>
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="5dp"
-                        app:tint="@color/white"
-                        android:src="@drawable/ic_star"/>
+
+                    <RatingBar
+                        android:id="@+id/rate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:numStars="5"
+                        android:stepSize="0.5" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -148,7 +133,7 @@
 
 
                     <TextView
-                        android:id="@+id/txt_estimate_time"
+                        android:id="@+id/txt_rate"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -172,7 +157,7 @@
             tools:ignore="MissingConstraints">
 
             <LinearLayout
-                android:id="@+id/btn_confirm_booking"
+                android:id="@+id/btn_rate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
