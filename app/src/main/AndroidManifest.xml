@@ -24,8 +24,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+
             android:name=".activitys.client.FormWaiting"
             android:exported="false" />
+
         <activity
             android:name=".activitys.client.ContactFormActivity"
             android:exported="true"></activity>
@@ -46,6 +48,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".activitys.client.ChooseTypePaymentActivity"
