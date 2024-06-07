@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -17,6 +19,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import vn.iostar.uber.R;
 import vn.iostar.uber.activitys.HomeActivity;
@@ -46,6 +51,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
     private LoaiXe typeCar= Map_TypeVehicalActivity.loaiXe;
     private UuDai voucher= VoucherActivity.uuDai;
     private String idDriverTemp;
+    public static ArrayList<String> denyDriver=new ArrayList<>();
 
     private YeuCauDatXeController yeuCauDatXeController=new YeuCauDatXeController();
 
@@ -118,7 +124,7 @@ public class FinalBookingFormActivity extends AppCompatActivity {
             }
 
 
-        }
+        } //Hình ảnh loại xe
         tenXe.setText(typeCar.getTenLoaiXe());
         thoiGian.setText("15 min");
         txt_uuDai.setText(voucher.getUuDai());
@@ -127,28 +133,36 @@ public class FinalBookingFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(FinalBookingFormActivity.this, HomeActivity.class);
+                Intent intent = new Intent(FinalBookingFormActivity.this, FormWaiting.class);
                 startActivity(intent);
             }
         });
+
+
+        Geocoder geocoder = new Geocoder(FinalBookingFormActivity.this, Locale.getDefault());
+        List<Address> addressList;
+        try {
+            addressList = geocoder.getFromLocation(home.from.latitude,home.from.longitude, 1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String cityName =addressList.get(0).getLocality();
         btn_confirm_booking.setOnClickListener(new View.OnClickListener() {   //*****
             @Override
             public void onClick(View v) {
-                try {
-                    yeuCauDatXeController.getIdFirstDriver(FinalBookingFormActivity.this, new YeuCauDatXeController.Retriver_Client() {
+
+                    yeuCauDatXeController.getIdClosestDriver(cityName, null,home.from,new YeuCauDatXeController.Retriver_Client() {
                         @Override
                         public void onSuccess(String idClient) {
                             idDriverTemp=idClient;
-                            try {
-                                yeuCauDatXeController.consider_room(FinalBookingFormActivity.this, idClient, FirebaseAuth.getInstance().getCurrentUser().getUid(), new YeuCauDatXeController.Callback() {
+                                yeuCauDatXeController.consider_room(cityName, idClient,null, FirebaseAuth.getInstance().getCurrentUser().getUid(), home.from,new YeuCauDatXeController.Callback() {
                                     @Override
                                     public void onSuccess() {
                                         Toast.makeText(FinalBookingFormActivity.this,"Chờ đi",Toast.LENGTH_SHORT).show();
-                                        yeuCauDatXeController.addNewYeuCauDatXe(yeuCauDatXe, FinalBookingFormActivity.this, new YeuCauDatXeController.Callback_Bool() {
+                                        yeuCauDatXeController.addNewYeuCauDatXe(yeuCauDatXe, cityName, new YeuCauDatXeController.Callback_Bool() {
                                             @Override
                                             public void onSuccess() {
                                                 Toast.makeText(FinalBookingFormActivity.this,"OK sắp có xe r ",Toast.LENGTH_SHORT).show();
-
                                             }
                                         });
                                         try {
@@ -156,12 +170,12 @@ public class FinalBookingFormActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onSuccess(String idClient) {
                                                     Intent intent = new Intent(FinalBookingFormActivity.this, FoundDriverActivity.class);
-                                                    v.getContext().startActivity(intent);
+                                                    startActivity(intent);
                                                 }
 
                                                 @Override
                                                 public void onFail() {
-
+                                                    Toast.makeText(FinalBookingFormActivity.this,"Gía như cô ấy đừng xuất hiện",Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         } catch (IOException e) {
@@ -180,19 +194,13 @@ public class FinalBookingFormActivity extends AppCompatActivity {
 
                                     }
                                 });
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
                         }
-
                         @Override
                         public void onFail() {
 
                         }
                     });
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+
 
 
                 finish();

@@ -24,10 +24,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".activitys.client.ContactFormActivity"
-            android:exported="true" >
 
-        </activity>
+            android:name=".activitys.client.FormWaiting"
+            android:exported="false" />
+
+        <activity
+            android:name=".activitys.client.ContactFormActivity"
+            android:exported="true"></activity>
         <activity
             android:name=".activitys.driver.RegisterDriverActivity"
             android:exported="false" />
@@ -55,10 +58,10 @@
             android:exported="false" />
         <activity
             android:name=".activitys.client.Map_TypeVehicalActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activitys.client.VoucherActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activitys.client.FormLocalActivity"
             android:exported="false" />

@@ -14,16 +14,22 @@ import androidx.navigation.ui.NavigationUI;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -38,12 +44,14 @@ public class MainActivityDriver extends AppCompatActivity {
     private ActivityMainDriverBinding binding;
     private DrawerLayout drawer;
     private NavigationView navigationView;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     public static LatLng curPos;
     GeocodingHelper geocodingHelper= new GeocodingHelper();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainDriverBinding.inflate(getLayoutInflater());
+        getCurrentLocation();
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.topAppBar);
@@ -62,7 +70,7 @@ public class MainActivityDriver extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        getCurrentLocation();
+
         exit_button();
     }
     @Override
@@ -120,15 +128,26 @@ public class MainActivityDriver extends AppCompatActivity {
 
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivityDriver.this);
         if (ActivityCompat.checkSelfPermission(MainActivityDriver.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivityDriver.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            ActivityCompat.requestPermissions(MainActivityDriver.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
         }
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setSmallestDisplacement(10f);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(3000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        fusedLocationProviderClient.getLastLocation()
-                .addOnSuccessListener(location -> {
-                     curPos = new LatLng(location.getLatitude(), location.getLongitude());
 
-                });
-
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                for (Location location : locationResult.getLocations()) {
+                    curPos = new LatLng(location.getLatitude(), location.getLongitude());
+                    Log.d("curPos", curPos.toString());
+                }
+            }
+        }, Looper.getMainLooper());
     }
 
 }

@@ -73,28 +73,32 @@ public class HomeActivity extends AppCompatActivity {
 
             if(user != null){
                 Toast.makeText(HomeActivity.this, "Welcome"+user.getUid(), Toast.LENGTH_SHORT).show();
-               // taiKhoanController.SaveAcc(role);
+                if(!role.isEmpty()){
+                    taiKhoanController.SaveAcc(role); //If user already choose role
+                }
 
-                if(role.equals("client"))
-                    taiKhoanController.CheckNum(new TaiKhoanController.DataRetrievedCallback_Bool() {
+                if(role.equals("client")){
+                    taiKhoanController.CheckNum(new TaiKhoanController.DataRetrievedCallback_Bool() { //Check if this client has entered complete inf( number) yet
                         @Override
                         public void onDataRetrieved(boolean num) {
-                            if(num){
+                            if(num){  //If it's complete, booking now
                                 Intent intent=new Intent(HomeActivity.this, RegisterClientActivity.class);
                                 startActivity(intent);
                             }
-                            else
+                            else //If it's not complete, entering now
                             {
                                 startActivity(new Intent(HomeActivity.this, MainActivityClient.class));
                             }
                             dismissProgressDialog();
                         }
                     });
+                }
+
                 else if(role.equals("driver")){
-                    taiKhoanController.CheckDriverInf(new TaiKhoanController.DataRetrievedCallback_Bool() {
+                    taiKhoanController.CheckDriverInf(new TaiKhoanController.DataRetrievedCallback_Bool() { //Check if this driver has entered complete inf( number,id,...) yet
                         @Override
                         public void onDataRetrieved(boolean num) {
-                            if(num){
+                            if(!num){
                                 Intent intent=new Intent(HomeActivity.this, RegisterDriverActivity.class);
                                 startActivity(intent);
                             }

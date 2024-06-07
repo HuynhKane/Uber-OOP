@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +22,8 @@ import vn.iostar.uber.activitys.HomeActivity;
 import vn.iostar.uber.adapters.VoucherAdapter;
 import vn.iostar.uber.controllers.callAPI.UuDaiController;
 import vn.iostar.uber.models.UuDai;
+import vn.iostar.uber.retrofit.ApiResponseArList;
+import vn.iostar.uber.retrofit.ApiResponseString;
 import vn.iostar.uber.retrofit.RetrofitService;
 
 public class VoucherActivity  extends AppCompatActivity {
@@ -30,6 +33,7 @@ public class VoucherActivity  extends AppCompatActivity {
     VoucherAdapter voucherAdapter;
     LinearLayout btn_next; SearchView searchView;
     public static UuDai uuDai;
+    public static  boolean isChoose=false;
 
 
     RetrofitService retrofitService=new RetrofitService();
@@ -51,17 +55,24 @@ public class VoucherActivity  extends AppCompatActivity {
 
         UuDaiController uuDaiController = retrofitService.getRetrofit().create(UuDaiController.class);
 
-        uuDaiController.getListUuDai().enqueue(new Callback<ArrayList<UuDai>>() {
+        uuDaiController.getListUuDai().enqueue(new Callback<ApiResponseArList<UuDai>>() {
             @Override
-            public void onResponse(Call<ArrayList<UuDai>> call, Response<ArrayList<UuDai>> response) {
-                listVoucher = response.body();
-                voucherAdapter = new VoucherAdapter(VoucherActivity.this,R.layout.item_voucher, listVoucher);
-                lv_voucher.setAdapter(voucherAdapter);
-                progressDialog.dismiss();
+            public void onResponse(Call<ApiResponseArList<UuDai>> call, Response<ApiResponseArList<UuDai>> response) {
+                assert response.body() != null;
+                if(response.body().getHttpStatus().equals("OK")){
+                    listVoucher = response.body().getData();
+                    voucherAdapter = new VoucherAdapter(VoucherActivity.this,R.layout.item_voucher, listVoucher);
+                    lv_voucher.setAdapter(voucherAdapter);
+                    progressDialog.dismiss();
+                }
+                else {
+                    Toast.makeText(VoucherActivity.this,response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
-            public void onFailure(Call<ArrayList<UuDai>> call, Throwable throwable) {
+            public void onFailure(Call<ApiResponseArList<UuDai>> call, Throwable throwable) {
 
             }
         });
@@ -76,13 +87,34 @@ public class VoucherActivity  extends AppCompatActivity {
 //        } );
 
 
+
         btn_next= findViewById(R.id.btn_next);
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(VoucherActivity.this, ChooseTypePaymentActivity.class);
-                Log.d("uuDaiiiiii",uuDai.getUuDai().toString() );
-                startActivity(intent);
+                if(isChoose){isChoose=false;
+                    UuDaiController uuDaiController = retrofitService.getRetrofit().create(UuDaiController.class);
+
+                    uuDaiController.chooseVoucher(uuDai.getIdUuDai()).enqueue(new Callback<ApiResponseString<String>>() {
+                        @Override
+                        public void onResponse(Call<ApiResponseString<String>> call, Response<ApiResponseString<String>> response) {
+                            Toast.makeText(VoucherActivity.this,response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ApiResponseString<String>> call, Throwable throwable) {
+                            //Toast.makeText(context,response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    Intent intent = new Intent(VoucherActivity.this, ChooseTypePaymentActivity.class);
+                    Log.d("uuDaiiiiii",uuDai.getUuDai().toString() );
+                    startActivity(intent);
+
+                }
+                else {
+                    Toast.makeText(VoucherActivity.this,"Vui loòng chọn 1 voucher",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
